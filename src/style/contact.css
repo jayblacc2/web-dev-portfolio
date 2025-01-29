@@ -1,0 +1,183 @@
+.social-icons {
+  animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.social-icons a {
+  position: relative;
+  margin-right: 20px;
+  border: 2px solid var(--color-secondary);
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.social-icons a:hover {
+  border: none;
+  width: 100%;
+  padding: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: spin 1s infinite linear;
+}
+
+.social-icons a::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: transparent;
+  border-radius: 50%;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  transition: var(--transition);
+  aspect-ratio: 1;
+}
+
+.social-icons a:hover::after {
+  border-bottom-color: var(--color-primary);
+  border-top-color: var(--color-primary);
+  animation: rotate-in-center 1.2s linear infinite;
+}
+
+.social-icons a svg {
+  transition: var(--transition);
+  margin: 5px;
+}
+
+.social-icons a svg:hover {
+  fill: var(--color-primary);
+}
+
+/* Contact section */
+
+.form__container {
+  position: relative;
+  max-width: 500px;
+  margin: 2rem 0 2rem auto;
+  display: flex;
+  align-items: center;
+}
+
+#contact .hero__img {
+  width: 50%;
+}
+
+.form__container #contact {
+  width: 100%;
+  padding: 20px 0;
+  font: inherit;
+}
+
+.form__control {
+  padding-left: 5px;
+  background-color: #f5f8f4;
+  border-bottom: 1px solid transparent;
+  height: 40px;
+}
+
+.form__control:focus {
+  outline: 3px solid var(--color-primary);
+}
+
+.form__control,
+button {
+  border-radius: 4px;
+  border: none;
+}
+
+.form__name-email {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.form__name-email > .form__field {
+  flex: 1 1 50%;
+}
+
+.form__name-email input {
+  width: 100%;
+}
+
+.form__name-email .form__field:not(:last-child) {
+  margin-right: 10px;
+}
+
+.form__field {
+  position: relative;
+}
+
+.form__field .form__message {
+  height: 150px;
+  margin-top: 20px;
+  resize: none;
+}
+
+label {
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  top: 95%;
+  transition: 0.4s ease all;
+  background-color: #5541e2;
+  height: 3px;
+  width: 0;
+  overflow: hidden;
+}
+
+.form__control:focus {
+  outline: 1px solid transparent;
+}
+
+.form__control:focus + label {
+  width: 100%;
+}
+
+.form__control:focus::placeholder {
+  opacity: 0;
+}
+
+.form__field:last-child {
+  text-align: right;
+}
+
+.form__subject,
+.form__message {
+  width: 100%;
+}
+
+.form__message:placeholder-shown {
+  font: inherit;
+  font-size: 15px;
+}
+
+.btn__submit {
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 25px;
+  display: inline-block;
+  border: 2px solid var(--color-primary);
+  color: var(--color-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: var(--transition);
+}
+
+.btn__submit:hover {
+  background-color: var(--color-primary);
+  backdrop-filter: blur(10px);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(255, 255, 225, 0.6);
+}
+
+.btn__submit:active {
+  transform: scale(0.98) translateY(2px);
+}
