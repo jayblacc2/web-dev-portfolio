@@ -10,19 +10,20 @@ import { CLASSES, TEXTS, STACK_DATA } from "../utils/constant";
 
 //About section button function
 function createResumeButton() {
+  const resumePath = "/assets/resume.pdf";
   const btn = createElement(
     "a",
     {
       class: CLASSES.BTN_HERO,
-      href: "../images/user.png",
-      download: "",
+      href: resumePath,
+      download: "MyResume.pdf",
       target: "_blank",
+      rel: "noopener noreferrer"
     },
     TEXTS.BUTTON_TEXT
   );
   return btn;
 }
-
 //function to create hero content
 function createHeroContent() {
   //left side
@@ -44,6 +45,8 @@ function createHeroContent() {
   //appending all left side contents
   heroContentsContainer.append(mainHeader, paragraph, btn);
   heroContents.append(heroContentsContainer);
+
+  
 
   return heroContents;
 }
@@ -122,14 +125,12 @@ function createStackCard(icon, text, width) {
   // Append elements to the card
   cardContainer.append(iconContainer, cardProgressContainer);
 
-  cardProgressContainer.addEventListener("click", (e) => {
-    const parent = e.target.parentNode;
-  });
+  
 
   const element = cardContainer.querySelector(".card__progressbar");
-  element.addEventListener("click", (e) => {
-    const parent = e.target.parentNode;
-  });
+  
+  
+  
   return cardContainer;
 }
 
