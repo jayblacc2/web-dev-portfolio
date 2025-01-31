@@ -1,4 +1,4 @@
- import user from "../images/user.png";
+import user from "../images/user.png";
 import {
   handleButtonClick,
   setActiveLink,
@@ -60,19 +60,12 @@ function createHeroImage() {
   return heroImage;
 }
 
-/**
- * Creates an image element with lazy loading
- * @param {string} src - Image source path
- * @param {string} alt - Alt text for accessibility
- * @returns {HTMLElement} Image element
- */
 function createImageElement(src, alt) {
-  return createHtmlElement("img", {
-    src,
-    alt,
-    loading: "lazy",
-    class: "hero__profile-image"
-  });
+  const img = new Image();
+  img.src = src;
+  img.alt = alt;
+  img.loading = "lazy";
+  return img;
 }
 
 export default homeSection;
@@ -102,11 +95,7 @@ function createHeroButton() {
     "a",
     { class: "btn btn--hero", href: "#contact" },
     "Let's Chat"
-
   );
   heroButton.addEventListener("click", handleHeroButtonClick);
   return heroButton;
 }
-
-
-
