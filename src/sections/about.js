@@ -18,7 +18,7 @@ function createResumeButton() {
       href: resumePath,
       download: "MyResume.pdf",
       target: "_blank",
-      rel: "noopener noreferrer"
+      rel: "noopener noreferrer",
     },
     TEXTS.BUTTON_TEXT
   );
@@ -45,8 +45,6 @@ function createHeroContent() {
   //appending all left side contents
   heroContentsContainer.append(mainHeader, paragraph, btn);
   heroContents.append(heroContentsContainer);
-
-  
 
   return heroContents;
 }
@@ -125,12 +123,7 @@ function createStackCard(icon, text, width) {
   // Append elements to the card
   cardContainer.append(iconContainer, cardProgressContainer);
 
-  
-
   const element = cardContainer.querySelector(".card__progressbar");
-  
-  
-  
   return cardContainer;
 }
 
