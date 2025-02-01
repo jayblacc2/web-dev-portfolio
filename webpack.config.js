@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = (env) => ({
   mode: env.production ? "production" : "development",
@@ -20,7 +20,7 @@ module.exports = (env) => ({
         parallel: true,
         terserOptions: {
           compress: {
-            drop_console: true, 
+            drop_console: true,
           },
         },
       }),
@@ -56,28 +56,6 @@ module.exports = (env) => ({
         test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
         use: [
           {
-            loader: "image-webpack-loader",
-            options: {
-              mozjpeg: {
-                progressive: true,
-                quality: 65,
-              },
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.90],
-                speed: 4,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              webp: {
-                quality: 75,
-              },
-            },
-          },
-          {
             loader: "file-loader",
             options: {
               name: "[name].[contenthash].[ext]",
@@ -106,30 +84,10 @@ module.exports = (env) => ({
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: "src/images/icons/favicon.ico", to: "favicon.ico" },
-      ],
+      patterns: [{ from: "src/images/icons/favicon.ico", to: "favicon.ico" }],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
-    }),
-    new ImageMinimizerPlugin({
-      minimizer: {
-        implementation: ImageMinimizerPlugin.squooshMinify,
-        options: {
-          encodeOptions: {
-            mozjpeg: {
-              quality: 70,
-            },
-            webp: {
-              lossless: 1,
-            },
-            avif: {
-              cqLevel: 0,
-            },
-          },
-        },
-      },
     }),
   ],
 });

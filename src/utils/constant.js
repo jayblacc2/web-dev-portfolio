@@ -3,7 +3,7 @@ import git from "../images/icons/git.svg";
 import html from "../images/icons/html.svg";
 import css from "../images/icons/css.svg";
 import js from "../images/icons/js.svg";
-import nextjs from "../images/icons/nextjs.svg";
+import vuejs from "../images/icons/vuejs.svg";
 
 export const CLASSES = {
   HERO: "hero",
@@ -31,10 +31,10 @@ export const TEXTS = {
 };
 
 export const STACK_DATA = [
-  { icon: react, text: "React", width: 70 },
+  { icon: vuejs, text: "Vuejs", width: 60 },
   { icon: git, text: "Git", width: 60 },
   { icon: html, text: "HTML", width: 80 },
   { icon: css, text: "CSS", width: 80 },
   { icon: js, text: "JavaScript", width: 70 },
-  { icon: nextjs, text: "NextJS", width: 60 },
+  { icon: react, text: "React", width: 70 },
 ];

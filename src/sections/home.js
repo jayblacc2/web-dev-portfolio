@@ -1,4 +1,4 @@
-import user from "../images/user.png";
+import user from "../images/user.jpg";
 import {
   handleButtonClick,
   setActiveLink,
