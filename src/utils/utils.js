@@ -1,3 +1,5 @@
+import { CLASSES, TEXTS, STACK_DATA } from "../utils/constant";
+
 export function createSvgIcon(svgIcon, options = {}, icon) {
   icon.innerHTML = svgIcon;
 
@@ -133,12 +135,79 @@ export function createElement(tag, attributes = {}, textContent = null) {
   return element;
 }
 
-/*
-TODO: Fixes
-1. mobile overflow: padding 
-2. containerize the sections  
-3. Skill section skill => fix the bug of displaying on resizing the window 
-4. the project section full height on mobile
-clean up the css => remove the unused styles,  structure 
+//create stack helper function
+export function createStackCard(icon, text, width) {
+  const cardContainer = createHtmlElement("div", {
+    class: CLASSES.CARD_CONTAINER,
+  });
+  const iconContainer = createHtmlElement("figure", {
+    class: CLASSES.ICON_CONTAINER,
+  });
+  const cardIcon = createHtmlElement("img", {
+    class: CLASSES.CARD_ICON,
+    src: icon || "",
+    alt: text,
+  });
 
-*/
+  // Create the title element
+  const cardTitle = document.createElement("figcaption", {
+    class: CLASSES.CARD_TITLE,
+  });
+  cardTitle.innerText = text || "";
+
+  const cardProgressContainer = createHtmlElement("div", {
+    class: CLASSES.PROGRESS_CONTAINER,
+    ["data-initial-width"]: width,
+    role: "progressbar",
+    ["aria-valuemax"]: "100",
+    ["aria-valuemin"]: "0",
+    ["aria-valuenow"]: width,
+  });
+
+  const cardProgressbar = createHtmlElement("div", {
+    class: CLASSES.PROGRESSBAR,
+    role: "presentation",
+  });
+  cardProgressbar.innerText = `${width}%`;
+
+  cardProgressContainer.appendChild(cardProgressbar);
+
+  iconContainer.append(cardIcon, cardTitle);
+  // Append elements to the card
+  cardContainer.append(iconContainer, cardProgressContainer);
+
+  const element = cardContainer.querySelector(".card__progressbar");
+  return cardContainer;
+}
+
+class ProgressBar {
+  constructor(container) {
+    this.container = container;
+    this.progressBar = container.querySelector(".card__progressbar");
+    this.initialWidth = parseFloat(container.dataset.initialWidth);
+    this.progressBar.style.width = "0%";
+  }
+  initializeProgressBars(width) {
+    this.progressBar.style.width = `${width}%`;
+  }
+}
+
+//This function animate the progress bar on mouse enter and leave
+export function initializeProgressBars() {
+  const progressContainer = document.querySelectorAll(
+    ".card__progress-container"
+  );
+  progressContainer.forEach((container) => {
+    const progressBar = new ProgressBar(container);
+    const parent = container.parentNode;
+
+    parent.addEventListener("mouseenter", () => {
+      progressBar.initializeProgressBars(progressBar.initialWidth);
+    });
+
+    parent.addEventListener("mouseleave", () => {
+      progressBar.initializeProgressBars(0);
+    });
+  });
+  return progressContainer;
+}
