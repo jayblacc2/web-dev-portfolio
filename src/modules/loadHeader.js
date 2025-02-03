@@ -200,7 +200,7 @@ export function setActiveLink(hashLink) {
 }
 
 // Initial setup and popstate event handling (Corrected and improved)
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   const initialHash = window.location.hash || "#home"; // Default to #home if no hash
   showSection(initialHash.substring(1));
   setActiveLink(initialHash); // Pass the hash, including the '#'
