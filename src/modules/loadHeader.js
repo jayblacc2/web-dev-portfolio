@@ -24,16 +24,16 @@ function header() {
     "aria-label": "Main navigation",
   });
 
-  //nav buttons
-  const homeButton = createButton("Home", "#home", true);
-  const aboutButton = createButton("About", "#about");
-  const contactButton = createButton("Contact", "#contact");
-  const skillButton = createButton("Skills", "#skills");
-  const projectButton = createButton("Projects", "#projects");
+  //nav buttons - Remove # from hrefs
+  const homeButton = createButton("Home", "/", true);
+  const aboutButton = createButton("About", "/about");
+  const contactButton = createButton("Contact", "/contact");
+  const skillButton = createButton("Skills", "/skills");
+  const projectButton = createButton("Projects", "/projects");
 
   const hireMeLink = createButton(
     "Hire Me",
-    "#contact",
+    "/contact",
     false,
     "nav__link",
     "nav__link"
@@ -49,7 +49,7 @@ function header() {
     "aria-label": "Toggle mobile menu",
     "aria-expanded": "false",
   });
-  burgerMenu.innerHTML = "&#9776;";
+  burgerMenu.innerHTML = "☰";
 
   burgerMenu.addEventListener("click", () => {
     const mobileMenu = document.querySelector(".mobile__menu");
@@ -86,12 +86,12 @@ function header() {
 function mobileMenu() {
   const nav = createHtmlElement("nav", { class: "mobile__menu nav__menu" });
 
-  //nav buttons
-  const homeButton = createButton("Home", "#home", true);
-  const aboutButton = createButton("About", "#about");
-  const contactButton = createButton("Contact", "#contact");
-  const skillButton = createButton("Skills", "#skills");
-  const projectButton = createButton("Projects", "#projects");
+  //nav buttons - Remove # from hrefs
+  const homeButton = createButton("Home", "/", true);
+  const aboutButton = createButton("About", "/about");
+  const contactButton = createButton("Contact", "/contact");
+  const skillButton = createButton("Skills", "/skills");
+  const projectButton = createButton("Projects", "/projects");
 
   nav.append(
     ...[homeButton, aboutButton, skillButton, projectButton, contactButton]
@@ -99,17 +99,17 @@ function mobileMenu() {
   return nav;
 }
 
-// Modified createButton function to create anchor tags (links) with hash links
+// Modified createButton function to use clean URLs without hash
 function createButton(
   text,
-  hashLink,
+  path,
   isActive = false,
   className = "btn nav__btn",
   id = ""
 ) {
   const link = createHtmlElement("a", {
     class: className,
-    href: hashLink,
+    href: path,
     id: id || null,
     role: "menuitem",
     tabindex: "0",
@@ -122,16 +122,20 @@ function createButton(
 
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    const sectionName = hashLink.substring(1);
-
-    history.pushState({}, "", hashLink);
+    
+    // Convert path to section name
+    const sectionName = path === "/" ? "home" : path.substring(1);
+    
+    // Use pushState to update URL without hash
+    history.pushState({ section: sectionName }, "", path);
+    
     showSection(sectionName);
-    setActiveLink(hashLink);
+    setActiveLink(path);
 
     // Update mobile menu links
     const allLinks = document.querySelectorAll(".nav__btn, .nav__link");
     allLinks.forEach((link) => {
-      if (link.getAttribute("href") === hashLink) {
+      if (link.getAttribute("href") === path) {
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
       } else {
@@ -185,11 +189,11 @@ export function showSection(sectionName) {
   });
 }
 
-// Function to set active link based on hash (Corrected and improved)
-export function setActiveLink(hashLink) {
-  const allLinks = document.querySelectorAll(".nav__btn, .nav__link"); // Select all navigation links including mobile
+// Function to set active link based on path
+export function setActiveLink(path) {
+  const allLinks = document.querySelectorAll(".nav__btn, .nav__link");
   allLinks.forEach((link) => {
-    if (link.getAttribute("href") === hashLink) {
+    if (link.getAttribute("href") === path) {
       link.classList.add("active");
       link.setAttribute("aria-current", "page");
     } else {
@@ -199,15 +203,35 @@ export function setActiveLink(hashLink) {
   });
 }
 
-// Initial setup and popstate event handling (Corrected and improved)
+// Helper function to get section from current path
+function getSectionFromPath() {
+  const path = window.location.pathname;
+  if (path === "/" || path === "") {
+    return "home";
+  }
+  return path.substring(1); // Remove leading slash
+}
+
+// Helper function to get path from section
+function getPathFromSection(section) {
+  return section === "home" ? "/" : `/${section}`;
+}
+
+// Initial setup and popstate event handling
 window.addEventListener("DOMContentLoaded", () => {
-  const initialHash = window.location.hash || "#home"; // Default to #home if no hash
-  showSection(initialHash.substring(1));
-  setActiveLink(initialHash); // Pass the hash, including the '#'
+  const currentSection = getSectionFromPath();
+  const currentPath = getPathFromSection(currentSection);
+  
+  showSection(currentSection);
+  setActiveLink(currentPath);
 });
-window.addEventListener("popstate", () => {
-  const currentHash = window.location.hash || "#home"; // Default to #home
-  showSection(currentHash.substring(1));
-  setActiveLink(currentHash); // Pass the hash, including the '#'
+
+window.addEventListener("popstate", (event) => {
+  const currentSection = getSectionFromPath();
+  const currentPath = getPathFromSection(currentSection);
+  
+  showSection(currentSection);
+  setActiveLink(currentPath);
 });
+
 export default header;

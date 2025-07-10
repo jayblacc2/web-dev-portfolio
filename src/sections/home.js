@@ -93,7 +93,7 @@ function handleHeroButtonClick() {
 function createHeroButton() {
   const heroButton = createElement(
     "a",
-    { class: "btn btn--hero", href: "#contact" },
+    { class: "btn btn--hero", href: "/contact" },
     "Let's Chat"
   );
   heroButton.addEventListener("click", handleHeroButtonClick);
