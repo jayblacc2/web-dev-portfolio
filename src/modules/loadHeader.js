@@ -24,7 +24,7 @@ function header() {
     "aria-label": "Main navigation",
   });
 
-  //nav buttons - Remove # from hrefs
+  //nav buttons - Remove # from href
   const homeButton = createButton("Home", "/", true);
   const aboutButton = createButton("About", "/about");
   const contactButton = createButton("Contact", "/contact");
