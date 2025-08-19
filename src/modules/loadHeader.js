@@ -49,7 +49,19 @@ function header() {
     "aria-label": "Toggle mobile menu",
     "aria-expanded": "false",
   });
-  burgerMenu.innerHTML = "☰";
+
+  window.hamburgerIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>`;
+
+  window.closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>`;
+
+  burgerMenu.innerHTML = window.hamburgerIcon;
 
   burgerMenu.addEventListener("click", () => {
     const mobileMenu = document.querySelector(".mobile__menu");
@@ -122,13 +134,13 @@ function createButton(
 
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    
+
     // Convert path to section name
     const sectionName = path === "/" ? "home" : path.substring(1);
-    
+
     // Use pushState to update URL without hash
     history.pushState({ section: sectionName }, "", path);
-    
+
     showSection(sectionName);
     setActiveLink(path);
 
@@ -160,7 +172,6 @@ function setupKeyboardNavigation() {
     });
   });
 }
-
 
 //function to show sections
 export function showSection(sectionName) {
@@ -213,16 +224,16 @@ function getPathFromSection(section) {
 window.addEventListener("DOMContentLoaded", () => {
   const currentSection = getSectionFromPath();
   const currentPath = getPathFromSection(currentSection);
-  
+
   showSection(currentSection);
   setActiveLink(currentPath);
 });
 
 window.addEventListener("popstate", (event) => {
-  event.preventDefault()
+  event.preventDefault();
   const currentSection = getSectionFromPath();
   const currentPath = getPathFromSection(currentSection);
-  
+
   showSection(currentSection);
   setActiveLink(currentPath);
 });

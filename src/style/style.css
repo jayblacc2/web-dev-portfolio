@@ -99,6 +99,11 @@ a {
   display: none;
   font-size: 20px;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--color-light);
+  padding: 5px;
+  line-height: 0;
 }
 
 .nav__menu {
