@@ -609,7 +609,7 @@ span.overlay-stack {
 }
 
 .modal__stat-value {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-primary);
   display: block;
