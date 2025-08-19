@@ -90,7 +90,7 @@ function header() {
     });
 
     // Set initial state with hamburger icon
-    // menuButton.innerHTML = hamburgerIcon;
+    menuButton.innerHTML = hamburgerIcon;
 
     // Cache DOM elements for better performance
     let mobileMenu = null;
