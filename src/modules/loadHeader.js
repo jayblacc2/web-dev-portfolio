@@ -86,7 +86,7 @@ function header() {
 function mobileMenu() {
   const nav = createHtmlElement("nav", { class: "mobile__menu nav__menu" });
 
-  //nav buttons - Remove # from hrefs
+  //nav buttons - Remove # from href
   const homeButton = createButton("Home", "/", true);
   const aboutButton = createButton("About", "/about");
   const contactButton = createButton("Contact", "/contact");
@@ -161,14 +161,6 @@ function setupKeyboardNavigation() {
   });
 }
 
-// Loading indicator
-function showLoadingIndicator(sectionName) {
-  const section = document.getElementById(sectionName);
-  if (section) {
-    section.classList.add("loading");
-    setTimeout(() => section.classList.remove("loading"), 300);
-  }
-}
 
 //function to show sections
 export function showSection(sectionName) {
@@ -227,6 +219,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("popstate", (event) => {
+  event.preventDefault()
   const currentSection = getSectionFromPath();
   const currentPath = getPathFromSection(currentSection);
   
