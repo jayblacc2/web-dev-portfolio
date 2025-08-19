@@ -8,18 +8,33 @@
 
 :root {
   --color-primary: #5462ffe4;
+  --color-primary-rgb: 84, 98, 255;
   --color-secondary: #fff3f1;
   --color-secondary-dark: #3a3a3afc;
   --color-light: #fff;
-  --transition: all 0.3s ease;
-  --radius: 0.4rem;
-  --color-secondary-text: #858e99;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 0.75rem;
+  --color-secondary-text: #6b7280;
 
-  --bg1: #f1f1f1;
-  --bg2: #e2e2e2;
-  --text-color: #333;
-  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --bg1: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+  --bg2: linear-gradient(135deg, #f0f2f5 0%, #dde1e7 100%);
+  --text-color: #374151;
+  --overlay-bg: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(84, 98, 255, 0.9) 100%
+  );
   --overlay-text: #fff;
+
+  /* Enhanced shadow system */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-primary: 0 12px 40px rgba(var(--color-primary-rgb), 0.15);
 }
 
 *,
