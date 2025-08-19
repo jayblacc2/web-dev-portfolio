@@ -90,7 +90,7 @@ function header() {
     });
 
     // Set initial state with hamburger icon
-    menuButton.innerHTML = hamburgerIcon;
+    // menuButton.innerHTML = hamburgerIcon;
 
     // Cache DOM elements for better performance
     let mobileMenu = null;
@@ -431,13 +431,28 @@ export function showSection(sectionName) {
     section.classList.toggle("active-section", shouldShow);
     section.style.display = shouldShow ? "flex" : "none";
 
-    // Close mobile menu when section changes
-    const mobileMenu = document.querySelector(".mobile__menu");
-    const burgerMenu = document.getElementById("burger-menu");
-    if (mobileMenu && mobileMenu.classList.contains("open")) {
-      mobileMenu.classList.remove("open");
-      document.body.classList.remove("menu-open");
-      burgerMenu.setAttribute("aria-expanded", "false");
+    // Close mobile menu when section changes with enhanced error handling
+    try {
+      const mobileMenu = document.querySelector(".mobile__menu");
+      const burgerMenuBtn = document.getElementById("burger-menu");
+
+      if (
+        mobileMenu &&
+        burgerMenuBtn &&
+        mobileMenu.classList.contains("open")
+      ) {
+        mobileMenu.classList.remove("open");
+        document.body.classList.remove("menu-open");
+        burgerMenuBtn.setAttribute("aria-expanded", "false");
+        // Reset burger icon to hamburger when menu closes
+        burgerMenuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>`;
+      }
+    } catch (error) {
+      console.error("Error closing mobile menu on section change:", error);
     }
   });
 }
