@@ -43,44 +43,120 @@ function header() {
     ...[homeButton, aboutButton, skillButton, projectButton, contactButton]
   );
   const mobileNav = mobileMenu();
-  const burgerMenu = createElement("button", {
-    class: "burger-menu",
-    id: "burger-menu",
-    "aria-label": "Toggle mobile menu",
-    "aria-expanded": "false",
-  });
 
-  window.hamburgerIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  // SVG icons for hamburger and close
+  const hamburgerIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <line x1="3" y1="12" x2="21" y2="12"></line>
     <line x1="3" y1="6" x2="21" y2="6"></line>
     <line x1="3" y1="18" x2="21" y2="18"></line>
   </svg>`;
 
-  burgerMenu.innerHTML = window.hamburgerIcon;
+  const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>`;
 
-  burgerMenu.addEventListener("click", () => {
-    const mobileMenu = document.querySelector(".mobile__menu");
-    const isExpanded = burgerMenu.getAttribute("aria-expanded") === "true";
-    burgerMenu.setAttribute("aria-expanded", !isExpanded);
-    mobileMenu.classList.toggle("open");
-    document.body.classList.toggle("menu-open");
+  const burgerMenu = createHtmlElement("button", {
+    class: "burger-menu",
+    id: "burger-menu",
+    "aria-label": "Toggle mobile menu",
+    "aria-expanded": "false",
+    role: "button",
+  });
+
+  // Enhanced burger menu implementation
+  burgerMenu.innerHTML = hamburgerIcon;
+
+  // Cache mobile menu reference for better performance
+  let cachedMobileMenu = null;
+
+  const getMobileMenu = () => {
+    if (!cachedMobileMenu) {
+      cachedMobileMenu = document.querySelector(".mobile__menu");
+      if (cachedMobileMenu && !cachedMobileMenu.id) {
+        cachedMobileMenu.id = "mobile-menu";
+      }
+    }
+    return cachedMobileMenu;
+  };
+
+  const updateBurgerMenuState = (isExpanded) => {
+    burgerMenu.setAttribute("aria-expanded", isExpanded.toString());
+    burgerMenu.innerHTML = isExpanded ? closeIcon : hamburgerIcon;
+
+    const mobileMenu = getMobileMenu();
+    if (mobileMenu) {
+      mobileMenu.classList.toggle("open", isExpanded);
+    }
+    document.body.classList.toggle("menu-open", isExpanded);
+  };
+
+  burgerMenu.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+      const mobileMenu = getMobileMenu();
+      if (!mobileMenu) {
+        console.warn("Mobile menu not found");
+        return;
+      }
+
+      const isExpanded = burgerMenu.getAttribute("aria-expanded") === "true";
+      updateBurgerMenuState(!isExpanded);
+
+      // Focus management for accessibility
+      if (!isExpanded) {
+        const firstFocusable = mobileMenu.querySelector(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        );
+        if (firstFocusable) {
+          setTimeout(() => firstFocusable.focus(), 100);
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling mobile menu:", error);
+    }
+  });
+
+  // Add keyboard support
+  burgerMenu.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      burgerMenu.click();
+    } else if (event.key === "Escape") {
+      const isExpanded = burgerMenu.getAttribute("aria-expanded") === "true";
+      if (isExpanded) {
+        updateBurgerMenuState(false);
+        burgerMenu.focus();
+      }
+    }
   });
 
   header.append(mobileNav);
   header.append(brand, nav, hireMeLink, burgerMenu);
 
-  // Close mobile menu when clicking outside
+  // Enhanced click outside handler with error handling
   document.addEventListener("click", (e) => {
-    const mobileMenu = document.querySelector(".mobile__menu");
-    const burgerMenuBtn = document.getElementById("burger-menu");
-    if (
-      mobileMenu.classList.contains("open") &&
-      !mobileMenu.contains(e.target) &&
-      !burgerMenuBtn.contains(e.target)
-    ) {
-      mobileMenu.classList.remove("open");
-      document.body.classList.remove("menu-open");
-      burgerMenuBtn.setAttribute("aria-expanded", "false");
+    try {
+      const mobileMenu = getMobileMenu();
+      const burgerMenuBtn = document.getElementById("burger-menu");
+
+      if (!mobileMenu || !burgerMenuBtn || !e.target) {
+        return;
+      }
+
+      const isMenuOpen = mobileMenu.classList.contains("open");
+      const clickedInsideMenu = mobileMenu.contains(e.target);
+      const clickedBurgerButton = burgerMenuBtn.contains(e.target);
+
+      if (isMenuOpen && !clickedInsideMenu && !clickedBurgerButton) {
+        updateBurgerMenuState(false);
+        // Return focus to burger button for accessibility
+        burgerMenuBtn.focus();
+      }
+    } catch (error) {
+      console.error("Error handling outside click:", error);
     }
   });
 
@@ -176,13 +252,28 @@ export function showSection(sectionName) {
     section.classList.toggle("active-section", shouldShow);
     section.style.display = shouldShow ? "flex" : "none";
 
-    // Close mobile menu when section changes
-    const mobileMenu = document.querySelector(".mobile__menu");
-    const burgerMenu = document.getElementById("burger-menu");
-    if (mobileMenu && mobileMenu.classList.contains("open")) {
-      mobileMenu.classList.remove("open");
-      document.body.classList.remove("menu-open");
-      burgerMenu.setAttribute("aria-expanded", "false");
+    // Close mobile menu when section changes with enhanced error handling
+    try {
+      const mobileMenu = document.querySelector(".mobile__menu");
+      const burgerMenuBtn = document.getElementById("burger-menu");
+
+      if (
+        mobileMenu &&
+        burgerMenuBtn &&
+        mobileMenu.classList.contains("open")
+      ) {
+        mobileMenu.classList.remove("open");
+        document.body.classList.remove("menu-open");
+        burgerMenuBtn.setAttribute("aria-expanded", "false");
+        // Reset burger icon to hamburger when menu closes
+        burgerMenuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>`;
+      }
+    } catch (error) {
+      console.error("Error closing mobile menu on section change:", error);
     }
   });
 }
