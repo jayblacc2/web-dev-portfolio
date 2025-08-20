@@ -27,14 +27,6 @@ export default function projectSection() {
       "aria-label": `${item.label} project`,
     });
 
-    // Apply background image if available
-    if (item.image) {
-      projectCard.style.backgroundImage = `url(${item.image})`;
-      projectCard.style.backgroundSize = "cover";
-      projectCard.style.backgroundPosition = "center";
-      projectCard.style.backgroundRepeat = "no-repeat";
-    }
-
     const contentWrapper = createElement("div", { class: "content-wrapper" });
 
     const h2 = createElement("h2", {

@@ -37,7 +37,6 @@
   height: 220px;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,29 +48,6 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Enhanced styling for cards with background images */
-.project__section .container > div::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
-  border-radius: 12px;
-  transition: opacity 0.3s ease;
-  z-index: 1;
-}
-
-.project__section .container > div:hover::before {
-  opacity: 0.7;
 }
 
 .project__section .container > div:hover {
@@ -206,24 +182,6 @@ span.overlay-stack {
 
 .bg2:hover::before {
   opacity: 0.8;
-}
-
-/* Enhanced styling for cards with background images */
-.project-card[style*="background-image"] .content-wrapper {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.project-card[style*="background-image"] h2,
-.project-card[style*="background-image"] p {
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.project-card[style*="background-image"]:hover .content-wrapper {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-5px);
 }
 
 .project-overlay {
@@ -507,25 +465,10 @@ span.overlay-stack {
   position: relative;
   z-index: 2;
   transition: transform 0.3s ease;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .project__section .container > div:hover .content-wrapper {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Ensure text is readable over background images */
-.project__section h2,
-.project__section p {
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  position: relative;
-  z-index: 3;
 }
 
 /* Loading state for project cards */

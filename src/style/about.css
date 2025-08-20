@@ -1,4 +1,4 @@
-/* CARD STYLING */
+/* ENHANCED CARD STYLING */
 .stack__card {
   position: absolute;
   top: 50%;
@@ -14,57 +14,305 @@
 }
 
 .card__container {
-  padding: 12px;
+  padding: 1.5rem 1rem;
   width: 10rem;
-  height: 11rem;
-  background: rgba(7, 7, 7, 0.771);
-  backdrop-filter: blur(10px);
-  border-radius: 7px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  height: 12rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   text-align: center;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
 
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Subtle gradient border effect */
+.card__container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-primary) 50%,
+    transparent 100%
+  );
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
 }
 
 .card__container:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(84, 98, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   border-color: rgba(84, 98, 255, 0.3);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.card__container:hover::before {
+  transform: scaleX(1);
+}
+
+/* Enhanced Icon Styling */
+.icon__container {
+  position: relative;
+  margin-bottom: 1rem;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 80px;
 }
 
 .icon__container .card__icon {
-  width: 80px;
-  height: auto;
+  width: 70px;
+  height: 70px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
+.card__container:hover .card__icon {
+  transform: scale(1.1) rotate(3deg);
+  filter: drop-shadow(0 8px 20px rgba(84, 98, 255, 0.4));
+}
+
+/* Enhanced Card Title */
+.card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem 0;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.card__container:hover .card__title {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Enhanced Progress Bar */
 .card__progress-container {
   width: 100%;
-  height: 10px;
-  border-radius: 5px;
-  margin-top: 15px;
+  height: 8px;
+  border-radius: 12px;
+  margin-top: auto;
   overflow: hidden;
-
-  transform: translateY(10px);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(60px);
   opacity: 0;
+  border: none;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
 
-  border: 1px solid var(--color-primary);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* Shimmer effect for progress container */
+.card__progress-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .card__container:hover .card__progress-container {
-  transform: translateY(0px);
+  transform: translateY(40px);
+  opacity: 1;
+}
+
+.card__container:hover .card__progress-container::before {
   opacity: 1;
 }
 
 .card__progressbar {
   height: 100%;
-  background-color: var(--color-primary);
-  font-size: 0.6rem;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #6366f1 100%);
+  font-size: 0.7rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  color: white;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(84, 98, 255, 0.3);
+}
+
+/* Progress bar shine effect */
+.card__progressbar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: progressShine 2s infinite;
+}
+
+/* Keyframe Animations */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes progressShine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Card Accessibility & Focus States */
+.card__container:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  transform: translateY(-8px) scale(1.02);
+}
+
+.card__container[tabindex="0"] {
+  cursor: pointer;
+}
+
+/* Responsive Card Design */
+@media (max-width: 1024px) {
+  .stack__card {
+    gap: 1.5rem;
+  }
+
+  .card__container {
+    width: 9rem;
+    height: 11rem;
+    padding: 1.2rem 0.8rem;
+  }
+
+  .icon__container .card__icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stack__card {
+    gap: 1rem;
+  }
+
+  .card__container {
+    width: 8rem;
+    height: 10rem;
+    padding: 1rem 0.6rem;
+  }
+
+  .icon__container {
+    height: 60px;
+    margin-bottom: 0.8rem;
+  }
+
+  .icon__container .card__icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .card__title {
+    font-size: 0.9rem;
+    margin: 0.3rem 0 0.8rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stack__card {
+    gap: 0.8rem;
+  }
+
+  .card__container {
+    width: 7rem;
+    height: 9rem;
+    padding: 0.8rem 0.5rem;
+  }
+
+  .icon__container {
+    height: 50px;
+    margin-bottom: 0.6rem;
+  }
+
+  .icon__container .card__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .card__title {
+    font-size: 0.8rem;
+    margin: 0.2rem 0 0.6rem 0;
+  }
+
+  .card__progress-container {
+    height: 6px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .card__container,
+  .card__icon,
+  .card__title,
+  .card__progress-container,
+  .card__progressbar {
+    transition: none;
+    animation: none;
+  }
+
+  .card__container:hover {
+    transform: none;
+  }
+
+  .card__container:hover .card__icon {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .card__container {
+    border: 2px solid #ffffff;
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .card__container:hover {
+    border-color: var(--color-primary);
+  }
+
+  .card__progress-container {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
