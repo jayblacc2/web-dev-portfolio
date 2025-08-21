@@ -4,7 +4,6 @@ import loadSection from "./modules/loadSection";
 import "./style/style.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-// import { initializeProgressBars } from "./sections/about";
 import { initializeProgressBars } from "./utils/utils";
 
 function app() {

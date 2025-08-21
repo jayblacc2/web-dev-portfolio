@@ -10,11 +10,11 @@
   --color-primary: #5462ffe4;
   --color-primary-rgb: 84, 98, 255;
   --color-secondary: #fff3f1;
-  --color-secondary-dark: #3a3a3afc;
+  --color-secondary-dark: #808793;
   --color-light: #fff;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --radius: 0.75rem;
-  --color-secondary-text: #6b7280;
+  --color-secondary-text: #808793;
 
   --bg1: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
   --bg2: linear-gradient(135deg, #f0f2f5 0%, #dde1e7 100%);
@@ -253,7 +253,7 @@ a {
 .sub__title {
   font-size: 0.9rem;
   color: var(--color-secondary-text);
-  font-weight: 100;
+  font-weight: 300;
   width: 70%;
   margin: 1.2rem 0;
   transform: translateY(10px);
@@ -270,13 +270,15 @@ a {
 
 .btn--hero {
   color: var(--color-light);
-  padding: 0.4rem 1.4rem;
-  background-color: transparent;
-  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+  border-radius: 7px;
   animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
   border: 1px solid var(--color-primary);
   font-size: 0.9rem;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(84, 98, 255, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 2rem;
 }
 
 .btn--hero:hover {

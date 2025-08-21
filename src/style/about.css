@@ -1,4 +1,7 @@
-/* ENHANCED CARD STYLING */
+
+#about .btn--hero {
+  display: inline-block;
+}
 .stack__card {
   position: absolute;
   top: 50%;
