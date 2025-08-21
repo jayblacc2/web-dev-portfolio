@@ -32,11 +32,22 @@ function createHeroImage() {
     class: "hero__img hero__container",
   });
 
-  // Create background shape
+  // Create outer decorative ring
+  const outerRing = createHtmlElement("div", {
+    class: "hero__outer-ring",
+  });
+
+  // Create middle ring
+  const middleRing = createHtmlElement("div", {
+    class: "hero__middle-ring",
+  });
+
+  // Create main background shape
   const bgShape = createHtmlElement("div", {
     class: "hero__background-shape",
   });
 
+  // Create image container with enhanced styling
   const imageContainer = createHtmlElement("div", {
     class: "image__container animate-profile",
   });
@@ -52,11 +63,21 @@ function createHeroImage() {
     class: "image__overlay",
   });
 
+  // Create floating particles
+  const particles = createFloatingParticles();
+
+  // Assemble the structure
   imgWrapper.appendChild(imgElement);
   imageContainer.appendChild(imgWrapper);
   imageContainer.appendChild(overlay);
+
+  // Add all elements to hero image in proper order
+  heroImage.appendChild(particles);
+  heroImage.appendChild(outerRing);
+  heroImage.appendChild(middleRing);
   heroImage.appendChild(bgShape);
   heroImage.appendChild(imageContainer);
+
   return heroImage;
 }
 
@@ -65,7 +86,32 @@ function createImageElement(src, alt) {
   img.src = src;
   img.alt = alt;
   img.loading = "lazy";
+
+  // Add accessibility attributes
+  img.setAttribute("role", "img");
+  img.setAttribute(
+    "aria-label",
+    "Johnson - Front End Developer Profile Picture"
+  );
+
   return img;
+}
+
+// Add floating particles effect
+function createFloatingParticles() {
+  const particlesContainer = createHtmlElement("div", {
+    class: "floating-particles",
+  });
+
+  // Create multiple particles
+  for (let i = 0; i < 6; i++) {
+    const particle = createHtmlElement("div", {
+      class: `particle particle-${i + 1}`,
+    });
+    particlesContainer.appendChild(particle);
+  }
+
+  return particlesContainer;
 }
 
 export default homeSection;
