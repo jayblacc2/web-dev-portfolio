@@ -1,4 +1,5 @@
 import heroImg from "../images/hero-bg.jpg";
+import portfolio from "../images/portfolio.png"
 
 export const items = [
   "JavaScript",
@@ -53,7 +54,8 @@ export const projectsData = [
     stacks: ["HTML5", "CSS3", "JavaScript", "Webpack", "Chart.js"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://health-tracker-demo.netlify.app",
-    image: heroImg,
+    image: portfolio,
+
     stats: {
       year: "2024",
       duration: "4 weeks",

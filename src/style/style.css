@@ -134,7 +134,7 @@ a {
 .nav__link {
   color: var(--color-light);
   background-color: transparent;
-  padding: 7px 17px;
+  padding: 10px 20px;
   border-radius: 5px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -209,10 +209,13 @@ a {
 }
 
 /* Active state styles */
-.nav__btn.active,
-.nav__link.active {
-  color: #007bff;
+.nav__btn.active {
+  color: var(--color-primary);
   font-weight: bold;
+}
+
+.nav__link.active {
+  border-color: var(--color-primary);
 }
 
 .hero {
