@@ -54,7 +54,7 @@ module.exports = (env) => ({
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|webp|ico)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|webp|ico|webp)$/i,
         use: [
           {
             loader: "file-loader",

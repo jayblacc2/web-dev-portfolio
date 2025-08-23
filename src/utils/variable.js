@@ -1,5 +1,5 @@
 import heroImg from "../images/hero-bg.jpg";
-import portfolio from "../images/portfolio.png"
+import portfolio from "../images/portfolio.webp";
 
 export const items = [
   "JavaScript",
