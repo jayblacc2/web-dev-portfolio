@@ -36,8 +36,8 @@
 /* Main dark background circle */
 #home .hero__background-shape {
   position: absolute;
-  width: 480px;
-  height: 480px;
+  width: 380px;
+  height: 380px;
   background: radial-gradient(
     circle at center,
     rgba(30, 41, 59, 0.95) 0%,
@@ -54,7 +54,7 @@
 #home .hero__outer-ring {
   position: absolute;
   width: 520px;
-  height: 520px;
+  height: 200px; /*  the inner ring */
   border: 2px solid transparent;
   border-radius: 50%;
   background: linear-gradient(
@@ -86,7 +86,16 @@
   );
   border-radius: 50%;
   z-index: -1;
-  animation: rotateRing 20s linear infinite reverse;
+  animation: rotateRingReverse 20s linear infinite reverse;
+}
+
+@keyframes rotateRingReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 /* Middle ring */
