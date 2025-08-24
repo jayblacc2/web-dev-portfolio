@@ -36,9 +36,29 @@ function skillSection() {
     class: "parent__container enhanced-skills-container",
   });
 
+  // Initialize the animation when section becomes visible
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+        const target = mutation.target;
+        if (target.id === 'skills' && target.style.display !== 'none') {
+          setTimeout(() => {
+            animatedSkill(items, parentContainer);
+          }, 100);
+          observer.disconnect();
+        }
+      }
+    });
+  });
+  
+  observer.observe(hero, { attributes: true });
+  
+  // Fallback for immediate loading if section is already visible
   setTimeout(() => {
-    animatedSkill(items, parentContainer);
-  }, 0);
+    if (hero.style.display !== 'none') {
+      animatedSkill(items, parentContainer);
+    }
+  }, 100);
 
   heroImage.appendChild(parentContainer);
   alertBadge("Show", "blue");
@@ -464,7 +484,11 @@ export function animatedSkill(items, parentContainer) {
     details.style.transform = "translateX(-50%) scale(0.9)";
   }
 
-  parentContainer.addEventListener("mouseenter", startAnimation);
+  parentContainer.addEventListener("mouseenter", () => {
+    if (!animationFrameId) {
+      startAnimation();
+    }
+  });
   parentContainer.addEventListener("mouseleave", () => {
     hideTooltip();
     hideDetails();
@@ -598,10 +622,14 @@ export function animatedSkill(items, parentContainer) {
     }, 2000); // Keep tooltip visible longer on touch
   });
 
-  // Initialize canvas and start animation
+  // Initialize canvas and start animation immediately
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
-  startAnimation();
+  
+  // Start animation immediately when the component loads
+  setTimeout(() => {
+    startAnimation();
+  }, 100);
 
   return canvas;
 }
