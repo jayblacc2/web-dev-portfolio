@@ -54,7 +54,7 @@
 #home .hero__outer-ring {
   position: absolute;
   width: 520px;
-  height: 200px; /*  the inner ring */
+  height: 520px;
   border: 2px solid transparent;
   border-radius: 50%;
   background: linear-gradient(
@@ -66,7 +66,7 @@
     rgba(59, 130, 246, 0.3) 100%
   );
   background-clip: padding-box;
-  animation: rotateRing 20s linear infinite;
+  animation: rotateRingReverse 20s linear infinite;
 }
 
 #home .hero__outer-ring::before {
@@ -86,7 +86,18 @@
   );
   border-radius: 50%;
   z-index: -1;
-  animation: rotateRingReverse 20s linear infinite reverse;
+  animation: rotateRingReverse 20s linear infinite;
+}
+
+/* Middle ring (inner ring) - clockwise rotation */
+#home .hero__middle-ring {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  background: transparent;
+  animation: rotateRing 20s linear infinite;
 }
 
 @keyframes rotateRingReverse {
@@ -98,16 +109,7 @@
   }
 }
 
-/* Middle ring */
-#home .hero__middle-ring {
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 50%;
-  background: transparent;
-  animation: pulseRing 4s ease-in-out infinite;
-}
+
 
 /* Image container with enhanced styling */
 #home .image__container {
