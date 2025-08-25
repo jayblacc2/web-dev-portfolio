@@ -39,9 +39,12 @@ function skillSection() {
   // Initialize the animation when section becomes visible
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "style"
+      ) {
         const target = mutation.target;
-        if (target.id === 'skills' && target.style.display !== 'none') {
+        if (target.id === "skills" && target.style.display !== "none") {
           setTimeout(() => {
             animatedSkill(items, parentContainer);
           }, 100);
@@ -50,12 +53,12 @@ function skillSection() {
       }
     });
   });
-  
+
   observer.observe(hero, { attributes: true });
-  
+
   // Fallback for immediate loading if section is already visible
   setTimeout(() => {
-    if (hero.style.display !== 'none') {
+    if (hero.style.display !== "none") {
       animatedSkill(items, parentContainer);
     }
   }, 100);
@@ -132,12 +135,6 @@ export function animatedSkill(items, parentContainer) {
   const speedSlider = parentContainer.querySelector("#speedSlider");
 
   const themes = [
-    {
-      name: "Ocean Blue",
-      background: "#007bff",
-      gradient: ["#007bff", "#0056b3"],
-      accent: "#4dabf7",
-    },
     {
       name: "Vibrant Pink",
       background: "#ff007b",
@@ -625,7 +622,7 @@ export function animatedSkill(items, parentContainer) {
   // Initialize canvas and start animation immediately
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
-  
+
   // Start animation immediately when the component loads
   setTimeout(() => {
     startAnimation();
