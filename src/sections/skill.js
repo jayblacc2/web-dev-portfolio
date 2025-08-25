@@ -103,7 +103,7 @@ function initiateSkills() {
         <h3 class="skills-title">Interactive Skills Showcase</h3>
         <p class="skills-subtitle">Hover over skills to explore • Click for details</p>
       </div>
-      <canvas class="skillsCanvas" id="skillsCanvas" width="600" height="600"></canvas>
+      <canvas class="skillsCanvas" id="skillsCanvas" width="650" height="650"></canvas>
       <div class="tooltip enhanced-tooltip" id="tooltip"></div>
       <div class="details enhanced-details" id="details"></div>
       <div class="theme-selector enhanced-theme-selector">
