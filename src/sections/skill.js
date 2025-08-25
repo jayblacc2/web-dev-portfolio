@@ -111,7 +111,7 @@ function initiateSkills() {
       </div>
       <div class="controls-panel">
         <button class="control-btn" id="playPauseBtn">⏸️</button>
-        <button class="control-btn" id="resetBtn">🔄</button>
+        
         <div class="speed-control">
           <label>Speed:</label>
           <input type="range" id="speedSlider" min="0.1" max="2" step="0.1" value="1">
@@ -131,7 +131,6 @@ export function animatedSkill(items, parentContainer) {
   const details = parentContainer.querySelector("#details");
   const themeSelector = parentContainer.querySelector(".theme-selector");
   const playPauseBtn = parentContainer.querySelector("#playPauseBtn");
-  const resetBtn = parentContainer.querySelector("#resetBtn");
   const speedSlider = parentContainer.querySelector("#speedSlider");
 
   const themes = [
@@ -367,13 +366,7 @@ export function animatedSkill(items, parentContainer) {
     playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
   }
 
-  function resetAnimation() {
-    angleOffset = 0;
-    hoveredSkill = null;
-    skillScales = items.map(() => 1);
-    skillOpacities = items.map(() => 1);
-    draw();
-  }
+
 
   function updateAnimationSpeed(speed) {
     animationSpeed = parseFloat(speed);
@@ -381,7 +374,6 @@ export function animatedSkill(items, parentContainer) {
 
   // Control event listeners
   playPauseBtn.addEventListener("click", togglePlayPause);
-  resetBtn.addEventListener("click", resetAnimation);
   speedSlider.addEventListener("input", (e) =>
     updateAnimationSpeed(e.target.value)
   );
@@ -623,10 +615,7 @@ export function animatedSkill(items, parentContainer) {
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
 
-  // Start animation immediately when the component loads
-  setTimeout(() => {
-    startAnimation();
-  }, 100);
+
 
   return canvas;
 }
