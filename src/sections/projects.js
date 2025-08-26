@@ -18,19 +18,15 @@ export default function projectSection() {
 
   datas.forEach((item, index) => {
     const projectCard = createElement("div", {
-      class: `project-card ${item.type}`,
+      class: `project-card ${item.type || 'bg1'}`,
       role: "listitem",
       style: `animation-delay: ${index * 0.15}s`,
       tabindex: "0",
       "aria-label": `${item.label} project`,
     });
 
-    // Add background image if available
     if (item.image) {
       projectCard.style.backgroundImage = `url(${item.image})`;
-      projectCard.style.backgroundSize = "cover";
-      projectCard.style.backgroundPosition = "center";
-      projectCard.style.backgroundRepeat = "no-repeat";
     }
 
     const contentWrapper = createElement("div", { class: "content-wrapper" });
@@ -389,10 +385,7 @@ class ProjectModal {
     return actionsContainer;
   }
 
-  createGitHubLink() {
-    // This method is now deprecated in favor of createActionButtons
-    return this.createElement("div");
-  }
+
 
   setupFocusTrap() {
     this.focusableElements = Array.from(
