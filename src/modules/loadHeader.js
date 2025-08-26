@@ -15,7 +15,7 @@ function header() {
       role: "heading",
       "aria-level": "1",
     },
-    "<Jayblacc />"
+    "<blaqDev />"
   );
 
   const nav = createHtmlElement("nav", {

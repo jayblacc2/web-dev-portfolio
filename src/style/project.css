@@ -49,6 +49,8 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Ensure content is visible over background images */
@@ -75,8 +77,10 @@
 }
 
 .project__section .container > div:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(84, 98, 255, 0.2), 
+              0 8px 32px rgba(84, 98, 255, 0.15);
+  border: 1px solid rgba(84, 98, 255, 0.3);
 }
 
 .overlay {
@@ -114,10 +118,10 @@ span.overlay-stack {
   font-weight: 500;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  animation: slideInUp 0.6s ease forwards;
-  animation-delay: calc(var(--i) * 0.1s);
+  animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation-delay: calc(var(--i) * 0.1s + 0.3s);
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px) scale(0.5);
 }
 
 .overlay-description {
@@ -768,6 +772,39 @@ span.overlay-stack {
   }
 }
 
+/* Mobile Animation Adjustments */
+@media (max-width: 768px) {
+  .project__section .container > div {
+    animation: projectCardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .project__section .container > div:hover {
+    transform: translateY(-8px) scale(1.02);
+    animation: none;
+  }
+  
+  span.overlay-stack {
+    animation: stackTagBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    animation-delay: calc(var(--i) * 0.08s + 0.2s);
+  }
+}
+
+@media (max-width: 480px) {
+  .project__section .container > div {
+    animation: projectCardReveal 0.6s ease-out forwards;
+  }
+  
+  .project__section .container > div:hover {
+    transform: translateY(-4px) scale(1.01);
+    animation: none;
+  }
+  
+  span.overlay-stack {
+    animation: stackTagBounce 0.5s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.05s + 0.1s);
+  }
+}
+
 /* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   .project__section .container > div,
@@ -776,6 +813,8 @@ span.overlay-stack {
   .content-wrapper {
     transition: none;
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

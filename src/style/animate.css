@@ -198,3 +198,55 @@
     opacity: 1;
   }
 }
+
+/* Project Card Animations */
+@keyframes projectCardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(80px) scale(0.8) rotateX(25deg);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(20px) scale(0.95) rotateX(5deg);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+@keyframes projectCardHover {
+  0% {
+    transform: translateY(-8px) rotateY(5deg) rotateX(2deg) scale(1.05);
+  }
+  25% {
+    transform: translateY(-10px) rotateY(3deg) rotateX(1deg) scale(1.06);
+  }
+  50% {
+    transform: translateY(-6px) rotateY(7deg) rotateX(3deg) scale(1.04);
+  }
+  75% {
+    transform: translateY(-9px) rotateY(2deg) rotateX(1deg) scale(1.055);
+  }
+  100% {
+    transform: translateY(-8px) rotateY(5deg) rotateX(2deg) scale(1.05);
+  }
+}
+
+@keyframes stackTagBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

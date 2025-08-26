@@ -20,9 +20,7 @@ export default function projectSection() {
     const projectCard = createElement("div", {
       class: `project-card ${item.type}`,
       role: "listitem",
-      "data-aos": "fade-up",
-      "data-aos-duration": "800",
-      "data-aos-delay": `${index * 100}`,
+      style: `animation-delay: ${index * 0.15}s`,
       tabindex: "0",
       "aria-label": `${item.label} project`,
     });
