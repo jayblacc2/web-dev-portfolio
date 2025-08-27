@@ -1057,186 +1057,158 @@ span.overlay-stack {
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile devices (300px and above) - Fixed layout */
+@media (min-width: 300px) and (max-width: 480px) {
   .project__section .container {
     grid-template-columns: 1fr;
     gap: 0.75rem;
     margin-top: 1.5rem;
+    padding: 0 0.75rem;
+    max-width: 100%;
+  }
+
+  .project__section .container > div {
+    height: 200px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .project__section .container > div:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(84, 98, 255, 0.15);
+  }
+
+  /* Reset all special grid positioning for single column layout */
+  .project__section .container > div:nth-of-type(1),
+  .project__section .container > div:nth-child(6),
+  .project__section .container > div:nth-child(9),
+  .project__section .container > div:nth-child(10) {
+    grid-column: 1;
+    height: 200px;
+  }
+
+  span.overlay-stack {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+    margin: 0.2rem;
+    border-radius: 16px;
+  }
+
+  .overlay {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .overlay-description {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .content-wrapper {
+    padding: 0.75rem;
+  }
+
+  .project-title {
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+
+  .project-label {
+    font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+    font-weight: 500;
+  }
+
+  .project__section h2 {
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .project__section h2 span {
+    font-size: clamp(1.2rem, 4.2vw, 1.5rem);
+  }
+
+  .project__section p {
+    font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+
+/* Very small devices (below 300px) */
+@media (max-width: 299px) {
+  .project__section .container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-top: 1rem;
     padding: 0 0.5rem;
   }
 
   .project__section .container > div {
     height: 180px;
-    animation: projectCardReveal 0.6s ease-out forwards;
+    border-radius: 10px;
   }
 
   .project__section .container > div:hover {
-    transform: translateY(-4px) scale(1.01);
-    animation: none;
+    transform: translateY(-3px) scale(1.01);
   }
 
-  .project__section .container > div:nth-of-type(1) {
+  /* Reset all special grid positioning for single column layout */
+  .project__section .container > div:nth-of-type(1),
+  .project__section .container > div:nth-child(6),
+  .project__section .container > div:nth-child(9),
+  .project__section .container > div:nth-child(10) {
     grid-column: 1;
+    height: 180px;
   }
 
   span.overlay-stack {
-    animation: stackTagBounce 0.5s ease-out forwards;
-    animation-delay: calc(var(--i) * 0.05s + 0.1s);
     font-size: 0.65rem;
     padding: 0.25rem 0.5rem;
     margin: 0.15rem;
+    border-radius: 14px;
   }
 
   .overlay {
-    padding: 0.75rem;
+    padding: 0.6rem;
+    border-radius: 10px;
   }
 
   .overlay-description {
     font-size: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     line-height: 1.3;
   }
 
-  .project__section h2 {
-    font-size: clamp(1.5rem, 5vw, 2rem);
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .project__section h2 span {
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-  }
-
-  .project__section p {
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-}
-
-/* Very small devices (300px-400px) */
-@media (max-width: 400px) {
-  .project__section .container {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding: 0 0.25rem;
-  }
-
-  .project__section .container > div {
-    height: 160px;
-    border-radius: 8px;
-  }
-
-  .project__section .container > div:hover {
-    transform: translateY(-3px) scale(1.005);
-  }
-
-  span.overlay-stack {
-    font-size: 0.6rem;
-    padding: 0.2rem 0.4rem;
-    margin: 0.1rem;
-    border-radius: 12px;
-  }
-
-  .overlay {
-    padding: 0.5rem;
-    border-radius: 8px;
-  }
-
-  .overlay-description {
-    font-size: 0.7rem;
-    margin-bottom: 0.4rem;
-    line-height: 1.2;
-  }
-
   .content-wrapper {
-    padding: 0.5rem;
+    padding: 0.6rem;
   }
 
   .project-title {
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
     margin-bottom: 0.25rem;
   }
 
   .project-label {
-    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+    font-size: clamp(0.75rem, 3.2vw, 0.85rem);
   }
 
   .project__section h2 {
-    font-size: clamp(1.3rem, 6vw, 1.8rem);
-    margin-bottom: 0.75rem;
+    font-size: clamp(1.3rem, 6.5vw, 1.7rem);
+    margin-bottom: 0.8rem;
+    text-align: center;
   }
 
   .project__section h2 span {
-    font-size: clamp(1rem, 4.5vw, 1.3rem);
+    font-size: clamp(1rem, 5vw, 1.3rem);
   }
 
   .project__section p {
-    font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-    margin-bottom: 0.75rem;
-  }
-}
-
-/* Extra small devices (below 320px) */
-@media (max-width: 320px) {
-  .project__section .container {
-    gap: 0.4rem;
-    padding: 0 0.15rem;
-  }
-
-  .project__section .container > div {
-    height: 140px;
-    border-radius: 6px;
-  }
-
-  .project__section .container > div:hover {
-    transform: translateY(-2px) scale(1.002);
-  }
-
-  span.overlay-stack {
-    font-size: 0.55rem;
-    padding: 0.15rem 0.3rem;
-    margin: 0.08rem;
-    border-radius: 10px;
-  }
-
-  .overlay {
-    padding: 0.4rem;
-    border-radius: 6px;
-  }
-
-  .overlay-description {
-    font-size: 0.65rem;
-    margin-bottom: 0.3rem;
-    line-height: 1.1;
-  }
-
-  .content-wrapper {
-    padding: 0.4rem;
-  }
-
-  .project-title {
-    font-size: clamp(0.8rem, 3.5vw, 1rem);
-    margin-bottom: 0.2rem;
-  }
-
-  .project-label {
-    font-size: clamp(0.65rem, 3vw, 0.75rem);
-  }
-
-  .project__section h2 {
-    font-size: clamp(1.2rem, 7vw, 1.6rem);
-    margin-bottom: 0.5rem;
-  }
-
-  .project__section h2 span {
-    font-size: clamp(0.9rem, 5vw, 1.2rem);
-  }
-
-  .project__section p {
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
-    margin-bottom: 0.5rem;
+    font-size: clamp(0.8rem, 3.2vw, 0.9rem);
+    margin-bottom: 0.8rem;
+    text-align: center;
   }
 }
 
@@ -1291,32 +1263,86 @@ span.overlay-stack {
   }
 }
 
-@media (max-width: 480px) {
+/* Modal for mobile devices (300px and above) */
+@media (min-width: 300px) and (max-width: 480px) {
   .modal-content {
+    grid-template-columns: 1fr;
+    max-width: 92vw;
+    max-height: 90vh;
     margin: 1rem;
-    max-width: calc(100vw - 2rem);
+    border-radius: 16px;
+  }
+
+  .modal__image-container {
+    border-radius: 16px 16px 0 0;
+    min-height: 200px;
+    max-height: 250px;
   }
 
   .modal-info {
+    border-radius: 0 0 16px 16px;
     padding: 1.5rem 1rem;
     gap: 1rem;
   }
 
-  .modal-close {
-    top: 1rem;
-    right: 1rem;
-    width: 35px;
-    height: 35px;
+  .modal-info::before {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modal-title {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    line-height: 1.3;
+  }
+
+  .modal__description {
+    font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+    line-height: 1.5;
+  }
+
+  .modal__stacks {
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+
+  .modal__stacks .stack {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .modal__actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .modal__git-link,
+  .modal__demo-link {
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
   }
 
   .modal__stats {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    padding: 0.75rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
   }
 
   .modal__stat-value {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .modal__stat-label {
+    font-size: 0.7rem;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    top: 1rem;
+    right: 1rem;
   }
 }
 
