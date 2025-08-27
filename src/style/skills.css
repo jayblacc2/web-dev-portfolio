@@ -344,6 +344,7 @@ canvas {
   gap: 1rem;
   margin-top: 1.5rem;
   flex-wrap: wrap;
+  margin: 1rem 0;
 }
 
 .skill-stat-card {
@@ -501,25 +502,29 @@ canvas {
   }
 
   .skill-stats-container {
-    gap: 0.75rem;
+    gap: 0.5rem;
     margin-top: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .skill-stat-card {
-    min-width: 100px;
-    padding: 0.75rem 1rem;
+    min-width: 85px;
+    max-width: 105px;
+    padding: 0.6rem 0.7rem;
+    flex: 0 1 calc(33.333% - 0.5rem);
   }
 
   .stat-icon {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .stat-value {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .stat-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 }
 
@@ -530,9 +535,10 @@ canvas {
 
   .skill-stats-container {
     flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
+    align-items: stretch;
+    gap: 0.6rem;
     margin-top: 0.8rem;
+    width: 100%;
   }
 
   .skill-stat-card {
@@ -540,7 +546,8 @@ canvas {
     max-width: none;
     padding: 0.8rem 1rem;
     min-width: unset;
-    flex: 1;
+    flex: none;
+    margin: 0;
   }
 
   .stat-icon {
@@ -569,11 +576,11 @@ canvas {
     gap: 4px;
     align-items: center;
   }
-  
+
   .speed-control label {
     font-size: 0.65rem;
   }
-  
+
   .speed-control input[type="range"] {
     width: 40px;
   }
@@ -589,26 +596,32 @@ canvas {
   }
 }
 
-@media (max-width: 300px) {
+/* For screens smaller than 400px */
+@media (max-width: 400px) {
   .skills-header {
     display: none;
   }
 
   .skill-stats-container {
     flex-direction: column;
+    align-items: stretch;
     gap: 0.5rem;
+    margin-top: 0.8rem;
+    width: 100%;
+    padding: 0 0.5rem;
   }
 
   .skill-stat-card {
     width: 100%;
     min-width: unset;
-    padding: 0.6rem 0.5rem;
     max-width: none;
-    flex: 1;
+    padding: 0.4rem 0.6rem;
+    flex: none;
+    margin: 0;
   }
 
   .stat-icon {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .stat-value {
@@ -619,21 +632,44 @@ canvas {
     font-size: 0.6rem;
     letter-spacing: 0.3px;
   }
-  
+
   .controls-panel {
     bottom: 5px;
     right: 2px;
     padding: 4px 6px;
     gap: 4px;
   }
-  
+
   .control-btn {
     font-size: 0.9rem;
     padding: 3px;
   }
-  
+
   .speed-control {
     display: none;
+  }
+}
+
+@media (max-width: 300px) {
+  .skill-stats-container {
+    padding: 0 0.25rem;
+    gap: 0.4rem;
+  }
+
+  .skill-stat-card {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .stat-icon {
+    font-size: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
   }
 }
 

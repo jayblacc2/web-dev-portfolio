@@ -486,9 +486,6 @@ a {
   .hero__img {
     width: 100%;
   }
-  .about__hero-content {
-    min-height: 550px;
-  }
 
   .parent__container {
     width: 100%;
