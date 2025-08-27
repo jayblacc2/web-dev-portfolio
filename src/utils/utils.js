@@ -119,6 +119,81 @@ export function alertBadge(text, color, element) {
   return textContainer;
 }
 
+// New cookie consent function
+export function cookieConsent() {
+  // Check if user has already made a choice
+  if (localStorage.getItem('cookieConsent')) {
+    return;
+  }
+
+  const cookieContainer = createHtmlElement("div", { 
+    class: "cookie-consent",
+    id: "cookie-consent-banner"
+  });
+
+  // Cookie message
+  const messageElement = createHtmlElement("div", { class: "cookie-message" });
+  messageElement.innerHTML = `
+    <span class="cookie-icon">🍪</span>
+    <p>We use cookies to enhance your browsing experience and analyze our traffic. By clicking "Accept", you consent to our use of cookies.</p>
+  `;
+
+  // Button container
+  const buttonContainer = createHtmlElement("div", { class: "cookie-buttons" });
+
+  // Accept button
+  const acceptBtn = createHtmlElement("button", { 
+    class: "cookie-btn cookie-accept",
+    type: "button"
+  });
+  acceptBtn.innerText = "Accept";
+  acceptBtn.addEventListener("click", () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    closeCookieBanner(cookieContainer);
+  });
+
+  // Decline button
+  const declineBtn = createHtmlElement("button", { 
+    class: "cookie-btn cookie-decline",
+    type: "button"
+  });
+  declineBtn.innerText = "Decline";
+  declineBtn.addEventListener("click", () => {
+    localStorage.setItem('cookieConsent', 'declined');
+    closeCookieBanner(cookieContainer);
+  });
+
+  // Learn more link
+  const learnMoreLink = createHtmlElement("a", { 
+    class: "cookie-learn-more",
+    href: "#"
+  });
+  learnMoreLink.innerText = "Learn More";
+  learnMoreLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("Cookie Policy: We use essential cookies for site functionality and analytics cookies to improve user experience.");
+  });
+
+  buttonContainer.append(acceptBtn, declineBtn, learnMoreLink);
+  cookieContainer.append(messageElement, buttonContainer);
+
+  // Add slide-in animation
+  cookieContainer.classList.add("slide-in");
+
+  document.body.appendChild(cookieContainer);
+  return cookieContainer;
+}
+
+function closeCookieBanner(container) {
+  container.classList.remove("slide-in");
+  container.classList.add("slide-out");
+  
+  setTimeout(() => {
+    if (container.parentNode) {
+      container.parentNode.removeChild(container);
+    }
+  }, 800);
+}
 export function createElement(tag, attributes = {}, textContent = null) {
   // Create a new element tag name
   const element = document.createElement(tag);

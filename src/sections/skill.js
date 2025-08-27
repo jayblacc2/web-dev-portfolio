@@ -3,6 +3,7 @@ import {
   renderTitle,
   renderSubTitle,
   alertBadge,
+  cookieConsent, // Add this import
 } from "../utils/utils";
 import { skillText, items } from "../utils/variable";
 
@@ -64,7 +65,7 @@ function skillSection() {
   }, 100);
 
   heroImage.appendChild(parentContainer);
-  alertBadge("Show", "blue");
+  cookieConsent(); // Replace alertBadge("Show", "blue");
   return hero;
 }
 

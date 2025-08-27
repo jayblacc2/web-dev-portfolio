@@ -1,4 +1,4 @@
-import { github, linkedIn, mail, skype } from "../images/svgIcons/icons";
+import { github, linkedIn, mail } from "../images/svgIcons/icons";
 
 import {
   createSvgIcon,
@@ -202,9 +202,8 @@ function renderSvgIcon() {
   const gitIcon = createIconLink(github, "https://github.com");
   const linkedInIcon = createIconLink(linkedIn, "https://linkedin.com");
   const mailIcon = createIconLink(mail, "https://live.com");
-  const skypeIcon = createIconLink(skype, "https://skype.com");
 
-  socialIconContainer.append(gitIcon, linkedInIcon, mailIcon, skypeIcon);
+  socialIconContainer.append(gitIcon, linkedInIcon, mailIcon);
 
   return socialIconContainer;
 }

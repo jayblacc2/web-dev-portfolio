@@ -9,22 +9,25 @@ module.exports = (env) => ({
   mode: env.production ? "production" : "development",
   entry: "./src/index.js",
   output: {
+    publicPath: "/", // Required for hot reload to work properly
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true, //clean the dist folder before each build
   },
   optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        parallel: true,
-        terserOptions: {
-          compress: {
-            drop_console: true,
-          },
-        },
-      }),
-    ],
+    minimize: env.production ? true : false,
+    minimizer: env.production
+      ? [
+          new TerserPlugin({
+            parallel: true,
+            terserOptions: {
+              compress: {
+                drop_console: true,
+              },
+            },
+          }),
+        ]
+      : [],
     splitChunks: {
       chunks: "all",
       cacheGroups: {
@@ -39,7 +42,6 @@ module.exports = (env) => ({
   devServer: {
     static: {
       directory: path.join(__dirname, "dist"),
-      // historyApiFallback: true,
     },
     compress: true,
     port: 3000,
@@ -51,7 +53,9 @@ module.exports = (env) => ({
     rules: [
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: env.production
+          ? [MiniCssExtractPlugin.loader, "css-loader"]
+          : ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|webp|ico|webp)$/i,
@@ -85,7 +89,10 @@ module.exports = (env) => ({
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "src/images/icons/favicon.ico", to: "favicon.ico" }],
+      patterns: [
+        { from: "public/favicon.ico", to: "favicon.ico" },
+        { from: "public", to: "public" },
+      ],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",

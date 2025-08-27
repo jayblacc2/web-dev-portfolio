@@ -6,12 +6,12 @@ import {
   createStackCard,
 } from "../utils/utils";
 import { CLASSES, TEXTS, STACK_DATA } from "../utils/constant";
+// Import the PDF file
+import resumePdf from "../../public/resume.pdf";
 
-// Constants
-
-//About section button function
 function createResumeButton() {
-  const resumePath = "/assets/resume.pdf";
+  // Use the imported PDF path
+  const resumePath = resumePdf;
   const btn = createElement(
     "a",
     {
@@ -43,7 +43,6 @@ function createHeroContent() {
 
   const btn = createResumeButton();
 
-  //appending all left side contents
   heroContentsContainer.append(mainHeader, paragraph, btn);
   heroContents.append(heroContentsContainer);
 
