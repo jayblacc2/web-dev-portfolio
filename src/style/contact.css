@@ -592,6 +592,18 @@
     margin-left: 0.75rem;
     font-size: 0.75rem;
   }
+
+  .form__field .form__message {
+    height: 300px;
+  }
+
+  .form__message + label {
+    top: 97%;
+  }
+
+  .form__container {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {

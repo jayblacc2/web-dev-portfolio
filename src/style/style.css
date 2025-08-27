@@ -626,34 +626,6 @@ a {
     transform: translateY(0);
     opacity: 1;
   }
-
-  .stack__card {
-    position: relative;
-    justify-content: space-between;
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
-    margin-top: 2rem;
-  }
-
-  /* Project section styles handled in project.css */
-
-  .form__field .form__message {
-    height: 300px;
-  }
-
-  .form__message + label {
-    top: 97%;
-  }
-
-  .form__container {
-    max-width: 100%;
-  }
-
-  .footer {
-    width: 90%;
-    margin: 1rem auto;
-  }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -683,7 +655,7 @@ a {
 }
 
 /* *****************Landscape and Tablet************* */
-/* Tablet */
+/* Tablet - General styles (non-project specific) */
 @media (min-width: 768px) and (max-width: 1024px) {
   body {
     font-size: 18px;
@@ -753,8 +725,6 @@ a {
     max-height: 100%;
     object-fit: contain;
   }
-
-  /* Project section styles are handled in project.css */
 
   /* Navigation improvements for tablets */
   .nav__link {
