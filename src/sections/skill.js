@@ -195,11 +195,24 @@ export function animatedSkill(items, parentContainer) {
   let skillOpacities = items.map(() => 1);
 
   function resizeCanvas() {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    CENTER_X = canvas.width / 2;
-    CENTER_Y = canvas.height / 2;
-    CONTAINER_RADIUS = Math.min(canvas.width, canvas.height) / 4;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    // Set actual canvas size
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
+    // Scale the context to match device pixel ratio
+    ctx.scale(dpr, dpr);
+
+    // Set CSS size
+    canvas.style.width = rect.width + "px";
+    canvas.style.height = rect.height + "px";
+
+    CENTER_X = rect.width / 2;
+    CENTER_Y = rect.height / 2;
+    CONTAINER_RADIUS = Math.min(rect.width, rect.height) / 4;
+
     draw();
   }
 
@@ -366,8 +379,6 @@ export function animatedSkill(items, parentContainer) {
     playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
     playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
   }
-
-
 
   function updateAnimationSpeed(speed) {
     animationSpeed = parseFloat(speed);
@@ -614,9 +625,21 @@ export function animatedSkill(items, parentContainer) {
 
   // Initialize canvas and start animation immediately
   window.addEventListener("resize", resizeCanvas);
+
+  // Use ResizeObserver for better responsiveness
+  if (window.ResizeObserver) {
+    const resizeObserver = new ResizeObserver(() => {
+      resizeCanvas();
+    });
+    resizeObserver.observe(parentContainer);
+  }
+
   resizeCanvas();
 
-
+  // Ensure proper initialization on tablets
+  setTimeout(() => {
+    resizeCanvas();
+  }, 100);
 
   return canvas;
 }
