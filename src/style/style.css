@@ -704,6 +704,39 @@ a {
     max-height: 450px;
     margin: 0 auto;
   }
+
+  /* Apply iPad Pro layout (3x2 grid) to smaller tablets */
+  .stack__card {
+    justify-content: space-between;
+  }
+
+  .card__container {
+    width: 13rem;
+    height: 13rem;
+  }
+
+  /* Skills section specific tablet adjustments */
+  #skills .hero {
+    min-height: 90vh;
+  }
+
+  #skills .hero__content {
+    margin-bottom: 2rem;
+  }
+
+  #skills .parent__container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Ensure canvas scales properly on tablets */
+  #skills canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 }
 
 /* Large tablets and small desktops */
