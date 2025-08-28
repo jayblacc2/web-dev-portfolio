@@ -44,7 +44,7 @@ export default function contactSection() {
   hero.append(heroContents, heroImage);
 
   formContact
-    .querySelector("#contact")
+    .querySelector("#contact-form")
     .addEventListener("submit", function (e) {
       e.preventDefault();
       const form = e.target;
@@ -222,7 +222,7 @@ function contactForm() {
 
   // Create form element
   const form = createHtmlElement("form", {
-    id: "contact",
+    id: "contact-form",
     autocomplete: "off",
     action: "https://formspree.io/f/mknyknkr",
     method: "POST",
