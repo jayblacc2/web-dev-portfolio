@@ -1,5 +1,10 @@
 import heroImg from "../images/hero-bg.jpg";
-import portfolio from "../images/portfolio.webp";
+import portfolio from "../assets/images/portfolio.webp";
+import recipe from "../assets/images/recipe.webp";
+import todo from "../assets/images/adv-todo.webp";
+import timer from "../assets/images/timer-app.webp";
+import library from "../assets/images/book-library.webp";
+import skill from "../assets/images/skill-portfolio.webp";
 
 export const items = [
   "JavaScript",
@@ -35,10 +40,10 @@ export const projectsData = [
     label: "Recipe App",
     details:
       "Vanilla JS project with a focus on creating a visually appealing and interactive user interface. Features include recipe search, ingredient filtering, and meal planning capabilities.",
-    stacks: ["HTML5", "CSS3", "JavaScript", "Local Storage"],
+    stacks: ["HTML", "CSS", "JavaScript", "Vuejs", "SCSS"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://recipe-app-demo.netlify.app",
-    image: heroImg,
+    image: recipe,
     stats: {
       year: "2024",
       duration: "3 weeks",
@@ -48,10 +53,10 @@ export const projectsData = [
   {
     type: "bg1",
     value: '<i class="fas fa-battery-three-quarters"></i>',
-    label: "Health Tracker",
+    label: "Dev Portfolio",
     details:
       "A comprehensive web application that allows users to track their breathing patterns and monitor their respiratory health with real-time data visualization and progress tracking.",
-    stacks: ["HTML5", "CSS3", "JavaScript", "Webpack", "Chart.js"],
+    stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://health-tracker-demo.netlify.app",
     image: portfolio,
@@ -65,13 +70,13 @@ export const projectsData = [
   {
     type: "bg2",
     value: '<i class="fas fa-running"></i>',
-    label: "React App",
+    label: "Timer App",
     details:
       "A modern React application built with hooks and context API, featuring responsive design and optimized performance for seamless user experience.",
-    stacks: ["React", "JavaScript", "CSS3", "Webpack", "Context API"],
+    stacks: ["React", "CSS", "Webpack", "Context API"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://react-app-demo.netlify.app",
-    image: heroImg,
+    image: timer,
     stats: {
       year: "2024",
       duration: "5 weeks",
@@ -81,31 +86,31 @@ export const projectsData = [
   {
     type: "bg1",
     value: "36 &deg;",
-    label: "Fullstack Recipe App",
+    label: "Book library",
     details:
       "A fullstack web application that allows to create and vue your favorite recipes.",
-    stacks: ["HTML5", "CSS3", "JavaScript", "Webpack", "VueJS"],
+    stacks: ["HTML5", "CSS3", "JavaScript", "Chart.js"],
     gitLink: "https://github.com/cursorbot/cursorbot",
-    image: heroImg,
+    image: library,
   },
   {
     type: "bg1",
     value: '<i class="fas fa-bed"></i>',
-    label: "Todo note app",
+    label: "Portfolio skill",
     details:
       "Demostrate how to use the HTML5 and CSS3 to create a responsive layout.",
-    stacks: ["HTML5", "CSS3", "JavaScript"],
+    stacks: ["HTML5", "CSS3", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
-    image: heroImg,
+    image: skill,
   },
   {
     type: "bg2",
     value: "98 <span>bpm</span>",
-    label: "Portfolio template",
+    label: "Advance Todo",
     details:
       "crafted like a js framework single page application without using any framework.",
-    stacks: ["HTML5", "CSS3", "JavaScript"],
+    stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
-    image: heroImg,
+    image: todo,
   },
 ];

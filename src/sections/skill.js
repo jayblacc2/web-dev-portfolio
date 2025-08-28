@@ -77,7 +77,7 @@ function createSkillStats() {
   const stats = [
     { label: "Technologies", value: items.length, icon: "⚡" },
     { label: "Years Experience", value: "3+", icon: "🚀" },
-    { label: "Projects Built", value: "25+", icon: "💼" },
+    { label: "Projects Built", value: "7+", icon: "💼" },
   ];
 
   stats.forEach((stat) => {
