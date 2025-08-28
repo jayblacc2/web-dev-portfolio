@@ -36,7 +36,7 @@ Most important, I have got passion for learning and teaching, i believe the sky 
 export const projectsData = [
   {
     type: "bg1",
-    value: "16 <span>| 24</span>",
+    value: '<i class="fa-solid fa-utensils"></i>',
     label: "Recipe App",
     details:
       "Vanilla JS project with a focus on creating a visually appealing and interactive user interface. Features include recipe search, ingredient filtering, and meal planning capabilities.",
@@ -52,7 +52,7 @@ export const projectsData = [
   },
   {
     type: "bg1",
-    value: '<i class="fas fa-battery-three-quarters"></i>',
+    value: '<i class="fa-solid fa-briefcase"></i>',
     label: "Dev Portfolio",
     details:
       "A comprehensive web application that allows users to track their breathing patterns and monitor their respiratory health with real-time data visualization and progress tracking.",
@@ -85,7 +85,7 @@ export const projectsData = [
   },
   {
     type: "bg1",
-    value: "36 &deg;",
+    value: '<i class="fa-solid fa-book"></i>',
     label: "Book library",
     details:
       "A fullstack web application that allows to create and vue your favorite recipes.",
@@ -105,7 +105,7 @@ export const projectsData = [
   },
   {
     type: "bg2",
-    value: "98 <span>bpm</span>",
+    value: "<i class='fa-regular fa-square-check'></i>",
     label: "Advance Todo",
     details:
       "crafted like a js framework single page application without using any framework.",
