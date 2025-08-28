@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = (env) => ({
   mode: env.production ? "production" : "development",
@@ -97,5 +97,25 @@ module.exports = (env) => ({
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
     }),
+    ...(env.production ? [
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              jpeg: {
+                quality: 85,
+              },
+              webp: {
+                quality: 85,
+              },
+              png: {
+                compressionLevel: 9,
+              },
+            },
+          },
+        },
+      }),
+    ] : []),
   ],
 });
