@@ -385,6 +385,93 @@ a {
   z-index: 98;
 }
 
+/* iPhone 12 Pro Max (428px width) */
+@media (max-width: 428px) and (min-width: 401px) {
+  .hero {
+    overflow-y: scroll;
+  }
+  
+  .mobile__menu .nav__btn {
+    font-size: 0.85rem;
+  }
+
+  .parent__container:hover canvas {
+    transform: scale(1.3);
+  }
+
+  .main__title {
+    font-size: 1.6rem;
+    line-height: 28px;
+    text-align: left;
+  }
+
+  .sub__title {
+    width: 100%;
+  }
+
+  .nav__link {
+    display: none;
+  }
+  
+  .burger-menu {
+    display: block;
+  }
+
+  #home .hero__background-shape {
+    width: 320px;
+    height: 320px;
+  }
+
+  #home .image__wrapper {
+    width: 220px;
+    height: 220px;
+    padding: 4px;
+  }
+
+  #home .image__wrapper img {
+    border-width: 2px;
+  }
+
+  #home .animate-profile {
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  .icon__container .card__icon {
+    width: 52px;
+    height: auto;
+  }
+  
+  .stack__card {
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+  }
+
+  .card__container {
+    padding: 6px;
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  #contact .hero__img {
+    width: 100%;
+  }
+
+  .stack__card {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    margin-top: 2rem;
+  }
+
+  /* Skills section specific adjustments for iPhone 12 Pro Max */
+  #skills .parent__container {
+    width: 95%;
+    height: 80%;
+    margin: 0 auto;
+  }
+}
+
 /* Small devices  */
 @media (max-width: 400px) {
   .hero {

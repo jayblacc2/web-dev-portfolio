@@ -711,6 +711,86 @@ canvas {
   }
 }
 
+/* iPhone 12 Pro Max (428px width) - Specific layout for uniform grid */
+@media (max-width: 428px) and (min-width: 401px) {
+  .parent__container {
+    width: 95%;
+    height: 80%;
+  }
+
+  .skill-stats-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .skill-stat-card {
+    width: 100%;
+    min-width: unset;
+    max-width: none;
+    padding: 0.8rem 0.6rem;
+    flex: none;
+    margin: 0;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .stat-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3px;
+  }
+
+  .skills-header {
+    top: 10px;
+    padding: 8px 15px;
+    max-width: 90%;
+  }
+
+  .skills-title {
+    font-size: 0.9rem;
+  }
+
+  .skills-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .controls-panel {
+    bottom: 8px;
+    right: 5px;
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .control-btn {
+    font-size: 0.85rem;
+    padding: 4px;
+  }
+
+  .speed-control {
+    font-size: 0.65rem;
+  }
+
+  .speed-control input[type="range"] {
+    width: 45px;
+  }
+}
+
 /* For screens smaller than 400px */
 @media (max-width: 400px) {
   .skills-header {
