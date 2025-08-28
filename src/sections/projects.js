@@ -48,34 +48,7 @@ export default function projectSection() {
 
     const overlay = createElement("div", {
       class: "overlay",
-      role: "region",
-      "aria-labelledby": `project-title-${index}`,
-      "aria-describedby": `project-desc-${index}`,
     });
-
-    const overlayText = createElement("p", { class: "overlay-description" });
-    overlayText.innerHTML = item.details;
-
-    const stackList = createElement("div", {
-      class: "overlay-stacks",
-      role: "list",
-      "aria-label": "Technologies used",
-    });
-
-    item.stacks.forEach((stack, i) => {
-      const stackSpan = createElement(
-        "span",
-        {
-          class: "overlay-stack",
-          role: "listitem",
-          style: `--i: ${i}`,
-        },
-        stack
-      );
-      stackList.appendChild(stackSpan);
-    });
-
-    overlay.append(overlayText, stackList);
     contentWrapper.append(h2, p);
     projectCard.append(contentWrapper, overlay);
 
