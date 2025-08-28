@@ -318,8 +318,12 @@ span.overlay-stack {
 }
 
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .modal__image:hover {
@@ -724,6 +728,32 @@ span.overlay-stack {
   }
 }
 
+@keyframes projectCardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stackTagBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Enhanced Responsive Design */
 @media (max-width: 1200px) {
   .project__section .container {
@@ -738,28 +768,61 @@ span.overlay-stack {
 
 /* This media query was conflicting with tablet styles - removed */
 
-/* iPad Mini and smaller tablets */
+/* iPad Mini and smaller tablets - 2x3 Grid Layout */
 @media (min-width: 768px) and (max-width: 820px) {
   .project__section .container {
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: 1rem;
     margin-top: 2rem;
     padding: 0 1rem;
     max-width: 100%;
+    height: auto;
   }
 
   .project__section .container > div {
     height: 240px;
     border-radius: 12px;
+    /* Remove hover animations for tablets */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Reset all special grid positioning for clean 2-column layout */
+  /* Remove hover effects for tablets */
+  .project__section .container > div:hover {
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project__section .container > div:hover::before {
+    opacity: 0.3;
+  }
+
+  .project__section .container > div:hover .content-wrapper {
+    transform: none;
+  }
+
+  /* Reset all special grid positioning for clean 2x3 layout */
   .project__section .container > div:nth-of-type(1),
   .project__section .container > div:nth-child(6),
   .project__section .container > div:nth-child(9),
   .project__section .container > div:nth-child(10) {
     grid-column: span 1;
     height: 240px;
+  }
+
+  /* Apply same animations as large screens */
+  .project__section .container > div {
+    opacity: 0;
+    animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  span.overlay-stack {
+    animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.3s);
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
   }
 
   /* Adjust text sizes for smaller tablets */
@@ -791,6 +854,8 @@ span.overlay-stack {
   .project__section .container > div {
     height: 280px;
     border-radius: 16px;
+    /* Remove hover animations for tablets */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Reset all special grid positioning for clean 2-column layout */
@@ -802,15 +867,33 @@ span.overlay-stack {
     height: 280px;
   }
 
-  /* Enhanced hover effects for tablets */
+  /* Remove hover effects for tablets - apply same as large screens */
   .project__section .container > div:hover {
-    transform: translateY(-8px) scale(1.04);
-    box-shadow: 0 16px 32px rgba(84, 98, 255, 0.2),
-      0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project__section .container > div:hover::before {
+    opacity: 0.3;
   }
 
   .project__section .container > div:hover .content-wrapper {
-    transform: translateY(-4px);
+    transform: none;
+  }
+
+  /* Apply same animations as large screens */
+  .project__section .container > div {
+    opacity: 0;
+    animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  span.overlay-stack {
+    animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.3s);
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
   }
 
   /* Overlay adjustments for tablets */
@@ -928,6 +1011,37 @@ span.overlay-stack {
 
   .project__section .container > div {
     height: 180px;
+    /* Remove hover animations for mobile */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Remove hover effects for mobile */
+  .project__section .container > div:hover {
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project__section .container > div:hover::before {
+    opacity: 0.3;
+  }
+
+  .project__section .container > div:hover .content-wrapper {
+    transform: none;
+  }
+
+  /* Apply same animations as large screens */
+  .project__section .container > div {
+    opacity: 0;
+    animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  span.overlay-stack {
+    animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.3s);
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
   }
 
   .overlay {
@@ -963,124 +1077,6 @@ span.overlay-stack {
   }
 }
 
-/* iPad Mini Animation Adjustments */
-@media (min-width: 768px) and (max-width: 820px) {
-  .project__section .container > div {
-    animation: projectCardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .project__section .container > div:hover {
-    transform: translateY(-6px) scale(1.03);
-    animation: none;
-  }
-
-  span.overlay-stack {
-    animation: stackTagBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)
-      forwards;
-    animation-delay: calc(var(--i) * 0.08s + 0.2s);
-  }
-
-  /* Enhanced focus states for smaller tablets */
-  .project__section .container .project-card:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-    transform: translateY(-3px) scale(1.02);
-  }
-
-  /* Touch-friendly interactions for smaller tablets */
-  .project__section .container > div:active {
-    transform: translateY(-3px) scale(1.01);
-    transition: transform 0.1s ease;
-  }
-
-  /* Overlay adjustments for smaller tablets */
-  .overlay {
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .overlay-description {
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-  }
-
-  span.overlay-stack {
-    font-size: 0.7rem;
-    padding: 0.3rem 0.6rem;
-    margin: 0.2rem;
-    border-radius: 16px;
-  }
-}
-
-/* Larger Tablet Animation Adjustments */
-@media (min-width: 821px) and (max-width: 1024px) {
-  .project__section .container > div {
-    animation: projectCardReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .project__section .container > div:hover {
-    transform: translateY(-8px) scale(1.04);
-    animation: none;
-  }
-
-  span.overlay-stack {
-    animation: stackTagBounce 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55)
-      forwards;
-    animation-delay: calc(var(--i) * 0.09s + 0.25s);
-  }
-
-  /* Enhanced focus states for tablets */
-  .project__section .container .project-card:focus {
-    outline: 3px solid var(--color-primary);
-    outline-offset: 4px;
-    transform: translateY(-4px) scale(1.02);
-  }
-
-  /* Touch-friendly interactions for tablets */
-  .project__section .container > div:active {
-    transform: translateY(-4px) scale(1.02);
-    transition: transform 0.1s ease;
-  }
-
-  /* Overlay adjustments for larger tablets */
-  .overlay {
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .overlay-description {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-  }
-
-  span.overlay-stack {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-    margin: 0.25rem;
-    border-radius: 20px;
-  }
-}
-
-/* Mobile Animation Adjustments */
-@media (max-width: 768px) {
-  .project__section .container > div {
-    animation: projectCardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .project__section .container > div:hover {
-    transform: translateY(-8px) scale(1.02);
-    animation: none;
-  }
-
-  span.overlay-stack {
-    animation: stackTagBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)
-      forwards;
-    animation-delay: calc(var(--i) * 0.08s + 0.2s);
-  }
-}
-
 /* Mobile devices (300px and above) - Fixed layout */
 @media (min-width: 300px) and (max-width: 480px) {
   .project__section .container {
@@ -1095,11 +1091,37 @@ span.overlay-stack {
     height: 200px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    /* Remove hover animations for mobile */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Remove hover effects for mobile */
   .project__section .container > div:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(84, 98, 255, 0.15);
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project__section .container > div:hover::before {
+    opacity: 0.3;
+  }
+
+  .project__section .container > div:hover .content-wrapper {
+    transform: none;
+  }
+
+  /* Apply same animations as large screens */
+  .project__section .container > div {
+    opacity: 0;
+    animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  span.overlay-stack {
+    animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.3s);
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
   }
 
   /* Reset all special grid positioning for single column layout */
@@ -1173,10 +1195,37 @@ span.overlay-stack {
   .project__section .container > div {
     height: 180px;
     border-radius: 10px;
+    /* Remove hover animations for very small mobile */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Remove hover effects for very small mobile */
   .project__section .container > div:hover {
-    transform: translateY(-3px) scale(1.01);
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project__section .container > div:hover::before {
+    opacity: 0.3;
+  }
+
+  .project__section .container > div:hover .content-wrapper {
+    transform: none;
+  }
+
+  /* Apply same animations as large screens */
+  .project__section .container > div {
+    opacity: 0;
+    animation: projectCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  span.overlay-stack {
+    animation: stackTagBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      forwards;
+    animation-delay: calc(var(--i) * 0.1s + 0.3s);
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
   }
 
   /* Reset all special grid positioning for single column layout */
