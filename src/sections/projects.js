@@ -18,7 +18,7 @@ export default function projectSection() {
 
   datas.forEach((item, index) => {
     const projectCard = createElement("div", {
-      class: `project-card ${item.type || 'bg1'}`,
+      class: `project-card ${item.type || "bg1"}`,
       role: "listitem",
       style: `animation-delay: ${index * 0.15}s`,
       tabindex: "0",
@@ -165,52 +165,29 @@ class ProjectModal {
 
   createResponsiveImage(loadingSpinner) {
     const modalImage = this.createElement("img", {
-      class: "modal__image loading",
-      src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", // Tiny transparent placeholder
-      "data-src": this.project.image || "",
+      class: "modal__image",
+      src: this.project.image || "",
       alt: `Screenshot of ${this.project.label} project`,
-      loading: "lazy",
     });
 
-    modalImage.addEventListener("load", () => {
-      if (modalImage.src !== modalImage.dataset.src) return;
-
-      modalImage.classList.remove("loading");
+    modalImage.onload = () => {
       loadingSpinner.remove();
       this.imageLoaded = true;
-    });
+    };
 
-    modalImage.addEventListener("error", () => {
+    modalImage.onerror = () => {
       loadingSpinner.remove();
       const errorMessage = this.createElement(
         "div",
-        {
-          class: "image-error",
-          role: "alert",
-        },
+        { class: "image-error", role: "alert" },
         "Image could not be loaded"
       );
-      modalImage.parentElement.appendChild(errorMessage);
-      modalImage.remove();
-    });
-
-    const imageObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && modalImage.dataset.src) {
-            modalImage.src = modalImage.dataset.src;
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: "50px",
-        threshold: 0.1,
+      if (modalImage.parentElement) {
+        modalImage.parentElement.appendChild(errorMessage);
+        modalImage.remove();
       }
-    );
+    };
 
-    imageObserver.observe(modalImage);
     return modalImage;
   }
 
@@ -357,8 +334,6 @@ class ProjectModal {
 
     return actionsContainer;
   }
-
-
 
   setupFocusTrap() {
     this.focusableElements = Array.from(

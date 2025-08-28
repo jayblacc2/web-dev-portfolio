@@ -44,7 +44,7 @@ module.exports = (env) => ({
       directory: path.join(__dirname, "dist"),
     },
     compress: true,
-    port: 3000,
+    port: 3001,
     hot: true,
     open: true,
     historyApiFallback: true,
@@ -89,33 +89,32 @@ module.exports = (env) => ({
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: "public/favicon.ico", to: "favicon.ico" },
-        { from: "public", to: "public" },
-      ],
+      patterns: [{ from: "public", to: "" }],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
     }),
-    ...(env.production ? [
-      new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.sharpMinify,
-          options: {
-            encodeOptions: {
-              jpeg: {
-                quality: 85,
-              },
-              webp: {
-                quality: 85,
-              },
-              png: {
-                compressionLevel: 9,
+    ...(env.production
+      ? [
+          new ImageMinimizerPlugin({
+            minimizer: {
+              implementation: ImageMinimizerPlugin.sharpMinify,
+              options: {
+                encodeOptions: {
+                  jpeg: {
+                    quality: 85,
+                  },
+                  webp: {
+                    quality: 85,
+                  },
+                  png: {
+                    compressionLevel: 9,
+                  },
+                },
               },
             },
-          },
-        },
-      }),
-    ] : []),
+          }),
+        ]
+      : []),
   ],
 });
