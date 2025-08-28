@@ -33,7 +33,7 @@ function header() {
 
   const hireMeLink = createButton(
     "Hire Me",
-    "#contact",
+    "/contact",
     false,
     "nav__link hire-me-btn",
     "nav__link"

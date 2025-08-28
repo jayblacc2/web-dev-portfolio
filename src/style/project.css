@@ -96,8 +96,6 @@
   border-radius: 12px;
 }
 
-
-
 .project__section .container > div:hover .overlay {
   opacity: 1;
   visibility: visible;
