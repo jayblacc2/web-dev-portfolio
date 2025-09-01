@@ -37,32 +37,44 @@ function skillSection() {
     class: "parent__container enhanced-skills-container",
   });
 
-  // Initialize the animation when section becomes visible
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (
-        mutation.type === "attributes" &&
-        mutation.attributeName === "style"
-      ) {
-        const target = mutation.target;
-        if (target.id === "skills" && target.style.display !== "none") {
-          setTimeout(() => {
-            animatedSkill(items, parentContainer);
-          }, 100);
-          observer.disconnect();
-        }
-      }
-    });
-  });
+  let isCanvasInitialized = false;
 
-  observer.observe(hero, { attributes: true });
-
-  // Fallback for immediate loading if section is already visible
-  setTimeout(() => {
-    if (hero.style.display !== "none") {
-      animatedSkill(items, parentContainer);
+  // Function to initialize canvas
+  const initializeCanvas = () => {
+    if (!isCanvasInitialized) {
+      setTimeout(() => {
+        animatedSkill(items, parentContainer);
+        isCanvasInitialized = true;
+      }, 50);
     }
-  }, 100);
+  };
+
+  // Function to cleanup canvas
+  const cleanupCanvas = () => {
+    if (parentContainer.animationFrameId) {
+      cancelAnimationFrame(parentContainer.animationFrameId);
+      parentContainer.animationFrameId = null;
+    }
+    isCanvasInitialized = false;
+  };
+
+  // Set up callback for section initialization
+  hero.sectionInitCallback = () => {
+    initializeCanvas();
+  };
+
+  // Set up callback for section cleanup
+  hero.sectionCleanupCallback = () => {
+    cleanupCanvas();
+  };
+
+  // Initialize immediately if section is already visible (for initial page load)
+  if (
+    hero.style.display !== "none" ||
+    hero.classList.contains("active-section")
+  ) {
+    setTimeout(() => initializeCanvas(), 100);
+  }
 
   heroImage.appendChild(parentContainer);
   cookieConsent(); // Replace alertBadge("Show", "blue");
@@ -125,6 +137,12 @@ function initiateSkills() {
 }
 
 export function animatedSkill(items, parentContainer) {
+  // Clean up any existing animation before reinitializing
+  if (parentContainer.animationFrameId) {
+    cancelAnimationFrame(parentContainer.animationFrameId);
+    parentContainer.animationFrameId = null;
+  }
+
   parentContainer.innerHTML = initiateSkills();
   // Get the elements from the parent container
   const canvas = parentContainer.querySelector("#skillsCanvas");
@@ -189,7 +207,6 @@ export function animatedSkill(items, parentContainer) {
   let CENTER_X = canvas.width / 2;
   let CENTER_Y = canvas.height / 2;
   let angleOffset = 0;
-  let animationFrameId;
   let hoveredSkill = null;
   let skillScales = items.map(() => 1);
   let skillOpacities = items.map(() => 1);
@@ -217,6 +234,9 @@ export function animatedSkill(items, parentContainer) {
   }
 
   function draw() {
+    // Clear the canvas first
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     // Create subtle background gradient
     const bgGradient = ctx.createRadialGradient(
       CENTER_X,
@@ -358,19 +378,19 @@ export function animatedSkill(items, parentContainer) {
 
       draw();
     }
-    animationFrameId = requestAnimationFrame(animate);
+    parentContainer.animationFrameId = requestAnimationFrame(animate);
   }
 
   function startAnimation() {
-    if (!animationFrameId) {
+    if (!parentContainer.animationFrameId) {
       animate();
     }
   }
 
   function stopAnimation() {
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
+    if (parentContainer.animationFrameId) {
+      cancelAnimationFrame(parentContainer.animationFrameId);
+      parentContainer.animationFrameId = null;
     }
   }
 
@@ -486,9 +506,8 @@ export function animatedSkill(items, parentContainer) {
   }
 
   parentContainer.addEventListener("mouseenter", () => {
-    if (!animationFrameId) {
-      startAnimation();
-    }
+    // Animation should already be running, no need to restart
+    // This event can be used for other hover effects if needed
   });
   parentContainer.addEventListener("mouseleave", () => {
     hideTooltip();
@@ -635,6 +654,9 @@ export function animatedSkill(items, parentContainer) {
   }
 
   resizeCanvas();
+
+  // Start animation immediately
+  startAnimation();
 
   // Ensure proper initialization on tablets
   setTimeout(() => {

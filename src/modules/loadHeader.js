@@ -252,6 +252,18 @@ export function showSection(sectionName) {
     section.classList.toggle("active-section", shouldShow);
     section.style.display = shouldShow ? "flex" : "none";
 
+    if (shouldShow) {
+      // Trigger section-specific initialization
+      if (section.sectionInitCallback) {
+        section.sectionInitCallback();
+      }
+    } else {
+      // Trigger section-specific cleanup when hiding
+      if (section.sectionCleanupCallback) {
+        section.sectionCleanupCallback();
+      }
+    }
+
     // Close mobile menu when section changes with enhanced error handling
     try {
       const mobileMenu = document.querySelector(".mobile__menu");
