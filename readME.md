@@ -1,115 +1,145 @@
-# Modern Portfolio Website
+# Personal Portfolio Website
 
-A dynamic and responsive portfolio website built with JavaScript, featuring smooth animations, interactive sections, and modern design principles.
+A modern, modular portfolio website built with HTML, CSS, JavaScript, and Webpack to showcase my projects and skills. Features a responsive design with modular architecture for maintainability.
 
 ## Features
 
-- **Animated Sections**: Smooth transitions and animations using AOS (Animate On Scroll) library
-- **Interactive Skills Display**: Dynamic visualization of technical skills with animated progress bars
-- **Responsive Design**: Fully responsive layout that works seamlessly across all devices
-- **Modern UI/UX**: Clean and professional interface with glassmorphism effects
-- **Contact Form**: Functional contact section with form validation
-- **Dark Theme**: Elegant dark theme with accent colors
+- **Responsive Design**: Mobile-first layout that adapts seamlessly across devices
+- **Dark/Light Theme**: Toggle between dark and light modes with theme persistence
+- **Smooth Scrolling**: Clean section transitions with scroll behavior
+- **Project Gallery**: Interactive grid layout showcasing key projects
+- **Contact Section**: Simple contact form with basic validation
+- **Modular Architecture**: Organized codebase with separate modules for each section
 
 ## Tech Stack
 
 - HTML5
 - CSS3
 - JavaScript (ES6+)
-- Webpack
-- AOS Library
-- BEM Methodology
+- Webpack (Module bundler)
+- npm (Package manager)
+- Babel (JavaScript compiler)
+- Font Awesome Icons
+- AOS (Animate On Scroll library)
+- Particles.js (Background particle effects)
 
 ## Sections
 
-1. **Home**: Personal introduction with animated hero section
-2. **About**: Professional summary and tech stack display
-3. **Skills**: Interactive visualization of technical competencies
-4. **Projects**: Showcase of development projects
+1. **Home**: Welcome section with brief introduction
+2. **About**: Background information and skills overview
+3. **Projects**: Portfolio of development work
+4. **Skills**: Technical skills and proficiency display
 5. **Contact**: Contact form and social media links
-
-## Getting Started
-
-1. Clone the repository:
-
-git clone [repository-url]
-
-2. Navigate to the project directory:
-
-cd modern-portfolio-website
-
-3. Install dependencies:
-
-npm install
-
-4. Start the development server:
-
-npm run dev
-
-5. Open your browser and visit `http://localhost:3000`
-
-## Building for Production
-
-To create a production build, run:
-
-npm run build
-
-The optimized files will be generated in the `dist` folder.
 
 ## Project Structure
 
-modern-portfolio-website/
+Portfolio/
+│
+├── public/
+│   ├── favicon.ico
+│   ├── resume.pdf
+│   ├── site.webmanifest
+│   └── image/
 │
 ├── src/
-│ ├── js/
-│ │ ├── animations.js
-│ │ ├── darkMode.js
-│ │ ├── formValidation.js
-│ │ ├── skillsDisplay.js
-│ │ └── main.js
-│ │
-│ ├── scss/
-│ │ ├── components/
-│ │ ├── layout/
-│ │ ├── utils/
-│ │ └── main.scss
-│ │
-│ └── index.html
+│   ├── index.html
+│   ├── index.js
+│   ├── assets/
+│   │   ├── docs/
+│   │   │   └── resume.pdf
+│   │   ├── images/
+│   │   │   ├── adv-todo.webp
+│   │   │   ├── book-library.webp
+│   │   │   ├── portfolio.webp
+│   │   │   ├── recipe.webp
+│   │   │   ├── skill-portfolio.webp
+│   │   │   └── timer-app.webp
+│   │   └── images/
+│   ├── images/
+│   │   ├── favicon.png
+│   │   ├── hero-bg.jpg
+│   │   ├── logo-1.png
+│   │   ├── portfolio.webp
+│   │   ├── user.jpg
+│   │   ├── icons/
+│   │   │   ├── bootstrap.svg
+│   │   │   ├── css.svg
+│   │   │   ├── favicon.ico
+│   │   │   ├── git.svg
+│   │   │   ├── html.svg
+│   │   │   ├── js.svg
+│   │   │   ├── nextjs.svg
+│   │   │   ├── react.svg
+│   │   │   ├── sass.svg
+│   │   │   └── vuejs.svg
+│   │   └── svgIcons/
+│   │       └── icons.js
+│   ├── modules/
+│   │   ├── loadFooter.js
+│   │   ├── loadHeader.js
+│   │   └── loadSection.js
+│   ├── sections/
+│   │   ├── about.js
+│   │   ├── contact.js
+│   │   ├── home.js
+│   │   ├── projects.js
+│   │   └── skill.js
+│   ├── style/
+│   │   ├── about.css
+│   │   ├── animate.css
+│   │   ├── contact.css
+│   │   ├── home.css
+│   │   ├── project.css
+│   │   ├── responsive.css
+│   │   ├── skills.css
+│   │   └── style.css
+│   └── utils/
+│       ├── animateSkills.js
+│       ├── constant.js
+│       ├── utils.js
+│       └── variable.js
 │
 ├── webpack.config.js
 ├── package.json
-└── README.md
+├── package-lock.json
+└── .gitignore
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run watch` - Build and watch for changes
 
 ## Key Features Implementation
 
-- **Animations**: Implemented using the AOS library. Configuration can be found in `src/js/animations.js`.
-- **Dark Mode**: Toggle functionality in `src/js/darkMode.js`. Uses localStorage for persistence.
-- **Skills Display**: Interactive skill bars with animation in `src/js/skillsDisplay.js`.
-- **Form Validation**: Client-side validation logic in `src/js/formValidation.js`.
-- **Responsive Design**: Utilizes CSS Grid and Flexbox for layout. Media queries in respective SCSS files.
+- **Webpack Bundling**: Modular JavaScript compiled and bundled for production
+- **Theme Toggle**: Dark/light mode switch using CSS variables and localStorage
+- **Mobile Menu**: Responsive hamburger menu for mobile navigation
+- **Form Validation**: Basic client-side validation for contact form
+- **Responsive Images**: Optimized images with appropriate sizing for different viewports
+- **Modular JavaScript**: Separate files for header, footer, sections, and utilities
+- **Animations**: AOS library for scroll-based animations
+- **Particle Effects**: Particles.js for interactive background effects
 
 ## Browser Support
 
-The website is compatible with the following browsers:
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+The website is compatible with modern browsers:
+- Chrome
+- Firefox
+- Safari
+- Edge
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the ISC License.
 
 ## Credits
 
 - Developed by Jayblacc
-- AOS Library by Michał Sajnóg
+- Icons from Font Awesome
+- Animations by AOS (Animate On Scroll)
+- Particle effects by Particles.js
 
-For any additional information or queries, please open an issue in the GitHub repository.
-
-Happy coding!
+For questions or suggestions, feel free to reach out via the contact form or open an issue on GitHub.
