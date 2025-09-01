@@ -1,7 +1,7 @@
 # .gitignore
 .DS_Store
 node_modules
-dist
+dist/
 .vscode
 .aider*
 src/style/tablet.css
@@ -11,4 +11,4 @@ README.md
 SKILLS_ENHANCEMENTS.md
 test-skills.html
 .kilocode
-/doc
+doc
