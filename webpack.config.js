@@ -44,7 +44,7 @@ module.exports = (env) => ({
       directory: path.join(__dirname, "dist"),
     },
     compress: true,
-    port: 3001,
+    port: 3000,
     hot: true,
     open: true,
     historyApiFallback: true,
@@ -86,7 +86,6 @@ module.exports = (env) => ({
         removeComments: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
-        jjf
       },
     }),
     new CopyWebpackPlugin({
