@@ -86,6 +86,7 @@ module.exports = (env) => ({
         removeComments: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
+        jjf
       },
     }),
     new CopyWebpackPlugin({
