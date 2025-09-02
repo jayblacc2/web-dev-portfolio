@@ -182,7 +182,7 @@
 }
 
 .textarea-wrapper .form__control {
-  resize: vertical;
+  resize: none;
   min-height: 120px;
   padding-top: 1.5rem;
   line-height: 1.5;

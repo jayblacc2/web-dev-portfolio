@@ -270,7 +270,7 @@ function contactForm() {
 
     <div class="form__field">
       <div class="input-wrapper textarea-wrapper">
-        <textarea class="form__control" id="message" name="message" rows="2" required></textarea>
+        <textarea class="form__control" id="message" name="message" rows="2" required ></textarea>
         <label for="message" class="floating-label">
           <span class="label-icon">💬</span>
           <span class="label-text">Tell me about your project...</span>
