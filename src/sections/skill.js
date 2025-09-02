@@ -179,6 +179,9 @@ export function animatedSkill(items, parentContainer) {
     },
   ];
 
+  // Clear existing theme buttons to prevent duplicate event listeners
+  themeSelector.innerHTML = '<span class="theme-label">Themes:</span>';
+
   themes.forEach((theme, index) => {
     const button = document.createElement("div");
     button.className = "theme-button";
@@ -195,6 +198,8 @@ export function animatedSkill(items, parentContainer) {
     setTimeout(() => {
       canvas.style.filter = "brightness(1)";
     }, 200);
+    // Force immediate redraw to show theme change
+    draw();
   }
 
   let currentTheme = themes[0];

@@ -249,6 +249,7 @@ canvas {
 /* Enhanced Theme Selector */
 .theme-selector {
   left: 15px;
+  z-index: 1001; /* Ensure theme buttons are above canvas and other elements */
 }
 
 .control-btn {
