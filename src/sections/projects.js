@@ -10,8 +10,67 @@ export default function projectSection() {
     "aria-label": "Projects Portfolio",
   });
 
-  const container = createElement("div", {
-    class: "container",
+  // Create main content wrapper with two-column layout
+  const mainContent = createElement("div", {
+    class: "projects-main-content",
+  });
+
+  // Left side - Title and subtitle section
+  const headerSection = createElement("div", {
+    class: "projects-header",
+    role: "banner",
+    "aria-label": "Projects section introduction",
+  });
+
+  const title = createElement("h1", {
+    class: "projects-title",
+  });
+  title.innerHTML = "My <span>Projects</span>";
+
+  const subtitle = createElement("p", {
+    class: "projects-subtitle",
+  });
+  subtitle.textContent = "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
+
+  const stats = createElement("div", {
+    class: "projects-stats",
+    "aria-label": "Project statistics",
+  });
+
+  const statsData = [
+    { number: "15+", label: "Projects" },
+    { number: "8", label: "Technologies" },
+    { number: "100%", label: "Responsive" }
+  ];
+
+  statsData.forEach((stat, index) => {
+    const statItem = createElement("div", {
+      class: "stat-item",
+      style: `animation-delay: ${index * 0.1 + 0.3}s`,
+    });
+    
+    const statNumber = createElement("span", {
+      class: "stat-number",
+    });
+    statNumber.textContent = stat.number;
+    
+    const statLabel = createElement("span", {
+      class: "stat-label",
+    });
+    statLabel.textContent = stat.label;
+    
+    statItem.appendChild(statNumber);
+    statItem.appendChild(statLabel);
+    stats.appendChild(statItem);
+  });
+
+  headerSection.appendChild(title);
+  headerSection.appendChild(subtitle);
+  headerSection.appendChild(stats);
+
+  // Right side - Projects grid
+  const projectsContainer = createElement("div", {
+    class: "projects-container",
     role: "list",
     "aria-label": "List of Projects",
   });
@@ -20,7 +79,7 @@ export default function projectSection() {
     const projectCard = createElement("div", {
       class: `project-card ${item.type || "bg1"}`,
       role: "listitem",
-      style: `animation-delay: ${index * 0.15}s`,
+      style: `animation-delay: ${index * 0.15 + 0.5}s`,
       tabindex: "0",
       "aria-label": `${item.label} project`,
     });
@@ -65,10 +124,14 @@ export default function projectSection() {
       }
     });
 
-    container.appendChild(projectCard);
+    projectsContainer.appendChild(projectCard);
   });
 
-  hero.appendChild(container);
+  // Assemble the main content
+  mainContent.appendChild(headerSection);
+  mainContent.appendChild(projectsContainer);
+  hero.appendChild(mainContent);
+  
   return hero;
 }
 
