@@ -269,11 +269,8 @@ export function showSection(sectionName) {
       const mobileMenu = document.querySelector(".mobile__menu");
       const burgerMenuBtn = document.getElementById("burger-menu");
 
-      if (
-        mobileMenu &&
-        burgerMenuBtn &&
-        mobileMenu.classList.contains("open")
-      ) {
+      const mobileMenuSelector = mobileMenu && burgerMenuBtn;
+      if (mobileMenuSelector && mobileMenu.classList.contains("open")) {
         mobileMenu.classList.remove("open");
         document.body.classList.remove("menu-open");
         burgerMenuBtn.setAttribute("aria-expanded", "false");
