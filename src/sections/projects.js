@@ -30,7 +30,8 @@ export default function projectSection() {
   const subtitle = createElement("p", {
     class: "projects-subtitle",
   });
-  subtitle.textContent = "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
+  subtitle.textContent =
+    "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
 
   const stats = createElement("div", {
     class: "projects-stats",
@@ -38,9 +39,9 @@ export default function projectSection() {
   });
 
   const statsData = [
-    { number: "15+", label: "Projects" },
+    { number: `${datas.length}`, label: "Projects" },
     { number: "8", label: "Technologies" },
-    { number: "100%", label: "Responsive" }
+    { number: "100%", label: "Responsive" },
   ];
 
   statsData.forEach((stat, index) => {
@@ -48,17 +49,17 @@ export default function projectSection() {
       class: "stat-item",
       style: `animation-delay: ${index * 0.1 + 0.3}s`,
     });
-    
+
     const statNumber = createElement("span", {
       class: "stat-number",
     });
     statNumber.textContent = stat.number;
-    
+
     const statLabel = createElement("span", {
       class: "stat-label",
     });
     statLabel.textContent = stat.label;
-    
+
     statItem.appendChild(statNumber);
     statItem.appendChild(statLabel);
     stats.appendChild(statItem);
@@ -68,70 +69,172 @@ export default function projectSection() {
   headerSection.appendChild(subtitle);
   headerSection.appendChild(stats);
 
-  // Right side - Projects grid
+  // Right side - Projects grid with pagination
+  const projectsWrapper = createElement("div", {
+    class: "projects-wrapper",
+  });
+
   const projectsContainer = createElement("div", {
     class: "projects-container",
     role: "list",
     "aria-label": "List of Projects",
   });
 
-  datas.forEach((item, index) => {
-    const projectCard = createElement("div", {
-      class: `project-card ${item.type || "bg1"}`,
-      role: "listitem",
-      style: `animation-delay: ${index * 0.15 + 0.5}s`,
-      tabindex: "0",
-      "aria-label": `${item.label} project`,
-    });
+  // Pagination setup
+  const itemsPerPage = 4;
+  let currentPage = 1;
+  const totalPages = Math.ceil(datas.length / itemsPerPage);
 
-    if (item.image) {
-      projectCard.style.backgroundImage = `url(${item.image})`;
-    }
+  // Function to render projects for current page
+  function renderProjects(page) {
+    projectsContainer.innerHTML = "";
 
-    const contentWrapper = createElement("div", { class: "content-wrapper" });
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentProjects = datas.slice(startIndex, endIndex);
 
-    const h2 = createElement("h2", {
-      class: "project-title",
-      id: `project-title-${index}`,
-    });
-    h2.innerHTML = item.value;
+    currentProjects.forEach((item, index) => {
+      const globalIndex = startIndex + index;
+      const projectCard = createElement("div", {
+        class: `project-card ${item.type || "bg1"}`,
+        role: "listitem",
+        style: `animation-delay: ${index * 0.15 + 0.2}s`,
+        tabindex: "0",
+        "aria-label": `${item.label} project`,
+      });
 
-    const p = createElement(
-      "p",
-      {
-        class: "project-label",
-        id: `project-desc-${index}`,
-      },
-      item.label
-    );
+      if (item.image) {
+        projectCard.style.backgroundImage = `url(${item.image})`;
+      }
 
-    const overlay = createElement("div", {
-      class: "overlay",
-    });
-    contentWrapper.append(h2, p);
-    projectCard.append(contentWrapper, overlay);
+      const contentWrapper = createElement("div", { class: "content-wrapper" });
 
-    projectCard.addEventListener("click", () => {
-      const modal = new ProjectModal(item);
-      modal.open();
-    });
+      const h2 = createElement("h2", {
+        class: "project-title",
+        id: `project-title-${globalIndex}`,
+      });
+      h2.innerHTML = item.value;
 
-    projectCard.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
+      const p = createElement(
+        "p",
+        {
+          class: "project-label",
+          id: `project-desc-${globalIndex}`,
+        },
+        item.label
+      );
+
+      const overlay = createElement("div", {
+        class: "overlay",
+      });
+      contentWrapper.append(h2, p);
+      projectCard.append(contentWrapper, overlay);
+
+      projectCard.addEventListener("click", () => {
         const modal = new ProjectModal(item);
         modal.open();
-      }
+      });
+
+      projectCard.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const modal = new ProjectModal(item);
+          modal.open();
+        }
+      });
+
+      projectsContainer.appendChild(projectCard);
     });
 
-    projectsContainer.appendChild(projectCard);
+    // Update pagination buttons state
+    updatePaginationButtons();
+  }
+
+  // Create pagination controls
+  const paginationContainer = createElement("div", {
+    class: "pagination-container",
+    role: "navigation",
+    "aria-label": "Projects pagination",
   });
+
+  // Create wrapper for the three pagination elements
+  const paginationWrapper = createElement("div", {
+    class: "pagination-wrapper",
+  });
+
+  const prevButton = createElement("button", {
+    class: "pagination-btn pagination-prev",
+    "aria-label": "Previous page",
+    type: "button",
+  });
+  prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+
+  const pageInfo = createElement("span", {
+    class: "pagination-info",
+    "aria-live": "polite",
+  });
+
+  const nextButton = createElement("button", {
+    class: "pagination-btn pagination-next",
+    "aria-label": "Next page",
+    type: "button",
+  });
+  nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+
+  // Create buttons wrapper for mobile layout
+  const buttonsWrapper = createElement("div", {
+    class: "pagination-buttons",
+  });
+  buttonsWrapper.append(prevButton, nextButton);
+
+  // Function to update pagination buttons
+  function updatePaginationButtons() {
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === totalPages;
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+    prevButton.classList.toggle("disabled", currentPage === 1);
+    nextButton.classList.toggle("disabled", currentPage === totalPages);
+  }
+
+  // Event listeners for pagination
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderProjects(currentPage);
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderProjects(currentPage);
+    }
+  });
+
+  // Add keyboard navigation for pagination
+  [prevButton, nextButton].forEach((button) => {
+    button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        button.click();
+      }
+    });
+  });
+
+  // Assemble pagination elements
+  paginationWrapper.append(prevButton, pageInfo, nextButton);
+  paginationContainer.appendChild(paginationWrapper);
+  projectsWrapper.append(projectsContainer, paginationContainer);
+
+  // Initial render
+  renderProjects(currentPage);
 
   // Assemble the main content
   mainContent.appendChild(headerSection);
-  mainContent.appendChild(projectsContainer);
+  mainContent.appendChild(projectsWrapper);
   hero.appendChild(mainContent);
-  
+
   return hero;
 }
 
