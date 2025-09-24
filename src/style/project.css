@@ -1584,6 +1584,122 @@
   }
 }
 
+/* Testimonials Carousel */
+.testimonials-carousel {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(84, 98, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(84, 98, 255, 0.06);
+  overflow: hidden;
+}
+
+.testimonials-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.testimonial-slide {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  background: #fff;
+}
+
+.testimonial-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-name {
+  color: var(--color-secondary-dark);
+  font-weight: 700;
+}
+
+.testimonial-role {
+  font-size: 0.85rem;
+  color: var(--color-secondary-text);
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-secondary-dark);
+}
+
+.testimonials-controls {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.testimonials-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--color-primary);
+  background: transparent;
+  border-radius: 50%;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.9rem;
+}
+
+.testimonials-btn:hover {
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.testimonials-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive tweaks for carousel */
+@media (max-width: 768px) {
+  .testimonials-carousel {
+    padding: 1rem;
+  }
+  .testimonial-avatar {
+    width: 44px;
+    height: 44px;
+  }
+  .testimonial-text {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .testimonials-controls {
+    gap: 0.5rem;
+  }
+  .testimonials-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 /* Print styles */
 @media print {
   .modal-background {

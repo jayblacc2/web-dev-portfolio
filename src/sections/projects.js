@@ -1,5 +1,6 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas } from "../utils/variable";
+import userImg from "../images/user.jpg";
 
 export default function projectSection() {
   const hero = createHtmlElement("section", {
@@ -33,41 +34,140 @@ export default function projectSection() {
   subtitle.textContent =
     "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
 
-  const stats = createElement("div", {
-    class: "projects-stats",
-    "aria-label": "Project statistics",
-  });
-
-  const statsData = [
-    { number: `${datas.length}`, label: "Projects" },
-    { number: "8", label: "Technologies" },
-    { number: "100%", label: "Responsive" },
+  // Testimonials carousel (replaces project stats)
+  const testimonials = [
+    {
+      image: userImg,
+      name: "Alex Johnson",
+      role: "Product Manager",
+      text:
+        "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
+    },
+    {
+      image: userImg,
+      name: "Maria Lopez",
+      role: "Founder, Craftly",
+      text:
+        "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
+    },
+    {
+      image: userImg,
+      name: "Samuel Green",
+      role: "Tech Lead",
+      text:
+        "Great communication and modern best practices throughout the project lifecycle.",
+    },
   ];
 
-  statsData.forEach((stat, index) => {
-    const statItem = createElement("div", {
-      class: "stat-item",
-      style: `animation-delay: ${index * 0.1 + 0.3}s`,
-    });
-
-    const statNumber = createElement("span", {
-      class: "stat-number",
-    });
-    statNumber.textContent = stat.number;
-
-    const statLabel = createElement("span", {
-      class: "stat-label",
-    });
-    statLabel.textContent = stat.label;
-
-    statItem.appendChild(statNumber);
-    statItem.appendChild(statLabel);
-    stats.appendChild(statItem);
+  const testimonialsCarousel = createElement("div", {
+    class: "testimonials-carousel",
+    role: "region",
+    "aria-label": "Client testimonials",
   });
+
+  const track = createElement("div", { class: "testimonials-track" });
+
+  testimonials.forEach((t, i) => {
+    const slide = createElement("div", {
+      class: "testimonial-slide",
+      role: "group",
+      "aria-roledescription": "slide",
+      "aria-label": `${i + 1} of ${testimonials.length}`,
+    });
+
+    const header = createElement("div", { class: "testimonial-header" });
+    const img = createElement("img", {
+      class: "testimonial-avatar",
+      src: t.image,
+      alt: `${t.name} photo`,
+    });
+
+    const meta = createElement("div", { class: "testimonial-meta" });
+    const name = createElement("strong", { class: "testimonial-name" });
+    name.textContent = t.name;
+    const role = createElement("span", { class: "testimonial-role" });
+    role.textContent = t.role;
+
+    meta.append(name, role);
+    header.append(img, meta);
+
+    const text = createElement("p", { class: "testimonial-text" });
+    text.textContent = t.text;
+
+    slide.append(header, text);
+    track.appendChild(slide);
+  });
+
+  const controls = createElement("div", { class: "testimonials-controls" });
+  const prev = createElement("button", {
+    class: "testimonials-btn prev",
+    "aria-label": "Previous testimonial",
+    type: "button",
+  });
+  prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+
+  const next = createElement("button", {
+    class: "testimonials-btn next",
+    "aria-label": "Next testimonial",
+    type: "button",
+  });
+  next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+
+  controls.append(prev, next);
+  testimonialsCarousel.append(track, controls);
+
+  let currentTestimonial = 0;
+  function updateTestimonials() {
+    track.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+    prev.disabled = currentTestimonial === 0;
+    next.disabled = currentTestimonial === testimonials.length - 1;
+    prev.classList.toggle("disabled", prev.disabled);
+    next.classList.toggle("disabled", next.disabled);
+  }
+
+  prev.addEventListener("click", () => {
+    if (currentTestimonial > 0) {
+      currentTestimonial--;
+      updateTestimonials();
+    }
+  });
+
+  next.addEventListener("click", () => {
+    if (currentTestimonial < testimonials.length - 1) {
+      currentTestimonial++;
+      updateTestimonials();
+    }
+  });
+
+  [prev, next].forEach((button) => {
+    button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        button.click();
+      }
+    });
+  });
+
+  let autoTimer = setInterval(() => {
+    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+    updateTestimonials();
+  }, 5000);
+
+  testimonialsCarousel.addEventListener("mouseenter", () => {
+    clearInterval(autoTimer);
+  });
+  testimonialsCarousel.addEventListener("mouseleave", () => {
+    autoTimer = setInterval(() => {
+      currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+      updateTestimonials();
+    }, 5000);
+  });
+
+  updateTestimonials();
 
   headerSection.appendChild(title);
   headerSection.appendChild(subtitle);
-  headerSection.appendChild(stats);
+  headerSection.appendChild(testimonialsCarousel);
 
   // Right side - Projects grid with pagination
   const projectsWrapper = createElement("div", {
