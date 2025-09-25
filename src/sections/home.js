@@ -10,6 +10,7 @@ import {
   renderSubTitle,
   createElement,
 } from "../utils/utils";
+import { createChatAgent } from "../modules/chatAgent";
 
 function homeSection() {
   const hero = createHtmlElement("section", {
@@ -21,6 +22,11 @@ function homeSection() {
 
   //Right side content
   const heroImage = createHeroImage();
+
+  // Attach chat agent below right side
+  const chat = createChatAgent();
+  heroImage.appendChild(chat);
+
   hero.append(...[heroContents, heroImage]);
 
   return hero;
