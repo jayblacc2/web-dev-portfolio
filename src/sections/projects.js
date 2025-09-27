@@ -1,38 +1,17 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas } from "../utils/variable";
 import userImg from "../images/user.jpg";
+import { renderSubTitle, renderTitle } from "../utils/utils";
 
-export default function projectSection() {
-  const hero = createHtmlElement("section", {
-    class: "hero project__section",
-    id: "projects",
-    style: "display:none",
-    role: "region",
-    "aria-label": "Projects Portfolio",
-  });
+function createHeroContent() {
+  const heroContents = createHtmlElement("div", { class: "hero__content" });
+  const mainHeader = createHtmlElement("h1", { class: "main__title" });
 
-  // Create main content wrapper with two-column layout
-  const mainContent = createElement("div", {
-    class: "projects-main-content",
-  });
-
-  // Left side - Title and subtitle section
-  const headerSection = createElement("div", {
-    class: "projects-header",
-    role: "banner",
-    "aria-label": "Projects section introduction",
-  });
-
-  const title = createElement("h1", {
-    class: "projects-title",
-  });
-  title.innerHTML = "My <span>Projects</span>";
-
-  const subtitle = createElement("p", {
-    class: "projects-subtitle",
-  });
-  subtitle.textContent =
+  const HERO_TITLES = ["Crafted Projects"];
+  const HERO_SUBTITLE =
     "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
+  renderTitle(HERO_TITLES, mainHeader);
+  const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
 
   // Testimonials carousel (replaces project stats)
   const testimonials = [
@@ -40,22 +19,19 @@ export default function projectSection() {
       image: userImg,
       name: "Alex Johnson",
       role: "Product Manager",
-      text:
-        "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
+      text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
     },
     {
       image: userImg,
       name: "Maria Lopez",
       role: "Founder, Craftly",
-      text:
-        "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
+      text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
     },
     {
       image: userImg,
       name: "Samuel Green",
       role: "Tech Lead",
-      text:
-        "Great communication and modern best practices throughout the project lifecycle.",
+      text: "Great communication and modern best practices throughout the project lifecycle.",
     },
   ];
 
@@ -165,9 +141,18 @@ export default function projectSection() {
 
   updateTestimonials();
 
-  headerSection.appendChild(title);
-  headerSection.appendChild(subtitle);
-  headerSection.appendChild(testimonialsCarousel);
+  heroContents.append(mainHeader, paragraph, testimonialsCarousel);
+  return heroContents;
+}
+
+export default function projectSection() {
+  const hero = createHtmlElement("section", {
+    class: "hero project__section",
+    id: "projects",
+    style: "display:none",
+    role: "region",
+    "aria-label": "Projects Portfolio",
+  });
 
   // Right side - Projects grid with pagination
   const projectsWrapper = createElement("div", {
@@ -331,10 +316,7 @@ export default function projectSection() {
   renderProjects(currentPage);
 
   // Assemble the main content
-  mainContent.appendChild(headerSection);
-  mainContent.appendChild(projectsWrapper);
-  hero.appendChild(mainContent);
-
+  hero.append(createHeroContent(), projectsWrapper);
   return hero;
 }
 
