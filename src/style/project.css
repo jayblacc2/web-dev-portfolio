@@ -1,6 +1,6 @@
 /* Two-Column Layout for Projects Section */
 .project__section {
-  gap: 2rem;
+  gap: 3rem;
 }
 
 /* Right Side - Projects Grid with Pagination */

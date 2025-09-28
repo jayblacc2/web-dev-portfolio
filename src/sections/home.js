@@ -1,9 +1,5 @@
-import user from "../images/user.jpg";
-import {
-  handleButtonClick,
-  setActiveLink,
-  showSection,
-} from "../modules/loadHeader";
+import user from "../images/user.png";
+import { showSection } from "../modules/loadHeader";
 import {
   createHtmlElement,
   renderTitle,

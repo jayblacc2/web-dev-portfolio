@@ -1,6 +1,6 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas } from "../utils/variable";
-import userImg from "../images/user.jpg";
+import userImg from "../images/user.png";
 import { renderSubTitle, renderTitle } from "../utils/utils";
 
 function createHeroContent() {
