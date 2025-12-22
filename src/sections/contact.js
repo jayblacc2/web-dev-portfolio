@@ -118,10 +118,6 @@ function submitForm(form) {
           form.classList.add("success-submitted");
           form.reset();
 
-          // Reset floating labels
-          const labels = form.querySelectorAll(".floating-label");
-          labels.forEach((label) => label.classList.remove("active"));
-
           // Reset character counter
           const charCount = form.querySelector("#char-count");
           if (charCount) charCount.textContent = "0";
@@ -232,24 +228,24 @@ function contactForm() {
   form.innerHTML = `
     <div class="form__row">
       <div class="form__field">
+        <label for="name" class="form__label">
+          <span class="label-icon">👤</span>
+          <span class="label-text">Full Name</span>
+        </label>
         <div class="input-wrapper">
-          <input type="text" class="form__control" id="name" name="name" required>
-          <label for="name" class="floating-label">
-            <span class="label-icon">👤</span>
-            <span class="label-text">Full Name</span>
-          </label>
+          <input type="text" class="form__control" id="name" name="name" required placeholder="Enter your full name">
           <div class="input-border"></div>
         </div>
         <div class="field-error" id="name-error"></div>
       </div>
 
       <div class="form__field">
+        <label for="email" class="form__label">
+          <span class="label-icon">📧</span>
+          <span class="label-text">Email Address</span>
+        </label>
         <div class="input-wrapper">
-          <input type="email" class="form__control" id="email" name="email" required>
-          <label for="email" class="floating-label">
-            <span class="label-icon">📧</span>
-            <span class="label-text">Email Address</span>
-          </label>
+          <input type="email" class="form__control" id="email" name="email" required placeholder="Enter your email address">
           <div class="input-border"></div>
         </div>
         <div class="field-error" id="email-error"></div>
@@ -257,24 +253,24 @@ function contactForm() {
     </div>
 
     <div class="form__field">
+      <label for="subject" class="form__label">
+        <span class="label-icon">💡</span>
+        <span class="label-text">Project Subject</span>
+      </label>
       <div class="input-wrapper">
-        <input type="text" class="form__control" id="subject" name="subject" required>
-        <label for="subject" class="floating-label">
-          <span class="label-icon">💡</span>
-          <span class="label-text">Project Subject</span>
-        </label>
+        <input type="text" class="form__control" id="subject" name="subject" required placeholder="Enter project subject">
         <div class="input-border"></div>
       </div>
       <div class="field-error" id="subject-error"></div>
     </div>
 
     <div class="form__field">
+      <label for="message" class="form__label">
+        <span class="label-icon">💬</span>
+        <span class="label-text">Tell me about your project...</span>
+      </label>
       <div class="input-wrapper textarea-wrapper">
-        <textarea class="form__control" id="message" name="message" rows="2" required ></textarea>
-        <label for="message" class="floating-label">
-          <span class="label-icon">💬</span>
-          <span class="label-text">Tell me about your project...</span>
-        </label>
+        <textarea class="form__control" id="message" name="message" rows="2" required placeholder="Describe your project in detail"></textarea>
         <div class="input-border"></div>
         <div class="character-count">
           <span id="char-count">0</span>/500
@@ -313,34 +309,21 @@ function addFormInteractions(form) {
   // Enhanced input interactions
   inputs.forEach((input) => {
     const wrapper = input.closest(".input-wrapper");
-    const label = wrapper.querySelector(".floating-label");
     const border = wrapper.querySelector(".input-border");
 
     // Focus and blur effects
     input.addEventListener("focus", () => {
       wrapper.classList.add("focused");
-      label.classList.add("active");
     });
 
     input.addEventListener("blur", () => {
       wrapper.classList.remove("focused");
-      if (!input.value.trim()) {
-        label.classList.remove("active");
-      }
     });
 
     // Real-time validation
     input.addEventListener("input", () => {
       validateField(input);
-      if (input.value.trim()) {
-        label.classList.add("active");
-      }
     });
-
-    // Check if field has value on load
-    if (input.value.trim()) {
-      label.classList.add("active");
-    }
   });
 
   // Character counter for message
