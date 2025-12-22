@@ -105,6 +105,8 @@ const KB = {
     "Bootstrap",
     "Tailwind",
     "Vue",
+    "Nextjs",
+    "Nodejs",
   ],
   about:
     "I am a passionate frontend developer focused on creating visually appealing and user-friendly web applications. I deliver high-quality code and collaborate to build exceptional experiences.",

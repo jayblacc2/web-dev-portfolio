@@ -1,6 +1,7 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas } from "../utils/variable";
 import userImg from "../images/user.png";
+import clientImg from "../images/client.png";
 import { renderSubTitle, renderTitle } from "../utils/utils";
 
 function createHeroContent() {
@@ -16,9 +17,9 @@ function createHeroContent() {
   // Testimonials carousel (replaces project stats)
   const testimonials = [
     {
-      image: userImg,
-      name: "Alex Johnson",
-      role: "Product Manager",
+      image: clientImg,
+      name: "Viktoria Ermolaeva",
+      role: "Artist",
       text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
     },
     {
@@ -26,12 +27,6 @@ function createHeroContent() {
       name: "Maria Lopez",
       role: "Founder, Craftly",
       text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
-    },
-    {
-      image: userImg,
-      name: "Samuel Green",
-      role: "Tech Lead",
-      text: "Great communication and modern best practices throughout the project lifecycle.",
     },
   ];
 
@@ -465,14 +460,12 @@ class ProjectModal {
     );
 
     const modalStacks = this.createStacksList();
-    const modalStats = this.createProjectStats();
     const actionButtons = this.createActionButtons();
 
     modalInfo.append(
       modalTitle,
       modalDescription,
       modalStacks,
-      modalStats,
       actionButtons
     );
     return modalInfo;
@@ -500,38 +493,7 @@ class ProjectModal {
     return modalStacks;
   }
 
-  createProjectStats() {
-    const stats = this.project.stats || {
-      year: new Date().getFullYear(),
-      duration: "2-3 weeks",
-      status: "Completed",
-    };
 
-    const statsContainer = this.createElement("div", {
-      class: "modal__stats",
-      role: "region",
-      "aria-label": "Project statistics",
-    });
-
-    Object.entries(stats).forEach(([key, value]) => {
-      const stat = this.createElement("div", { class: "modal__stat" });
-      const statValue = this.createElement(
-        "span",
-        { class: "modal__stat-value" },
-        value
-      );
-      const statLabel = this.createElement(
-        "span",
-        { class: "modal__stat-label" },
-        key
-      );
-
-      stat.append(statValue, statLabel);
-      statsContainer.appendChild(stat);
-    });
-
-    return statsContainer;
-  }
 
   createActionButtons() {
     const actionsContainer = this.createElement("div", {

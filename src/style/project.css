@@ -438,10 +438,10 @@
 }
 
 .modal__stacks .stack {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-primary);
-  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  padding: 0.5rem 0.9rem;
   border-radius: 25px;
   background: rgba(84, 98, 255, 0.1);
   border: 1px solid rgba(84, 98, 255, 0.2);

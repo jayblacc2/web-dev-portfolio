@@ -1,4 +1,3 @@
-import heroImg from "../images/hero-bg.jpg";
 import portfolio from "../assets/images/portfolio.webp";
 import recipe from "../assets/images/recipe.webp";
 import todo from "../assets/images/adv-todo.webp";
@@ -9,8 +8,8 @@ import skill from "../assets/images/skill-portfolio.webp";
 export const items = [
   "JavaScript",
   "TypeScript",
-  "HTML5",
-  "CSS3",
+  "HTML",
+  "CSS",
   "React",
   "Webpack",
   "JQuery",
@@ -40,15 +39,10 @@ export const projectsData = [
     label: "Recipe App",
     details:
       "Vanilla JS project with a focus on creating a visually appealing and interactive user interface. Features include recipe search, ingredient filtering, and meal planning capabilities.",
-    stacks: ["HTML", "CSS", "JavaScript", "Vuejs", "SCSS"],
+    stacks: ["HTML", "SCSS", "JavaScript", "Vuejs"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://recipe-app-demo.netlify.app",
     image: recipe,
-    stats: {
-      year: "2024",
-      duration: "3 weeks",
-      status: "Completed",
-    },
   },
   {
     type: "bg1",
@@ -60,12 +54,6 @@ export const projectsData = [
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://health-tracker-demo.netlify.app",
     image: portfolio,
-
-    stats: {
-      year: "2024",
-      duration: "4 weeks",
-      status: "Active",
-    },
   },
   {
     type: "bg2",
@@ -77,11 +65,6 @@ export const projectsData = [
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://react-app-demo.netlify.app",
     image: timer,
-    stats: {
-      year: "2024",
-      duration: "5 weeks",
-      status: "Completed",
-    },
   },
   {
     type: "bg1",
@@ -89,7 +72,7 @@ export const projectsData = [
     label: "Book library",
     details:
       "A fullstack web application that allows to create and vue your favorite recipes.",
-    stacks: ["HTML5", "CSS3", "JavaScript", "Chart.js"],
+    stacks: ["HTML", "CSS", "JavaScript", "Chart.js"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     image: library,
   },
@@ -98,8 +81,8 @@ export const projectsData = [
     value: '<i class="fas fa-bed"></i>',
     label: "Portfolio skill",
     details:
-      "Demostrate how to use the HTML5 and CSS3 to create a responsive layout.",
-    stacks: ["HTML5", "CSS3", "JavaScript", "Webpack"],
+      "Demostrate how to use the HTML and CSS to create a responsive layout.",
+    stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     image: skill,
   },

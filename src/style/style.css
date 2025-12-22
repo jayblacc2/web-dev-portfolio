@@ -228,7 +228,7 @@ a {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   width: 50%;
 }
 
@@ -262,6 +262,14 @@ a {
   transform: translateY(10px);
   animation: slideTextDown 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
+
+.project__section .sub__title {
+  width: 90%;
+}
+
+/* .project__section .hero__content {
+  margin-top: 2.5rem;
+} */
 
 .btn {
   font-size: 1.125rem;
