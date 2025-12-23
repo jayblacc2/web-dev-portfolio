@@ -220,7 +220,7 @@ function contactForm() {
   const form = createHtmlElement("form", {
     id: "contact-form",
     autocomplete: "off",
-    action: "https://formspree.io/f/mknyknkr",
+    action: "https://formspree.io/f/mzdpobqa",
     method: "POST",
     class: "enhanced-contact-form",
   });
@@ -241,7 +241,7 @@ function contactForm() {
 
       <div class="form__field">
         <label for="email" class="form__label">
-          <span class="label-icon">📧</span>
+          <span class="label-icon">📩</span>
           <span class="label-text">Email Address</span>
         </label>
         <div class="input-wrapper">
