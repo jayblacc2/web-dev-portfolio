@@ -8,6 +8,7 @@ import {
 } from "../utils/utils";
 import { createHtmlElement } from "../utils/utils";
 import { options } from "../utils/variable";
+import { FORMSPREE_ENDPOINT } from "../config/config";
 
 export default function contactSection() {
   const hero = createHtmlElement("section", {
@@ -220,7 +221,7 @@ function contactForm() {
   const form = createHtmlElement("form", {
     id: "contact-form",
     autocomplete: "off",
-    action: "https://formspree.io/f/mzdpobqa",
+    action: FORMSPREE_ENDPOINT,
     method: "POST",
     class: "enhanced-contact-form",
   });
