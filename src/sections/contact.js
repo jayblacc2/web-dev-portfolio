@@ -205,6 +205,53 @@ function renderSvgIcon() {
   return socialIconContainer;
 }
 
+// Helper function to create form fields
+function createFormField(fieldConfig) {
+  const { id, name, type = "text", label, icon, placeholder, required = true, textarea = false, rows = 2 } = fieldConfig;
+
+  const field = createHtmlElement("div", { class: "form__field" });
+
+  const labelElement = createHtmlElement("label", { for: id, class: "form__label" });
+  labelElement.innerHTML = `
+    <span class="label-icon">${icon}</span>
+    <span class="label-text">${label}</span>
+  `;
+
+  const inputWrapper = createHtmlElement("div", { class: "input-wrapper" });
+  
+  let input;
+  if (textarea) {
+    input = createHtmlElement("textarea", {
+      class: "form__control",
+      id,
+      name,
+      rows,
+      required,
+      placeholder
+    });
+  } else {
+    input = createHtmlElement("input", {
+      type,
+      class: "form__control",
+      id,
+      name,
+      required,
+      placeholder
+    });
+  }
+
+  const border = createHtmlElement("div", { class: "input-border" });
+  inputWrapper.append(input, border);
+
+  const errorElement = createHtmlElement("div", { 
+    class: "field-error", 
+    id: `${id}-error` 
+  });
+
+  field.append(labelElement, inputWrapper, errorElement);
+  return field;
+}
+
 function contactForm() {
   const formContainer = createHtmlElement("div", {
     class: "form__container enhanced-form",
@@ -226,73 +273,75 @@ function contactForm() {
     class: "enhanced-contact-form",
   });
 
-  form.innerHTML = `
-    <div class="form__row">
-      <div class="form__field">
-        <label for="name" class="form__label">
-          <span class="label-icon">👤</span>
-          <span class="label-text">Full Name</span>
-        </label>
-        <div class="input-wrapper">
-          <input type="text" class="form__control" id="name" name="name" required placeholder="Enter your full name">
-          <div class="input-border"></div>
-        </div>
-        <div class="field-error" id="name-error"></div>
-      </div>
+  // Create form fields using helper function
+  const nameField = createFormField({
+    id: "name",
+    name: "name",
+    type: "text",
+    label: "Full Name",
+    icon: "👤",
+    placeholder: "Enter your full name"
+  });
 
-      <div class="form__field">
-        <label for="email" class="form__label">
-          <span class="label-icon">📩</span>
-          <span class="label-text">Email Address</span>
-        </label>
-        <div class="input-wrapper">
-          <input type="email" class="form__control" id="email" name="email" required placeholder="Enter your email address">
-          <div class="input-border"></div>
-        </div>
-        <div class="field-error" id="email-error"></div>
-      </div>
-    </div>
+  const emailField = createFormField({
+    id: "email",
+    name: "email",
+    type: "email",
+    label: "Email Address",
+    icon: "📩",
+    placeholder: "Enter your email address"
+  });
 
-    <div class="form__field">
-      <label for="subject" class="form__label">
-        <span class="label-icon">💡</span>
-        <span class="label-text">Project Subject</span>
-      </label>
-      <div class="input-wrapper">
-        <input type="text" class="form__control" id="subject" name="subject" required placeholder="Enter project subject">
-        <div class="input-border"></div>
-      </div>
-      <div class="field-error" id="subject-error"></div>
-    </div>
+  const subjectField = createFormField({
+    id: "subject",
+    name: "subject",
+    type: "text",
+    label: "Project Subject",
+    icon: "💡",
+    placeholder: "Enter project subject"
+  });
 
-    <div class="form__field">
-      <label for="message" class="form__label">
-        <span class="label-icon">💬</span>
-        <span class="label-text">Tell me about your project...</span>
-      </label>
-      <div class="input-wrapper textarea-wrapper">
-        <textarea class="form__control" id="message" name="message" rows="2" required placeholder="Describe your project in detail"></textarea>
-        <div class="input-border"></div>
-        <div class="character-count">
-          <span id="char-count">0</span>/500
-        </div>
-      </div>
-      <div class="field-error" id="message-error"></div>
-    </div>
+  const messageField = createFormField({
+    id: "message",
+    name: "message",
+    label: "Tell me about your project...",
+    icon: "💬",
+    placeholder: "Describe your project in detail",
+    textarea: true,
+    rows: 2
+  });
 
-    <div class="form__actions">
-      <button class="btn__submit" type="submit">
-        <span class="btn-text">Send Message</span>
-        <span class="btn-icon">🚀</span>
-        <div class="btn-loading">
-          <div class="loading-spinner"></div>
-        </div>
-      </button>
-      <div class="form__privacy">
-        <small>🔒 Your information is secure and will never be shared.</small>
-      </div>
+  // Create form actions
+  const formActions = createHtmlElement("div", { class: "form__actions" });
+  const submitBtn = createHtmlElement("button", { class: "btn__submit", type: "submit" });
+  submitBtn.innerHTML = `
+    <span class="btn-text">Send Message</span>
+    <span class="btn-icon">🚀</span>
+    <div class="btn-loading">
+      <div class="loading-spinner"></div>
     </div>
   `;
+
+  const privacyNotice = createHtmlElement("div", { class: "form__privacy" });
+  const smallText = createHtmlElement("small", {}, "🔒 Your information is secure and will never be shared.");
+  privacyNotice.appendChild(smallText);
+
+  formActions.append(submitBtn, privacyNotice);
+
+  // Add character count to message field
+  const messageInputWrapper = messageField.querySelector(".input-wrapper");
+  messageInputWrapper.classList.add("textarea-wrapper");
+  const charCount = createHtmlElement("div", { class: "character-count" });
+  const charCountSpan = createHtmlElement("span", { id: "char-count" }, "0");
+  charCount.append(charCountSpan, "/500");
+  messageInputWrapper.append(charCount);
+
+  // Group name and email in a row
+  const formRow = createHtmlElement("div", { class: "form__row" });
+  formRow.append(nameField, emailField);
+
+  // Append all fields to form
+  form.append(formRow, subjectField, messageField, formActions);
 
   // Add enhanced interactions
   addFormInteractions(form);
@@ -307,24 +356,16 @@ function addFormInteractions(form) {
   const charCount = form.querySelector("#char-count");
   const submitBtn = form.querySelector(".btn__submit");
 
-  // Enhanced input interactions
+  // Setup input event listeners
   inputs.forEach((input) => {
     const wrapper = input.closest(".input-wrapper");
-    const border = wrapper.querySelector(".input-border");
 
     // Focus and blur effects
-    input.addEventListener("focus", () => {
-      wrapper.classList.add("focused");
-    });
-
-    input.addEventListener("blur", () => {
-      wrapper.classList.remove("focused");
-    });
+    input.addEventListener("focus", () => wrapper.classList.add("focused"));
+    input.addEventListener("blur", () => wrapper.classList.remove("focused"));
 
     // Real-time validation
-    input.addEventListener("input", () => {
-      validateField(input);
-    });
+    input.addEventListener("input", () => validateField(input));
   });
 
   // Character counter for message
@@ -333,25 +374,33 @@ function addFormInteractions(form) {
       const count = messageInput.value.length;
       charCount.textContent = count;
 
+      const countWrapper = charCount.parentElement;
       if (count > 500) {
-        charCount.parentElement.classList.add("over-limit");
+        countWrapper.classList.add("over-limit");
         messageInput.value = messageInput.value.substring(0, 500);
         charCount.textContent = 500;
       } else {
-        charCount.parentElement.classList.remove("over-limit");
+        countWrapper.classList.remove("over-limit");
       }
     });
   }
 
-  // Enhanced submit button
-  submitBtn.addEventListener("mouseenter", () => {
-    submitBtn.classList.add("hovered");
-  });
-
-  submitBtn.addEventListener("mouseleave", () => {
-    submitBtn.classList.remove("hovered");
-  });
+  // Submit button hover effects
+  submitBtn.addEventListener("mouseenter", () => submitBtn.classList.add("hovered"));
+  submitBtn.addEventListener("mouseleave", () => submitBtn.classList.remove("hovered"));
 }
+
+// Validation rules configuration
+const VALIDATION_RULES = {
+  email: {
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    message: "Please enter a valid email address"
+  },
+  message: {
+    minLength: 10,
+    message: "Message should be at least 10 characters long"
+  }
+};
 
 function validateField(input) {
   const errorElement = document.getElementById(`${input.id}-error`);
@@ -363,19 +412,23 @@ function validateField(input) {
   wrapper.classList.remove("error");
   if (errorElement) errorElement.textContent = "";
 
-  // Validation rules
-  if (!input.value.trim()) {
+  // Check if field is required and empty
+  if (input.required && !input.value.trim()) {
     isValid = false;
     errorMessage = `${input.name} is required`;
-  } else if (input.type === "email") {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(input.value)) {
+  }
+  // Check specific validation rules
+  else if (VALIDATION_RULES[input.type] && input.value.trim()) {
+    const rule = VALIDATION_RULES[input.type];
+    if (!rule.pattern.test(input.value)) {
       isValid = false;
-      errorMessage = "Please enter a valid email address";
+      errorMessage = rule.message;
     }
-  } else if (input.id === "message" && input.value.length < 10) {
+  }
+  // Check minimum length for message
+  else if (input.id === "message" && input.value.trim() && input.value.length < VALIDATION_RULES.message.minLength) {
     isValid = false;
-    errorMessage = "Message should be at least 10 characters long";
+    errorMessage = VALIDATION_RULES.message.message;
   }
 
   // Show error if invalid
@@ -386,3 +439,4 @@ function validateField(input) {
 
   return isValid;
 }
+

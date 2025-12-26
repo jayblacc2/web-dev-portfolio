@@ -23,19 +23,30 @@ export function createSvgIcon(svgIcon, options = {}, icon) {
   return icon;
 }
 
-export function createHtmlElement(element, attributes) {
-  const htmlElement = document.createElement(element);
+// Unified DOM element creation function
+export function createElement(tag, attributes = {}, textContent = null) {
+  const element = document.createElement(tag);
 
   if (attributes) {
     for (const [key, value] of Object.entries(attributes)) {
       if (value !== undefined && value !== null && value !== "") {
-        htmlElement.setAttribute(key, value);
+        element.setAttribute(key, value);
       } else {
-        htmlElement.removeAttribute(key);
+        element.removeAttribute(key);
       }
     }
   }
-  return htmlElement;
+
+  if (textContent) {
+    element.textContent = textContent;
+  }
+
+  return element;
+}
+
+// Legacy alias for backward compatibility
+export function createHtmlElement(tag, attributes) {
+  return createElement(tag, attributes);
 }
 
 export function sectionButton(text, type = "", classname) {
@@ -194,21 +205,7 @@ function closeCookieBanner(container) {
     }
   }, 800);
 }
-export function createElement(tag, attributes = {}, textContent = null) {
-  // Create a new element tag name
-  const element = document.createElement(tag);
 
-  // Set any attributes
-  for (const [key, value] of Object.entries(attributes)) {
-    element.setAttribute(key, value);
-  }
-  // Set the inner text
-  if (textContent) {
-    element.textContent = textContent;
-  }
-
-  return element;
-}
 
 //create stack helper function
 export function createStackCard(icon, text, width) {
