@@ -114,17 +114,16 @@ function initiateSkills() {
   return `
       <div class="skills-header">
         <h3 class="skills-title">Interactive Skills Showcase</h3>
-        <p class="skills-subtitle">Hover over skills to explore • Click for details</p>
+        <p class="skills-subtitle">Click skills for details</p>
       </div>
       <canvas class="skillsCanvas" id="skillsCanvas" width="650" height="650"></canvas>
-      <div class="tooltip enhanced-tooltip" id="tooltip"></div>
       <div class="details enhanced-details" id="details"></div>
       <div class="theme-selector enhanced-theme-selector">
         <span class="theme-label">Themes:</span>
       </div>
       <div class="controls-panel">
         <button class="control-btn" id="playPauseBtn">⏸️</button>
-        
+
         <div class="speed-control">
           <label>Speed:</label>
           <input type="range" id="speedSlider" min="0.1" max="2" step="0.1" value="1">
@@ -146,7 +145,6 @@ export function animatedSkill(items, parentContainer) {
   parentContainer.innerHTML = initiateSkills();
   // Get the elements from the parent container
   const canvas = parentContainer.querySelector("#skillsCanvas");
-  const tooltip = parentContainer.querySelector("#tooltip");
   const details = parentContainer.querySelector("#details");
   const themeSelector = parentContainer.querySelector(".theme-selector");
   const playPauseBtn = parentContainer.querySelector("#playPauseBtn");
@@ -203,7 +201,7 @@ export function animatedSkill(items, parentContainer) {
   }
 
   let currentTheme = themes[0];
-  let isPlaying = true;
+  let isPlaying = false;
   let animationSpeed = 1;
 
   //animate
@@ -212,7 +210,7 @@ export function animatedSkill(items, parentContainer) {
   let CENTER_X = canvas.width / 2;
   let CENTER_Y = canvas.height / 2;
   let angleOffset = 0;
-  let hoveredSkill = null;
+  let focusedSkill = null;
   let skillScales = items.map(() => 1);
   let skillOpacities = items.map(() => 1);
 
@@ -266,7 +264,7 @@ export function animatedSkill(items, parentContainer) {
       const radius = 50 * scale;
 
       // Draw outer glow effect
-      if (hoveredSkill === index) {
+      if (focusedSkill === index) {
         const glowGradient = ctx.createRadialGradient(
           x,
           y,
@@ -301,10 +299,10 @@ export function animatedSkill(items, parentContainer) {
       ctx.shadowOffsetX = 2;
       ctx.shadowOffsetY = 2;
       ctx.strokeStyle =
-        hoveredSkill === index
+        focusedSkill === index
           ? currentTheme.accent
           : "rgba(255, 255, 255, 0.3)";
-      ctx.lineWidth = hoveredSkill === index ? 3 : 2;
+      ctx.lineWidth = focusedSkill === index ? 3 : 2;
       ctx.stroke();
 
       // Reset shadow
@@ -332,29 +330,29 @@ export function animatedSkill(items, parentContainer) {
     });
 
     // Draw connecting lines between skills (optional decorative effect)
-    if (hoveredSkill !== null) {
+    if (focusedSkill !== null) {
       drawConnectionLines();
     }
   }
 
   function drawConnectionLines() {
-    const hoveredAngle =
-      (hoveredSkill / items.length) * (2 * Math.PI) + angleOffset;
-    const hoveredX = CENTER_X + CONTAINER_RADIUS * Math.cos(hoveredAngle);
-    const hoveredY = CENTER_Y + CONTAINER_RADIUS * Math.sin(hoveredAngle);
+    const focusedAngle =
+      (focusedSkill / items.length) * (2 * Math.PI) + angleOffset;
+    const focusedX = CENTER_X + CONTAINER_RADIUS * Math.cos(focusedAngle);
+    const focusedY = CENTER_Y + CONTAINER_RADIUS * Math.sin(focusedAngle);
 
     ctx.strokeStyle = currentTheme.accent + "30";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
     items.forEach((_, index) => {
-      if (index !== hoveredSkill) {
+      if (index !== focusedSkill) {
         const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
         const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
         const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
 
         ctx.beginPath();
-        ctx.moveTo(hoveredX, hoveredY);
+        ctx.moveTo(focusedX, focusedY);
         ctx.lineTo(x, y);
         ctx.stroke();
       }
@@ -371,13 +369,13 @@ export function animatedSkill(items, parentContainer) {
 
       // Smooth scale and opacity transitions
       skillScales.forEach((scale, index) => {
-        const targetScale = hoveredSkill === index ? 1.2 : 1;
+        const targetScale = focusedSkill === index ? 1.2 : 1;
         skillScales[index] += (targetScale - scale) * 0.1;
       });
 
       skillOpacities.forEach((opacity, index) => {
         const targetOpacity =
-          hoveredSkill === null || hoveredSkill === index ? 1 : 0.6;
+          focusedSkill === null || focusedSkill === index ? 1 : 0.6;
         skillOpacities[index] += (targetOpacity - opacity) * 0.1;
       });
 
@@ -415,59 +413,10 @@ export function animatedSkill(items, parentContainer) {
     updateAnimationSpeed(e.target.value)
   );
 
-  function showTooltip(event, skillIndex) {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+  // Set initial button state
+  playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
+  playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
 
-    // Position tooltip with better boundary detection
-    const tooltipX =
-      mouseX + 15 > canvas.width - 150 ? mouseX - 150 : mouseX + 15;
-    const tooltipY = mouseY - 10 < 0 ? mouseY + 20 : mouseY - 10;
-
-    tooltip.style.left = `${tooltipX}px`;
-    tooltip.style.top = `${tooltipY}px`;
-    tooltip.style.opacity = 1;
-    tooltip.style.transform = "scale(1)";
-  }
-
-  function hideTooltip() {
-    tooltip.style.opacity = 0;
-    tooltip.style.transform = "scale(0.8)";
-    hoveredSkill = null;
-  }
-
-  function updateTooltipContent(item, index) {
-    const skillCategories = {
-      JavaScript: "Programming Language",
-      TypeScript: "Programming Language",
-      HTML5: "Markup Language",
-      CSS3: "Styling Language",
-      React: "Frontend Framework",
-      "Vue JS": "Frontend Framework",
-      "Next JS": "React Framework",
-      "Node JS": "Runtime Environment",
-      Webpack: "Build Tool",
-      SASS: "CSS Preprocessor",
-      JQuery: "JavaScript Library",
-      Git: "Version Control",
-      BEM: "CSS Methodology",
-    };
-
-    const category = skillCategories[item] || "Technology";
-    const proficiency = Math.floor(Math.random() * 3) + 3; // 3-5 stars
-
-    tooltip.innerHTML = `
-      <div class="tooltip-header">
-        <strong>${item}</strong>
-        <span class="tooltip-category">${category}</span>
-      </div>
-      <div class="tooltip-proficiency">
-        ${"★".repeat(proficiency)}${"☆".repeat(5 - proficiency)}
-      </div>
-      <div class="tooltip-tip">Click for more details</div>
-    `;
-  }
 
   function showDetails(item, index) {
     const skillDetails = {
@@ -515,7 +464,7 @@ export function animatedSkill(items, parentContainer) {
     // This event can be used for other hover effects if needed
   });
   parentContainer.addEventListener("mouseleave", () => {
-    hideTooltip();
+    focusedSkill = null;
     hideDetails();
   });
 
@@ -533,24 +482,22 @@ export function animatedSkill(items, parentContainer) {
       const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
 
       if (distance < radius) {
-        if (hoveredSkill !== index) {
-          hoveredSkill = index;
-          updateTooltipContent(item, index);
-          showTooltip(event, index);
+        if (focusedSkill !== index) {
+          focusedSkill = index;
           canvas.style.cursor = "pointer";
         }
         foundSkill = true;
       }
     });
 
-    if (!foundSkill && hoveredSkill !== null) {
-      hideTooltip();
+    if (!foundSkill && focusedSkill !== null) {
+      focusedSkill = null;
       canvas.style.cursor = "default";
     }
   });
 
   canvas.addEventListener("mouseleave", () => {
-    hideTooltip();
+    focusedSkill = null;
     canvas.style.cursor = "default";
   });
 
@@ -593,9 +540,7 @@ export function animatedSkill(items, parentContainer) {
       const distance = Math.sqrt((touchX - x) ** 2 + (touchY - y) ** 2);
 
       if (distance < radius) {
-        hoveredSkill = index;
-        updateTooltipContent(item, index);
-        showTooltip({ clientX: touch.clientX, clientY: touch.clientY }, index);
+        focusedSkill = index;
         showDetails(item, index);
 
         // Touch feedback
@@ -623,28 +568,20 @@ export function animatedSkill(items, parentContainer) {
       const distance = Math.sqrt((touchX - x) ** 2 + (touchY - y) ** 2);
 
       if (distance < radius) {
-        if (hoveredSkill !== index) {
-          hoveredSkill = index;
-          updateTooltipContent(item, index);
-          showTooltip(
-            { clientX: touch.clientX, clientY: touch.clientY },
-            index
-          );
+        if (focusedSkill !== index) {
+          focusedSkill = index;
         }
         foundSkill = true;
       }
     });
 
-    if (!foundSkill) {
-      hideTooltip();
+    if (!foundSkill && focusedSkill !== null) {
+      focusedSkill = null;
     }
   });
 
   canvas.addEventListener("touchend", (event) => {
     event.preventDefault();
-    setTimeout(() => {
-      hideTooltip();
-    }, 2000); // Keep tooltip visible longer on touch
   });
 
   // Initialize canvas and start animation immediately
