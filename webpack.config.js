@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = (env) => ({
   mode: env.production ? "production" : "development",
@@ -79,6 +80,11 @@ module.exports = (env) => ({
     ],
   },
   plugins: [
+    new Dotenv({
+      systemvars: true, // Load system environment variables as well (for deployment platforms)
+      safe: false, // Don't require .env.example file
+      defaults: false, // Don't load .env.defaults
+    }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       minify: {

@@ -8,7 +8,12 @@ import {
 } from "../utils/utils";
 import { createHtmlElement } from "../utils/utils";
 import { options } from "../utils/variable";
-import { FORMSPREE_ENDPOINT } from "../config/config";
+import {
+  FORMSPREE_ENDPOINT,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  EMAIL_URL,
+} from "../config/config";
 
 export default function contactSection() {
   const hero = createHtmlElement("section", {
@@ -159,7 +164,7 @@ function submitForm(form) {
       }
     })
     .catch((error) => {
-      console.error("Form submission error:", error);
+      alertBadge("Failed to send message. Please try again.", "red");
 
       // Network error state
       button.classList.add("error");
@@ -196,9 +201,9 @@ function renderSvgIcon() {
     return iconLink;
   }
 
-  const gitIcon = createIconLink(github, "https://github.com");
-  const linkedInIcon = createIconLink(linkedIn, "https://linkedin.com");
-  const mailIcon = createIconLink(mail, "https://live.com");
+  const gitIcon = createIconLink(github, GITHUB_URL);
+  const linkedInIcon = createIconLink(linkedIn, LINKEDIN_URL);
+  const mailIcon = createIconLink(mail, EMAIL_URL);
 
   socialIconContainer.append(gitIcon, linkedInIcon, mailIcon);
 
@@ -207,18 +212,31 @@ function renderSvgIcon() {
 
 // Helper function to create form fields
 function createFormField(fieldConfig) {
-  const { id, name, type = "text", label, icon, placeholder, required = true, textarea = false, rows = 2 } = fieldConfig;
+  const {
+    id,
+    name,
+    type = "text",
+    label,
+    icon,
+    placeholder,
+    required = true,
+    textarea = false,
+    rows = 2,
+  } = fieldConfig;
 
   const field = createHtmlElement("div", { class: "form__field" });
 
-  const labelElement = createHtmlElement("label", { for: id, class: "form__label" });
+  const labelElement = createHtmlElement("label", {
+    for: id,
+    class: "form__label",
+  });
   labelElement.innerHTML = `
     <span class="label-icon">${icon}</span>
     <span class="label-text">${label}</span>
   `;
 
   const inputWrapper = createHtmlElement("div", { class: "input-wrapper" });
-  
+
   let input;
   if (textarea) {
     input = createHtmlElement("textarea", {
@@ -227,7 +245,7 @@ function createFormField(fieldConfig) {
       name,
       rows,
       required,
-      placeholder
+      placeholder,
     });
   } else {
     input = createHtmlElement("input", {
@@ -236,16 +254,16 @@ function createFormField(fieldConfig) {
       id,
       name,
       required,
-      placeholder
+      placeholder,
     });
   }
 
   const border = createHtmlElement("div", { class: "input-border" });
   inputWrapper.append(input, border);
 
-  const errorElement = createHtmlElement("div", { 
-    class: "field-error", 
-    id: `${id}-error` 
+  const errorElement = createHtmlElement("div", {
+    class: "field-error",
+    id: `${id}-error`,
   });
 
   field.append(labelElement, inputWrapper, errorElement);
@@ -280,7 +298,7 @@ function contactForm() {
     type: "text",
     label: "Full Name",
     icon: "👤",
-    placeholder: "Enter your full name"
+    placeholder: "Enter your full name",
   });
 
   const emailField = createFormField({
@@ -289,7 +307,7 @@ function contactForm() {
     type: "email",
     label: "Email Address",
     icon: "📩",
-    placeholder: "Enter your email address"
+    placeholder: "Enter your email address",
   });
 
   const subjectField = createFormField({
@@ -298,7 +316,7 @@ function contactForm() {
     type: "text",
     label: "Project Subject",
     icon: "💡",
-    placeholder: "Enter project subject"
+    placeholder: "Enter project subject",
   });
 
   const messageField = createFormField({
@@ -308,12 +326,15 @@ function contactForm() {
     icon: "💬",
     placeholder: "Describe your project in detail",
     textarea: true,
-    rows: 2
+    rows: 2,
   });
 
   // Create form actions
   const formActions = createHtmlElement("div", { class: "form__actions" });
-  const submitBtn = createHtmlElement("button", { class: "btn__submit", type: "submit" });
+  const submitBtn = createHtmlElement("button", {
+    class: "btn__submit",
+    type: "submit",
+  });
   submitBtn.innerHTML = `
     <span class="btn-text">Send Message</span>
     <span class="btn-icon">🚀</span>
@@ -323,7 +344,11 @@ function contactForm() {
   `;
 
   const privacyNotice = createHtmlElement("div", { class: "form__privacy" });
-  const smallText = createHtmlElement("small", {}, "🔒 Your information is secure and will never be shared.");
+  const smallText = createHtmlElement(
+    "small",
+    {},
+    "🔒 Your information is secure and will never be shared."
+  );
   privacyNotice.appendChild(smallText);
 
   formActions.append(submitBtn, privacyNotice);
@@ -386,20 +411,24 @@ function addFormInteractions(form) {
   }
 
   // Submit button hover effects
-  submitBtn.addEventListener("mouseenter", () => submitBtn.classList.add("hovered"));
-  submitBtn.addEventListener("mouseleave", () => submitBtn.classList.remove("hovered"));
+  submitBtn.addEventListener("mouseenter", () =>
+    submitBtn.classList.add("hovered")
+  );
+  submitBtn.addEventListener("mouseleave", () =>
+    submitBtn.classList.remove("hovered")
+  );
 }
 
 // Validation rules configuration
 const VALIDATION_RULES = {
   email: {
     pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    message: "Please enter a valid email address"
+    message: "Please enter a valid email address",
   },
   message: {
     minLength: 10,
-    message: "Message should be at least 10 characters long"
-  }
+    message: "Message should be at least 10 characters long",
+  },
 };
 
 function validateField(input) {
@@ -426,7 +455,11 @@ function validateField(input) {
     }
   }
   // Check minimum length for message
-  else if (input.id === "message" && input.value.trim() && input.value.length < VALIDATION_RULES.message.minLength) {
+  else if (
+    input.id === "message" &&
+    input.value.trim() &&
+    input.value.length < VALIDATION_RULES.message.minLength
+  ) {
     isValid = false;
     errorMessage = VALIDATION_RULES.message.message;
   }
@@ -439,4 +472,3 @@ function validateField(input) {
 
   return isValid;
 }
-

@@ -98,7 +98,6 @@ function header() {
     try {
       const mobileMenu = getMobileMenu();
       if (!mobileMenu) {
-        console.warn("Mobile menu not found");
         return;
       }
 
@@ -115,7 +114,7 @@ function header() {
         }
       }
     } catch (error) {
-      console.error("Error toggling mobile menu:", error);
+      console.log("Error toggling mobile menu:", error);
     }
   });
 
@@ -156,7 +155,7 @@ function header() {
         burgerMenuBtn.focus();
       }
     } catch (error) {
-      console.error("Error handling outside click:", error);
+      console.log("Error handling outside click:", error);
     }
   });
 
@@ -282,7 +281,7 @@ export function showSection(sectionName) {
         </svg>`;
       }
     } catch (error) {
-      console.error("Error closing mobile menu on section change:", error);
+      console.log("Error closing mobile menu on section change:", error);
     }
   });
 }

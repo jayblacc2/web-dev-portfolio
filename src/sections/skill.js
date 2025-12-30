@@ -364,29 +364,53 @@ export function animatedSkill(items, parentContainer) {
   draw();
 
   function animate() {
+    let needsNextFrame = false;
+
     if (isPlaying) {
       angleOffset = Date.now() * 0.001 * animationSpeed;
-
-      // Smooth scale and opacity transitions
-      skillScales.forEach((scale, index) => {
-        const targetScale = focusedSkill === index ? 1.2 : 1;
-        skillScales[index] += (targetScale - scale) * 0.1;
-      });
-
-      skillOpacities.forEach((opacity, index) => {
-        const targetOpacity =
-          focusedSkill === null || focusedSkill === index ? 1 : 0.6;
-        skillOpacities[index] += (targetOpacity - opacity) * 0.1;
-      });
-
-      draw();
+      needsNextFrame = true;
     }
-    parentContainer.animationFrameId = requestAnimationFrame(animate);
+
+    // Smooth scale and opacity transitions with optimization
+    let hasActiveTransitions = false;
+    skillScales.forEach((scale, index) => {
+      const targetScale = focusedSkill === index ? 1.2 : 1;
+      const diff = targetScale - scale;
+      if (Math.abs(diff) > 0.001) {
+        skillScales[index] += diff * 0.1;
+        hasActiveTransitions = true;
+      } else {
+        skillScales[index] = targetScale;
+      }
+    });
+
+    skillOpacities.forEach((opacity, index) => {
+      const targetOpacity =
+        focusedSkill === null || focusedSkill === index ? 1 : 0.6;
+      const diff = targetOpacity - opacity;
+      if (Math.abs(diff) > 0.001) {
+        skillOpacities[index] += diff * 0.1;
+        hasActiveTransitions = true;
+      } else {
+        skillOpacities[index] = targetOpacity;
+      }
+    });
+
+    if (hasActiveTransitions || isPlaying) {
+      draw();
+      needsNextFrame = true;
+    }
+
+    if (needsNextFrame) {
+      parentContainer.animationFrameId = requestAnimationFrame(animate);
+    } else {
+      parentContainer.animationFrameId = null;
+    }
   }
 
   function startAnimation() {
     if (!parentContainer.animationFrameId) {
-      animate();
+      animate(); // Start the animation loop on demand
     }
   }
 
@@ -401,6 +425,9 @@ export function animatedSkill(items, parentContainer) {
     isPlaying = !isPlaying;
     playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
     playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
+    if (isPlaying) {
+      startAnimation(); // Start animation when playing
+    }
   }
 
   function updateAnimationSpeed(speed) {
@@ -485,6 +512,7 @@ export function animatedSkill(items, parentContainer) {
         if (focusedSkill !== index) {
           focusedSkill = index;
           canvas.style.cursor = "pointer";
+          startAnimation(); // Start animation for smooth transitions
         }
         foundSkill = true;
       }
@@ -517,6 +545,7 @@ export function animatedSkill(items, parentContainer) {
         showDetails(item, index);
         // Add click animation effect
         skillScales[index] = 0.8;
+        startAnimation(); // Start animation for click effect
         setTimeout(() => {
           skillScales[index] = 1.2;
         }, 100);
@@ -541,6 +570,7 @@ export function animatedSkill(items, parentContainer) {
 
       if (distance < radius) {
         focusedSkill = index;
+        startAnimation(); // Start animation for touch feedback
         showDetails(item, index);
 
         // Touch feedback
@@ -570,6 +600,7 @@ export function animatedSkill(items, parentContainer) {
       if (distance < radius) {
         if (focusedSkill !== index) {
           focusedSkill = index;
+          startAnimation(); // Start animation for smooth transitions
         }
         foundSkill = true;
       }
@@ -597,8 +628,6 @@ export function animatedSkill(items, parentContainer) {
 
   resizeCanvas();
 
-  // Start animation immediately
-  startAnimation();
 
   // Ensure proper initialization on tablets
   setTimeout(() => {

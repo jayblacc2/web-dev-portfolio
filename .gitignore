@@ -4,6 +4,13 @@ node_modules
 dist/
 .vscode
 .aider*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
 src/style/tablet.css
 PROJECT_CARDS_IMPROVEMENTS.md
 PROJECT_MODAL_IMPROVEMENTS.md
