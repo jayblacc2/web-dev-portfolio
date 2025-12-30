@@ -15,7 +15,10 @@
     <meta name="author" content="<%=htmlWebpackPlugin.options.config.name %>" />
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio" />
+    <meta
+      property="og:title"
+      content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio"
+    />
     <meta
       property="og:description"
       content="Front-End Developer Portfolio showcasing web development projects, skills, and professional experience in building modern web applications."
@@ -25,16 +28,35 @@
       property="og:url"
       content="<%=htmlWebpackPlugin.options.config.url %>"
     />
-    <meta property="og:image" content="<%=htmlWebpackPlugin.options.config.ogImage %>" />
+    <meta
+      property="og:image"
+      content="<%=htmlWebpackPlugin.options.config.ogImage %>"
+    />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio" />
+    <meta
+      name="twitter:title"
+      content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio"
+    />
     <meta
       name="twitter:description"
       content="Front-End Developer Portfolio showcasing web development projects, skills, and professional experience in building modern web applications."
     />
-    <meta name="twitter:image" content="<%=htmlWebpackPlugin.options.config.ogImage %>" />
+    <meta
+      name="twitter:image"
+      content="<%=htmlWebpackPlugin.options.config.ogImage %>"
+    />
+
+    <!-- Preconnect to external domains for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+    <!-- DNS prefetch as fallback -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Raleway:wght@100;300;400&display=swap"
@@ -52,8 +74,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    
 
-    <title><%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio</title>
+    <title>
+      <%=htmlWebpackPlugin.options.config.name %> | Front-End Developer
+      Portfolio
+    </title>
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",

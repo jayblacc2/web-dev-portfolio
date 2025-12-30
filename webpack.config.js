@@ -106,7 +106,21 @@ module.exports = (env) => ({
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "" }],
+      patterns: [
+        { from: "public", to: "", globOptions: { ignore: ["site.webmanifest"] } },
+        {
+          from: "src/site.webmanifest",
+          to: "site.webmanifest",
+          transform(content) {
+            // Replace placeholders with config values
+            return content
+              .toString()
+              .replace(/{{PORTFOLIO_NAME}}/g, config.name || "Portfolio")
+              .replace(/{{PORTFOLIO_URL}}/g, config.url || "/")
+              .replace(/{{THEME_COLOR}}/g, "#5462ffe4");
+          },
+        },
+      ],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",

@@ -1,0 +1,53 @@
+{
+  "name": "{{PORTFOLIO_NAME}} - Front-End Developer",
+  "short_name": "{{PORTFOLIO_NAME}}",
+  "description": "Front-End Developer Portfolio showcasing web development projects, skills, and professional experience",
+  "start_url": "{{PORTFOLIO_URL}}",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "{{THEME_COLOR}}",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "web-development"],
+  "screenshots": [
+    {
+      "src": "/images/portfolio.webp",
+      "sizes": "1200x800",
+      "type": "image/webp",
+      "form_factor": "wide"
+    }
+  ]
+}
