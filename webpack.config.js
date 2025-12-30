@@ -6,6 +6,16 @@ const TerserPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
+// Define config object for HTML templating
+const config = {
+  name: process.env.PORTFOLIO_NAME || "Portfolio",
+  url: process.env.PORTFOLIO_URL || "https://web-dev-portfolio-brown.vercel.app/",
+  ogImage: process.env.OG_IMAGE_URL || "/images/og-preview.jpg",
+  linkedin: process.env.LINKEDIN_URL,
+  github: process.env.GITHUB_URL,
+  email: process.env.EMAIL,
+};
+
 module.exports = (env) => ({
   mode: env.production ? "production" : "development",
   entry: "./src/index.js",
@@ -87,6 +97,7 @@ module.exports = (env) => ({
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      config: config, // Pass config to HTML template
       minify: {
         collapseWhitespace: true,
         removeComments: true,

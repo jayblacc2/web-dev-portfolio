@@ -12,10 +12,10 @@
       name="keywords"
       content="front-end developer, web developer, portfolio, JavaScript, React, HTML, CSS"
     />
-    <meta name="author" content="Johnson Jide" />
+    <meta name="author" content="<%=htmlWebpackPlugin.options.config.name %>" />
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Front-End Developer Portfolio" />
+    <meta property="og:title" content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio" />
     <meta
       property="og:description"
       content="Front-End Developer Portfolio showcasing web development projects, skills, and professional experience in building modern web applications."
@@ -23,18 +23,18 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
-      content="https://web-dev-portfolio-brown.vercel.app/"
+      content="<%=htmlWebpackPlugin.options.config.url %>"
     />
-    <meta property="og:image" content="/public/images/portfolio.webp" />
+    <meta property="og:image" content="<%=htmlWebpackPlugin.options.config.ogImage %>" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Front-End Developer Portfolio" />
+    <meta name="twitter:title" content="<%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio" />
     <meta
       name="twitter:description"
       content="Front-End Developer Portfolio showcasing web development projects, skills, and professional experience in building modern web applications."
     />
-    <meta name="twitter:image" content="PATH_TO_YOUR_PREVIEW_IMAGE" />
+    <meta name="twitter:image" content="<%=htmlWebpackPlugin.options.config.ogImage %>" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Raleway:wght@100;300;400&display=swap"
@@ -53,14 +53,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <title>Front-End Developer Portfolio | Web Development</title>
+    <title><%=htmlWebpackPlugin.options.config.name %> | Front-End Developer Portfolio</title>
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
         "@type": "Person",
-        "name": "Your Name",
-        "url": "YOUR_WEBSITE_URL",
-        "sameAs": ["YOUR_LINKEDIN_URL", "YOUR_GITHUB_URL"],
+        "name": "<%=htmlWebpackPlugin.options.config.name %>",
+        "url": "<%=htmlWebpackPlugin.options.config.url %>",
+        "sameAs": [
+          <% if (htmlWebpackPlugin.options.config.linkedin) { %>"<%=htmlWebpackPlugin.options.config.linkedin %>",<% } %>
+          <% if (htmlWebpackPlugin.options.config.github) { %>"<%=htmlWebpackPlugin.options.config.github %>",<% } %>
+          "mailto:<%=htmlWebpackPlugin.options.config.email %>"
+        ],
         "jobTitle": "Front-End Developer",
         "worksFor": {
           "@type": "Organization",

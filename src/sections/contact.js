@@ -8,12 +8,7 @@ import {
 } from "../utils/utils";
 import { createHtmlElement } from "../utils/utils";
 import { options } from "../utils/variable";
-import {
-  FORMSPREE_ENDPOINT,
-  GITHUB_URL,
-  LINKEDIN_URL,
-  EMAIL_URL,
-} from "../config/config";
+import config from "../config";
 
 export default function contactSection() {
   const hero = createHtmlElement("section", {
@@ -201,9 +196,9 @@ function renderSvgIcon() {
     return iconLink;
   }
 
-  const gitIcon = createIconLink(github, GITHUB_URL);
-  const linkedInIcon = createIconLink(linkedIn, LINKEDIN_URL);
-  const mailIcon = createIconLink(mail, EMAIL_URL);
+  const gitIcon = createIconLink(github, config.social.github);
+  const linkedInIcon = createIconLink(linkedIn, config.social.linkedin);
+  const mailIcon = createIconLink(mail, `mailto:${config.contact.email}`);
 
   socialIconContainer.append(gitIcon, linkedInIcon, mailIcon);
 
@@ -286,7 +281,7 @@ function contactForm() {
   const form = createHtmlElement("form", {
     id: "contact-form",
     autocomplete: "off",
-    action: FORMSPREE_ENDPOINT,
+    action: config.formspree,
     method: "POST",
     class: "enhanced-contact-form",
   });
