@@ -10,6 +10,42 @@ import { createHtmlElement } from "../utils/utils";
 import { options } from "../utils/variable";
 import config from "../config";
 
+// User-friendly error message function
+function showUserFriendlyError(message, button, btnText, btnIcon, error = null) {
+  // Log error for debugging
+  console.error('Form submission error:', message, error);
+
+  // Send to error tracking service if available
+  if (window.Sentry && error) {
+    window.Sentry.captureException(error, {
+      tags: {
+        component: 'contact-form',
+        action: 'form-submission'
+      },
+      extra: {
+        errorMessage: message,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString()
+      }
+    });
+  }
+
+  // Show user-friendly alert
+  alertBadge(message, "red");
+
+  // Update button state
+  button.classList.add("error");
+  btnText.textContent = "Try Again";
+  btnIcon.textContent = "❌";
+
+  // Reset button after delay
+  setTimeout(() => {
+    button.classList.remove("error");
+    btnText.textContent = "Send Message";
+    btnIcon.textContent = "🚀";
+  }, 3000);
+}
+
 export default function contactSection() {
   const hero = createHtmlElement("section", {
     class: "hero",
@@ -95,15 +131,23 @@ function submitForm(form) {
   const btnText = button.querySelector(".btn-text");
   const btnIcon = button.querySelector(".btn-icon");
 
+  // Add timeout to prevent hanging requests
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
   return fetch(form.action, {
     method: form.method,
     body: formData,
+    signal: controller.signal,
     headers: {
       Accept: "application/json",
     },
   })
     .then((response) => {
-      if (response.ok) {
+        // Clear timeout since request completed
+        clearTimeout(timeoutId);
+  
+        if (response.ok) {
         // Success state
         button.classList.add("success");
         btnText.textContent = "Message Sent!";
@@ -132,51 +176,57 @@ function submitForm(form) {
           form.classList.remove("success-submitted");
         }, 4000);
       } else {
-        // Error state
-        button.classList.add("error");
-        btnText.textContent = "Try Again";
-        btnIcon.textContent = "❌";
+        // Server error state
+        showUserFriendlyError(
+          "Server error occurred. Please try again in a moment.",
+          button,
+          btnText,
+          btnIcon
+        );
 
         response
           .json()
           .then((data) => {
-            if (data.errors) {
-              data.errors.forEach((error) => alertBadge(error.message, "red"));
-            } else {
-              alertBadge("Failed to send message. Please try again.", "red");
+            if (data.errors && data.errors.length > 0) {
+              // Show specific validation errors
+              data.errors.forEach((error) => {
+                alertBadge(error.message, "red");
+              });
             }
           })
           .catch(() => {
-            alertBadge("Failed to send message. Please try again.", "red");
+            // If JSON parsing fails, show generic error
+            alertBadge("Server response error. Please try again.", "red");
           });
-
-        // Reset error state
-        setTimeout(() => {
-          button.classList.remove("error");
-          btnText.textContent = "Send Message";
-          btnIcon.textContent = "🚀";
-        }, 3000);
       }
     })
     .catch((error) => {
-      alertBadge("Failed to send message. Please try again.", "red");
+      // Clear timeout since request failed
+      clearTimeout(timeoutId);
 
-      // Network error state
-      button.classList.add("error");
-      btnText.textContent = "Connection Error";
-      btnIcon.textContent = "🔄";
+      // Enhanced network error handling
+      let errorMessage = "Connection failed. Please try again.";
 
-      alertBadge(
-        "Network error. Please check your connection and try again.",
-        "red"
-      );
+      if (error.name === 'AbortError') {
+        errorMessage = "Request timed out. Please check your connection and try again.";
+      } else if (error.message.includes('Failed to fetch')) {
+        errorMessage = "Network connection error. Please check your internet connection.";
+      } else if (error.message.includes('NetworkError')) {
+        errorMessage = "Network error. Please try again or contact me directly.";
+      } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        errorMessage = "Unable to connect to the server. Please try again later.";
+      }
 
-      // Reset error state
-      setTimeout(() => {
-        button.classList.remove("error");
-        btnText.textContent = "Send Message";
-        btnIcon.textContent = "🚀";
-      }, 3000);
+      // Use the enhanced error handling function
+      showUserFriendlyError(errorMessage, button, btnText, btnIcon, error);
+
+      // Log detailed error for debugging
+      console.error('Network error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
     });
 }
 

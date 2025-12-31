@@ -21,6 +21,10 @@ const config = {
   api: {
     baseUrl: process.env.API_BASE_URL,
   },
+  errorTracking: {
+    sentryDsn: process.env.SENTRY_DSN,
+    enabled: process.env.ERROR_TRACKING_ENABLED === 'true',
+  },
   isProduction: process.env.NODE_ENV === "production",
   isDevelopment: process.env.NODE_ENV === "development",
 };
