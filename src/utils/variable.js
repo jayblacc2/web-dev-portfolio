@@ -5,6 +5,13 @@ import timer from "../assets/images/timer-app.webp";
 import library from "../assets/images/book-library.webp";
 import skill from "../assets/images/skill-portfolio.webp";
 
+import react from "../images/icons/react.svg";
+import git from "../images/icons/git.svg";
+import html from "../images/icons/html.svg";
+import css from "../images/icons/css.svg";
+import js from "../images/icons/js.svg";
+import vuejs from "../images/icons/vuejs.svg";
+
 export const items = [
   "JavaScript",
   "TypeScript",
@@ -20,17 +27,40 @@ export const items = [
   "Node JS",
   "Vue JS",
 ];
+
+export const CLASSES = {
+  HERO: "hero",
+  HERO_CONTENT: "hero__content hero-flex",
+  HERO_CONTENT_CONTAINER: "hero__content-container",
+  MAIN_TITLE: "main__title",
+  SUB_TITLE: "sub__title",
+  BTN_HERO: "btn btn--hero",
+  HERO_IMAGE: "hero__img about__hero-content",
+  STACK_CARD: "stack__card",
+  CARD_CONTAINER: "card__container",
+  ICON_CONTAINER: "icon__container",
+  CARD_ICON: "card__icon",
+  CARD_TITLE: "card__title",
+  PROGRESS_CONTAINER: "card__progress-container",
+  PROGRESSBAR: "card__progressbar",
+  TEXT_BOX: "text__box",
+};
+
 export const options = {
   size: "30px",
   color: "#858e99",
 };
 
-export const aboutText = `I'm a passionate Frontend with three years of experience turning ideas into reality and still counting.
-The thrill of bringing a static design to life with code is what gets me going every morning. I'm a passionate front-end developer who thrives on collaboration and turning your ideas into something truly impactful.
-`;
+export const TEXTS = {
+  BUTTON_TEXT: "Get Resume",
+  TITLES: ["Turning Designs", "into Reality"],
+  ABOUT_TEXT: `Frontend Developer focused on building modern, user-friendly web applications with clean, scalable UI. Strong foundation in HTML, CSS, and JavaScript, Experienced in modern frontend tools and workflows, Passionate about clean code, performance, and UX, Enjoy collaborating with designers and cross-functional teams. Let’s bring your ideas to life..`,
+};
 
-export const skillText = `Master of Modern Web Development: Crafting dynamic, visually stunning interfaces with a strong foundation in HTML, CSS, and JavaScript. Proficient in advanced technologies like React and TypeScript, with a knack for efficient styling using SCSS, Bootstrap, and Tailwind. Skilled in seamless version control with Git. Excels in communication, problem-solving, teamwork, and time management, all while infusing projects with a sense of humor.
-Most important, I have got passion for learning and teaching, i believe the sky is the limit`;
+export const skillText = `Frontend Developer specializing in modern web technologies with a strong foundation in HTML, CSS, and JavaScript. Experienced in Vue.js, React, and TypeScript, with a focus on clean architecture, scalable UI, and performance-driven design. `;
+
+export const projectSubTitle = `A selection of frontend projects showcasing modern UI design, clean architecture, and real-world problem solving using contemporary web technologies.
+`;
 
 export const projectsData = [
   {
@@ -96,4 +126,13 @@ export const projectsData = [
     gitLink: "https://github.com/cursorbot/cursorbot",
     image: todo,
   },
+];
+
+export const STACK_DATA = [
+  { icon: vuejs, text: "Vuejs", width: 60 },
+  { icon: git, text: "Git", width: 60 },
+  { icon: html, text: "HTML", width: 80 },
+  { icon: css, text: "CSS", width: 80 },
+  { icon: js, text: "JavaScript", width: 70 },
+  { icon: react, text: "React", width: 70 },
 ];

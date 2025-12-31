@@ -1,5 +1,5 @@
 import { createElement, createHtmlElement } from "../utils/utils";
-import { projectsData as datas } from "../utils/variable";
+import { projectsData as datas, projectSubTitle } from "../utils/variable";
 import userImg from "../images/user.png";
 import clientImg from "../images/client.png";
 import { renderSubTitle, renderTitle } from "../utils/utils";
@@ -8,9 +8,8 @@ function createHeroContent() {
   const heroContents = createHtmlElement("div", { class: "hero__content" });
   const mainHeader = createHtmlElement("h1", { class: "main__title" });
 
-  const HERO_TITLES = ["Crafted Projects"];
-  const HERO_SUBTITLE =
-    "Explore a collection of innovative web applications, interactive experiences, and creative solutions that showcase modern development practices and cutting-edge technologies.";
+  const HERO_TITLES = ["Frontend Projects", " & Case Studies"];
+  const HERO_SUBTITLE = projectSubTitle;
   renderTitle(HERO_TITLES, mainHeader);
   const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
 
@@ -462,12 +461,7 @@ class ProjectModal {
     const modalStacks = this.createStacksList();
     const actionButtons = this.createActionButtons();
 
-    modalInfo.append(
-      modalTitle,
-      modalDescription,
-      modalStacks,
-      actionButtons
-    );
+    modalInfo.append(modalTitle, modalDescription, modalStacks, actionButtons);
     return modalInfo;
   }
 
@@ -492,8 +486,6 @@ class ProjectModal {
 
     return modalStacks;
   }
-
-
 
   createActionButtons() {
     const actionsContainer = this.createElement("div", {

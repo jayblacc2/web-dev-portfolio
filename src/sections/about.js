@@ -5,7 +5,9 @@ import {
   createElement,
   createStackCard,
 } from "../utils/utils";
-import { CLASSES, TEXTS, STACK_DATA } from "../utils/constant";
+import { CLASSES } from "../utils/constant";
+import { STACK_DATA } from "../utils/variable";
+import { TEXTS } from "../utils/variable";
 // Import the PDF file
 import resumePdf from "../../public/resume.pdf";
 

@@ -128,22 +128,18 @@ function createErrorSection(sectionName) {
   errorDiv.style.cssText = `
     padding: 20px;
     text-align: center;
-    background: #ffebee;
-    border: 1px solid #f44336;
     border-radius: 5px;
     margin: 10px;
+    height: 80vh;
+    display: flex;
+    color: red;
+    flex-direction: column;
+    justify-content: center;
   `;
   errorDiv.innerHTML = `
-    <h3>⚠️ Section Loading Error</h3>
-    <p>Failed to load the ${sectionName} section. Some features may not be available.</p>
-    <button onclick="location.reload()" style="
-      padding: 8px 16px;
-      background: #f44336;
-      color: white;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    ">Reload Page</button>
+    <h3><i class="fas fa-exclamation-triangle"></i> Something went wrong</h3>
+    <p>Failed to load the section.</p>
+    
   `;
   return errorDiv;
 }

@@ -14,7 +14,7 @@
   --color-light: #fff;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --radius: 0.75rem;
-  --color-secondary-text: #808793;
+  --color-secondary-text: #b7bedc;
 
   --bg1: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
   --bg2: linear-gradient(135deg, #f0f2f5 0%, #dde1e7 100%);
@@ -27,14 +27,18 @@
   --overlay-text: #fff;
 
   /* Enhanced shadow system */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  /* --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-primary: 0 12px 40px rgba(var(--color-primary-rgb), 0.15);
+  --shadow-primary: 0 12px 40px rgba(var(--color-primary-rgb), 0.15); */
+
+  /* fonts */
+  --font-heading: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
 *,
@@ -52,7 +56,7 @@ html {
 body {
   line-height: 1.4;
   color: var(--color-secondary);
-  font-family: "Raleway", sans-serif;
+  font-family: var(--font-body);
   background-image: radial-gradient(
     circle,
     #051937,
@@ -61,6 +65,19 @@ body {
     #0d0817,
     #05020a
   );
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+p {
+  font-weight: 400;
+  line-height: 1.7;
 }
 .brand {
   font-size: 1.3rem;
@@ -233,7 +250,7 @@ a {
 }
 
 .main__title {
-  font-family: "Mitr", sans-serif;
+  font-family: var(--font-heading);
   font-size: 2rem;
   padding-right: 3rem;
   font-weight: 400;
@@ -255,8 +272,9 @@ a {
 
 .sub__title {
   font-size: 0.9rem;
+  font-family: var(--font-body);
   color: var(--color-secondary-text);
-  font-weight: 300;
+  font-weight: 400;
   width: 70%;
   margin: 1.2rem 0;
   transform: translateY(10px);
@@ -267,13 +285,10 @@ a {
   width: 90%;
 }
 
-/* .project__section .hero__content {
-  margin-top: 2.5rem;
-} */
-
 .btn {
   font-size: 1.125rem;
-  font-family: "Mitr", sans-serif;
+  font-family: var(--font-body);
+  font-weight: 300;
   border: 0;
   text-transform: capitalize;
   cursor: pointer;
