@@ -11,22 +11,28 @@ import { options } from "../utils/variable";
 import config from "../config";
 
 // User-friendly error message function
-function showUserFriendlyError(message, button, btnText, btnIcon, error = null) {
+function showUserFriendlyError(
+  message,
+  button,
+  btnText,
+  btnIcon,
+  error = null
+) {
   // Log error for debugging
-  console.error('Form submission error:', message, error);
+  console.error("Form submission error:", message, error);
 
   // Send to error tracking service if available
   if (window.Sentry && error) {
     window.Sentry.captureException(error, {
       tags: {
-        component: 'contact-form',
-        action: 'form-submission'
+        component: "contact-form",
+        action: "form-submission",
       },
       extra: {
         errorMessage: message,
         userAgent: navigator.userAgent,
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     });
   }
 
@@ -63,10 +69,11 @@ export default function contactSection() {
   });
 
   const mainHeader = createHtmlElement("h1", { class: "main__title" });
-  const titles = ["Have any", "Project in Mind"];
+  const titles = ["Let’s Build", " Your Next Project!"];
   renderTitle(titles, mainHeader);
 
-  const text = `I bring static designs to life as a creative front-end developer. Let's build something together!`;
+  const text = `I help turn ideas and designs into modern, high-quality web experiences. Let’s build something great together.
+`;
   const paragraph = renderSubTitle(text, "sub__title");
 
   const socialIcons = renderSvgIcon();
@@ -144,10 +151,10 @@ function submitForm(form) {
     },
   })
     .then((response) => {
-        // Clear timeout since request completed
-        clearTimeout(timeoutId);
-  
-        if (response.ok) {
+      // Clear timeout since request completed
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
         // Success state
         button.classList.add("success");
         btnText.textContent = "Message Sent!";
@@ -207,25 +214,32 @@ function submitForm(form) {
       // Enhanced network error handling
       let errorMessage = "Connection failed. Please try again.";
 
-      if (error.name === 'AbortError') {
-        errorMessage = "Request timed out. Please check your connection and try again.";
-      } else if (error.message.includes('Failed to fetch')) {
-        errorMessage = "Network connection error. Please check your internet connection.";
-      } else if (error.message.includes('NetworkError')) {
-        errorMessage = "Network error. Please try again or contact me directly.";
-      } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        errorMessage = "Unable to connect to the server. Please try again later.";
+      if (error.name === "AbortError") {
+        errorMessage =
+          "Request timed out. Please check your connection and try again.";
+      } else if (error.message.includes("Failed to fetch")) {
+        errorMessage =
+          "Network connection error. Please check your internet connection.";
+      } else if (error.message.includes("NetworkError")) {
+        errorMessage =
+          "Network error. Please try again or contact me directly.";
+      } else if (
+        error.name === "TypeError" &&
+        error.message.includes("fetch")
+      ) {
+        errorMessage =
+          "Unable to connect to the server. Please try again later.";
       }
 
       // Use the enhanced error handling function
       showUserFriendlyError(errorMessage, button, btnText, btnIcon, error);
 
       // Log detailed error for debugging
-      console.error('Network error details:', {
+      console.error("Network error details:", {
         name: error.name,
         message: error.message,
         stack: error.stack,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     });
 }
@@ -324,7 +338,7 @@ function contactForm() {
   const formHeader = createHtmlElement("div", { class: "form__header" });
   formHeader.innerHTML = `
     <h3 class="form__title">Let's Connect</h3>
-    <p class="form__subtitle">Ready to bring your ideas to life? Drop me a message!</p>
+    <p class="form__subtitle">Tell me about your project and I’ll get back to you as soon as possible.</p>
   `;
 
   // Create form element

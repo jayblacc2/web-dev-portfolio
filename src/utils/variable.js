@@ -2,7 +2,7 @@ import portfolio from "../assets/images/portfolio.webp";
 import recipe from "../assets/images/recipe.webp";
 import todo from "../assets/images/adv-todo.webp";
 import timer from "../assets/images/timer-app.webp";
-import library from "../assets/images/book-library.webp";
+import glacy from "../assets/images/glacy-store.webp";
 import skill from "../assets/images/skill-portfolio.webp";
 
 import react from "../images/icons/react.svg";
@@ -64,26 +64,35 @@ export const projectSubTitle = `A selection of frontend projects showcasing mode
 
 export const projectsData = [
   {
+    type: "bg2",
+    value: "<i class='fa-regular fa-square-check'></i>",
+    label: "Advance Todo",
+    details:
+      "crafted like a js framework single page application without using any framework.",
+    stacks: ["HTML", "CSS", "JavaScript", "Webpack", "localStorage"],
+    gitLink: "https://github.com/cursorbot/cursorbot",
+    image: todo,
+  },
+  {
+    type: "bg1",
+    value: '<i class="fa-solid fa-book"></i>',
+    label: "Glacy Store",
+    details:
+      "A fullstack web application that allows to create and vue your favorite recipes.",
+    stacks: ["HTML", "CSS", "JavaScript", "Express", "MongoDB"],
+    gitLink: "https://github.com/cursorbot/cursorbot",
+    image: glacy,
+  },
+  {
     type: "bg1",
     value: '<i class="fa-solid fa-utensils"></i>',
     label: "Recipe App",
     details:
       "Vanilla JS project with a focus on creating a visually appealing and interactive user interface. Features include recipe search, ingredient filtering, and meal planning capabilities.",
-    stacks: ["HTML", "SCSS", "JavaScript", "Vuejs"],
+    stacks: ["HTML", "SCSS", "JavaScript", "Vuejs", "Firebase"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     demoLink: "https://recipe-app-demo.netlify.app",
     image: recipe,
-  },
-  {
-    type: "bg1",
-    value: '<i class="fa-solid fa-briefcase"></i>',
-    label: "Dev Portfolio",
-    details:
-      "A comprehensive web application that allows users to track their breathing patterns and monitor their respiratory health with real-time data visualization and progress tracking.",
-    stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
-    demoLink: "https://health-tracker-demo.netlify.app",
-    image: portfolio,
   },
   {
     type: "bg2",
@@ -98,33 +107,13 @@ export const projectsData = [
   },
   {
     type: "bg1",
-    value: '<i class="fa-solid fa-book"></i>',
-    label: "Book library",
-    details:
-      "A fullstack web application that allows to create and vue your favorite recipes.",
-    stacks: ["HTML", "CSS", "JavaScript", "Chart.js"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
-    image: library,
-  },
-  {
-    type: "bg1",
     value: '<i class="fas fa-bed"></i>',
     label: "Portfolio skill",
     details:
-      "Demostrate how to use the HTML and CSS to create a responsive layout.",
+      "Single page application with a responsive layout. demosstrates the power of Vanilla JS to create a modern web application.",
     stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
     image: skill,
-  },
-  {
-    type: "bg2",
-    value: "<i class='fa-regular fa-square-check'></i>",
-    label: "Advance Todo",
-    details:
-      "crafted like a js framework single page application without using any framework.",
-    stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
-    image: todo,
   },
 ];
 

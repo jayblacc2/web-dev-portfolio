@@ -124,9 +124,9 @@ function createHeroContent() {
   const heroContents = createHtmlElement("div", { class: "hero__content" });
   const mainHeader = createHtmlElement("h1", { class: "main__title" });
 
-  const HERO_TITLES = ["Hello", "I'm Johnson,", "web developer."];
+  const HERO_TITLES = ["Frontend Developer", "Building Modern Web Experiences"];
   const HERO_SUBTITLE =
-    "Front End Developer / JavaScript Expert / Freelancer / Teacher";
+    "Frontend Developer • JavaScript • Vue • Mentor & Educator";
   renderTitle(HERO_TITLES, mainHeader);
   const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
   const heroButton = createHeroButton();
@@ -143,7 +143,7 @@ function createHeroButton() {
   const heroButton = createElement(
     "a",
     { class: "btn btn--hero", href: "/contact" },
-    "Let's Chat"
+    "Contact Me"
   );
   heroButton.addEventListener("click", handleHeroButtonClick);
   return heroButton;

@@ -1,7 +1,7 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas, projectSubTitle } from "../utils/variable";
-import userImg from "../images/user.png";
 import clientImg from "../images/client.png";
+import client2Img from "../images/client-2.png";
 import { renderSubTitle, renderTitle } from "../utils/utils";
 
 function createHeroContent() {
@@ -22,9 +22,9 @@ function createHeroContent() {
       text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
     },
     {
-      image: userImg,
-      name: "Maria Lopez",
-      role: "Founder, Craftly",
+      image: client2Img,
+      name: "Lukman AdeKunle",
+      role: "CEO S.FORTH INTERLINKS",
       text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
     },
   ];
