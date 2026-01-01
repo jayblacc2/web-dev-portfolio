@@ -71,6 +71,7 @@ export const projectsData = [
       "crafted like a js framework single page application without using any framework.",
     stacks: ["HTML", "CSS", "JavaScript", "Webpack", "localStorage"],
     gitLink: "https://github.com/cursorbot/cursorbot",
+    demoLink: "https://health-tracker-demo.netlify.app",
     image: todo,
   },
   {
@@ -81,6 +82,7 @@ export const projectsData = [
       "A fullstack web application that allows to create and vue your favorite recipes.",
     stacks: ["HTML", "CSS", "JavaScript", "Express", "MongoDB"],
     gitLink: "https://github.com/cursorbot/cursorbot",
+    demoLink: "https://health-tracker-demo.netlify.app",
     image: glacy,
   },
   {
@@ -113,6 +115,7 @@ export const projectsData = [
       "Single page application with a responsive layout. demosstrates the power of Vanilla JS to create a modern web application.",
     stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
     gitLink: "https://github.com/cursorbot/cursorbot",
+    demoLink: "https://health-tracker-demo.netlify.app",
     image: skill,
   },
 ];
