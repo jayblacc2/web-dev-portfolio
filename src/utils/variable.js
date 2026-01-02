@@ -1,16 +1,15 @@
-import portfolio from "../assets/images/portfolio.webp";
 import recipe from "../assets/images/recipe.webp";
 import todo from "../assets/images/adv-todo.webp";
 import timer from "../assets/images/timer-app.webp";
 import glacy from "../assets/images/glacy-store.webp";
 import skill from "../assets/images/skill-portfolio.webp";
 
-import react from "../images/icons/react.svg";
-import git from "../images/icons/git.svg";
-import html from "../images/icons/html.svg";
-import css from "../images/icons/css.svg";
-import js from "../images/icons/js.svg";
-import vuejs from "../images/icons/vuejs.svg";
+import react from "../assets/icons/react.svg";
+import vuejs from "../assets/icons/vuejs.svg";
+import git from "../assets/icons/git.svg";
+import html from "../assets/icons/html.svg";
+import css from "../assets/icons/css.svg";
+import js from "../assets/icons/js.svg";
 
 export const items = [
   "JavaScript",

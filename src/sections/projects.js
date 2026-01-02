@@ -1,7 +1,7 @@
 import { createElement, createHtmlElement } from "../utils/utils";
 import { projectsData as datas, projectSubTitle } from "../utils/variable";
-import clientImg from "../images/client.png";
-import client2Img from "../images/client-2.png";
+import clientImg from "../assets/images/client.webp";
+import client2Img from "../assets/images/client-2.webp";
 import { renderSubTitle, renderTitle } from "../utils/utils";
 
 function createHeroContent() {

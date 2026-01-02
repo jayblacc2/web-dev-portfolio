@@ -1,5 +1,4 @@
-import { github, linkedIn, mail } from "../images/svgIcons/icons";
-
+import { github, linkedIn, mail } from "../assets/icons/icons";
 import {
   createSvgIcon,
   renderTitle,

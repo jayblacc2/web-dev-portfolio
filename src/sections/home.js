@@ -1,4 +1,4 @@
-import user from "../images/user.png";
+import user from "../assets/images/user.png";
 import { showSection } from "../modules/loadHeader";
 import {
   createHtmlElement,
