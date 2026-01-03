@@ -80,6 +80,25 @@ function header() {
     return cachedMobileMenu;
   };
 
+  // Click outside handler - defined once, added/removed dynamically
+  const handleOutsideClick = (e) => {
+    try {
+      const mobileMenu = getMobileMenu();
+
+      if (!mobileMenu || !e.target) return;
+
+      const clickedInsideMenu = mobileMenu.contains(e.target);
+      const clickedBurgerButton = burgerMenu.contains(e.target);
+
+      if (!clickedInsideMenu && !clickedBurgerButton) {
+        updateBurgerMenuState(false);
+        burgerMenu.focus();
+      }
+    } catch (error) {
+      console.error("Error handling outside click:", error);
+    }
+  };
+
   const updateBurgerMenuState = (isExpanded) => {
     burgerMenu.setAttribute("aria-expanded", isExpanded.toString());
     burgerMenu.innerHTML = isExpanded ? closeIcon : hamburgerIcon;
@@ -89,6 +108,16 @@ function header() {
       mobileMenu.classList.toggle("open", isExpanded);
     }
     document.body.classList.toggle("menu-open", isExpanded);
+
+    // Add/remove click outside listener based on menu state
+    if (isExpanded) {
+      // Use setTimeout to avoid catching the current click event
+      setTimeout(() => {
+        document.addEventListener("click", handleOutsideClick);
+      }, 0);
+    } else {
+      document.removeEventListener("click", handleOutsideClick);
+    }
   };
 
   burgerMenu.addEventListener("click", (event) => {
@@ -134,32 +163,6 @@ function header() {
 
   header.append(mobileNav);
   header.append(brand, nav, hireMeLink, burgerMenu);
-
-  // Enhanced click outside handler with error handling
-  const handleOutsideClick = (e) => {
-    try {
-      const mobileMenu = getMobileMenu();
-      const burgerMenuBtn = document.getElementById("burger-menu");
-
-      if (!mobileMenu || !burgerMenuBtn || !e.target) {
-        return;
-      }
-
-      const isMenuOpen = mobileMenu.classList.contains("open");
-      const clickedInsideMenu = mobileMenu.contains(e.target);
-      const clickedBurgerButton = burgerMenuBtn.contains(e.target);
-
-      if (isMenuOpen && !clickedInsideMenu && !clickedBurgerButton) {
-        updateBurgerMenuState(false);
-        // Return focus to burger button for accessibility
-        burgerMenuBtn.focus();
-      }
-    } catch (error) {
-      console.error("Error handling outside click:", error);
-    }
-  };
-
-  document.addEventListener("click", handleOutsideClick);
 
   // Setup observers and keyboard navigation after header is created
   setupKeyboardNavigation();

@@ -1,22 +1,37 @@
 # .gitignore
-.DS_Store
-node_modules
-dist/
-.vscode
-.aider*
 
-# Environment variables
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# Environment variables (keep secrets out of repo)
 .env
 .env.local
 .env.*.local
 
-# Temporary files
+# AI/Tool artifacts
+.aider*
+.kilocode/
+
+# Temporary development files
 src/style/tablet.css
+test-skills.html
+
+# Local config (if using custom config)
+src/config/config.js
+
+# Documentation drafts (remove these lines when docs are ready)
 PROJECT_CARDS_IMPROVEMENTS.md
 PROJECT_MODAL_IMPROVEMENTS.md
-README.md
 SKILLS_ENHANCEMENTS.md
-test-skills.html
-.kilocode
-doc
-src/config/config.js
+doc/

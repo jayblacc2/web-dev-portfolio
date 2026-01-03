@@ -50,6 +50,8 @@ function createHeroContent() {
       class: "testimonial-avatar",
       src: t.image,
       alt: `${t.name} photo`,
+      width: "48",
+      height: "48",
     });
 
     const meta = createElement("div", { class: "testimonial-meta" });
@@ -426,6 +428,8 @@ class ProjectModal {
       class: "modal__image",
       src: this.project.image || "",
       alt: `Screenshot of ${this.project.label} project`,
+      width: "600",
+      height: "400",
     });
 
     modalImage.onload = () => {

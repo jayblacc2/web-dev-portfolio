@@ -39,8 +39,8 @@ function skillSection() {
 
   let isCanvasInitialized = false;
 
-  // Function to initialize canvas
-  const initializeCanvas = () => {
+  // Function to initialize canvas when section becomes visible
+  const initializeSectionCanvas = () => {
     if (!isCanvasInitialized) {
       setTimeout(() => {
         animatedSkill(items, parentContainer);
@@ -49,8 +49,7 @@ function skillSection() {
     }
   };
 
-  // Function to cleanup canvas
-  // Function to cleanup canvas
+  // Function to cleanup canvas and remove event listeners
   const cleanupCanvas = () => {
     if (parentContainer.animationFrameId) {
       cancelAnimationFrame(parentContainer.animationFrameId);
@@ -59,12 +58,20 @@ function skillSection() {
 
     if (parentContainer.resizeObserver) {
       parentContainer.resizeObserver.disconnect();
+      parentContainer.resizeObserver = null;
     }
+
+    // Remove window resize listener to prevent memory leak
+    if (parentContainer.resizeHandler) {
+      window.removeEventListener("resize", parentContainer.resizeHandler);
+      parentContainer.resizeHandler = null;
+    }
+
     isCanvasInitialized = false;
   };
   // Set up callback for section initialization
   hero.sectionInitCallback = () => {
-    initializeCanvas();
+    initializeSectionCanvas();
   };
 
   // Set up callback for section cleanup
@@ -77,7 +84,7 @@ function skillSection() {
     hero.style.display !== "none" ||
     hero.classList.contains("active-section")
   ) {
-    setTimeout(() => initializeCanvas(), 100);
+    setTimeout(() => initializeSectionCanvas(), 100);
   }
 
   heroImage.appendChild(parentContainer);
@@ -237,6 +244,9 @@ function initializeCanvas(state) {
 
     drawCanvas(state);
   };
+
+  // Store handler reference for cleanup
+  parentContainer.resizeHandler = resizeCanvas;
 
   // Set up resize handling
   window.addEventListener("resize", resizeCanvas);
@@ -596,6 +606,23 @@ function animate(state) {
     isPlaying,
     animationSpeed,
   } = state;
+
+  // Skip animation when tab is not visible (saves CPU/battery)
+  if (document.visibilityState !== 'visible') {
+    // Schedule check when tab becomes visible again
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        if (isPlaying || state.focusedSkill !== null) {
+          animate(state);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    parentContainer.animationFrameId = null;
+    return;
+  }
+
   let needsNextFrame = false;
 
   if (isPlaying) {

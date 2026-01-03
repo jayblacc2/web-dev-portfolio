@@ -9,24 +9,23 @@ import {
   showFallbackMessage,
   createErrorFallback,
 } from "./utils/utils";
+import logger from "./utils/logger";
 
 // Global error handlers for production reliability
 window.addEventListener("error", (event) => {
-  console.error("Global error:", event.error);
-  // Send to error tracking service if available
-  if (window.Sentry) {
-    window.Sentry.captureException(event.error);
-  }
-  // Show user-friendly fallback message
+  logger.error("Global error caught", event.error, {
+    component: "window",
+    tags: { type: "uncaught-error" },
+  });
   showFallbackMessage("Something went wrong. Please refresh the page.");
 });
 
 window.addEventListener("unhandledrejection", (event) => {
-  console.error("Unhandled promise rejection:", event.reason);
-  event.preventDefault(); // Prevent console error
-  if (window.Sentry) {
-    window.Sentry.captureException(event.reason);
-  }
+  logger.error("Unhandled promise rejection", event.reason, {
+    component: "window",
+    tags: { type: "unhandled-rejection" },
+  });
+  event.preventDefault();
   showFallbackMessage("An unexpected error occurred. Please try again.");
 });
 

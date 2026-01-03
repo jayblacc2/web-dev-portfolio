@@ -256,6 +256,8 @@ export function createStackCard(icon, text, width) {
     class: CLASSES.CARD_ICON,
     src: icon || "",
     alt: text,
+    width: "50",
+    height: "50",
   });
 
   // Create the title element
@@ -285,7 +287,6 @@ export function createStackCard(icon, text, width) {
   // Append elements to the card
   cardContainer.append(iconContainer, cardProgressContainer);
 
-  const element = cardContainer.querySelector(".card__progressbar");
   return cardContainer;
 }
 

@@ -1,9 +1,15 @@
-/* @import "responsive.css"; */
-@import "animate.css";
-@import "home.css";
+/* ==========================================================
+   CSS IMPORTS - Organized by loading priority
+   ========================================================== */
+
+/* Critical CSS - Above-the-fold content (loaded first) */
+@import "animate.css";    /* Animations needed immediately */
+@import "home.css";       /* Home section - initial view */
+
+/* Section-specific CSS - Loaded with main bundle */
+@import "about.css";
 @import "skills.css";
 @import "project.css";
-@import "about.css";
 @import "contact.css";
 
 :root {

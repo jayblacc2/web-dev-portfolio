@@ -89,6 +89,10 @@ function createImageElement(src, alt) {
   img.alt = alt;
   img.loading = "lazy";
 
+  // Explicit dimensions to prevent CLS (Cumulative Layout Shift)
+  img.width = 280;
+  img.height = 280;
+
   // Add accessibility attributes
   img.setAttribute("role", "img");
   img.setAttribute(
