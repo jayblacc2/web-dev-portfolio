@@ -118,25 +118,31 @@ function createHeroContent() {
     });
   });
 
-  let autoTimer = setInterval(() => {
-    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-    updateTestimonials();
-  }, 5000);
+  let autoTimer;
 
-  testimonialsCarousel.addEventListener("mouseenter", () => {
-    clearInterval(autoTimer);
-  });
-  testimonialsCarousel.addEventListener("mouseleave", () => {
+  const startAutoTimer = () => {
     autoTimer = setInterval(() => {
       currentTestimonial = (currentTestimonial + 1) % testimonials.length;
       updateTestimonials();
     }, 5000);
-  });
+  };
+
+  const stopAutoTimer = () => {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  };
+
+  startAutoTimer();
+
+  testimonialsCarousel.addEventListener("mouseenter", stopAutoTimer);
+  testimonialsCarousel.addEventListener("mouseleave", startAutoTimer);
 
   updateTestimonials();
 
   heroContents.append(mainHeader, paragraph, testimonialsCarousel);
-  return heroContents;
+  return { element: heroContents, startAutoTimer, stopAutoTimer };
 }
 
 export default function projectSection() {
@@ -310,7 +316,17 @@ export default function projectSection() {
   renderProjects(currentPage);
 
   // Assemble the main content
-  hero.append(createHeroContent(), projectsWrapper);
+  const {
+    element: heroContents,
+    startAutoTimer,
+    stopAutoTimer,
+  } = createHeroContent();
+  hero.append(heroContents, projectsWrapper);
+
+  // Add lifecycle callbacks for testimonials auto-rotation
+  hero.sectionInitCallback = startAutoTimer;
+  hero.sectionCleanupCallback = stopAutoTimer;
+
   return hero;
 }
 

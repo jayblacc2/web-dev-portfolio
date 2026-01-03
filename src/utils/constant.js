@@ -15,3 +15,6 @@ export const CLASSES = {
   PROGRESSBAR: "card__progressbar",
   TEXT_BOX: "text__box",
 };
+
+export const SKILL_BUBBLE_BASE_RADIUS = 50;
+export const CONTAINER_RADIUS_DIVISOR = 4;

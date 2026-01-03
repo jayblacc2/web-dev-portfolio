@@ -469,17 +469,44 @@ export function animatedSkill(items, parentContainer) {
 
     const detail = skillDetails[item] || `Professional experience with ${item}`;
 
-    details.innerHTML = `
-      <div class="details-header">
-        <h4>${item}</h4>
-        <button class="details-close" onclick="this.parentElement.parentElement.style.opacity='0'">×</button>
-      </div>
-      <p>${detail}</p>
-      <div class="details-actions">
-        <button class="details-btn">View Projects</button>
-        <button class="details-btn">Learn More</button>
-      </div>
-    `;
+    // Clear existing content
+    details.innerHTML = '';
+
+    const detailsHeader = document.createElement('div');
+    detailsHeader.className = 'details-header';
+
+    const h4 = document.createElement('h4');
+    h4.textContent = item;
+    detailsHeader.appendChild(h4);
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'details-close';
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', () => {
+      details.style.opacity = '0';
+    });
+    detailsHeader.appendChild(closeButton);
+
+    const p = document.createElement('p');
+    p.textContent = detail;
+
+    const detailsActions = document.createElement('div');
+    detailsActions.className = 'details-actions';
+
+    const viewProjectsBtn = document.createElement('button');
+    viewProjectsBtn.className = 'details-btn';
+    viewProjectsBtn.textContent = 'View Projects';
+    detailsActions.appendChild(viewProjectsBtn);
+
+    const learnMoreBtn = document.createElement('button');
+    learnMoreBtn.className = 'details-btn';
+    learnMoreBtn.textContent = 'Learn More';
+    detailsActions.appendChild(learnMoreBtn);
+
+    details.appendChild(detailsHeader);
+    details.appendChild(p);
+    details.appendChild(detailsActions);
+
     details.style.opacity = 1;
     details.style.transform = "translateX(-50%) scale(1)";
   }

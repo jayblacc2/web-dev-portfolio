@@ -136,7 +136,7 @@ function header() {
   header.append(brand, nav, hireMeLink, burgerMenu);
 
   // Enhanced click outside handler with error handling
-  document.addEventListener("click", (e) => {
+  const handleOutsideClick = (e) => {
     try {
       const mobileMenu = getMobileMenu();
       const burgerMenuBtn = document.getElementById("burger-menu");
@@ -157,12 +157,17 @@ function header() {
     } catch (error) {
       console.error("Error handling outside click:", error);
     }
-  });
+  };
+
+  document.addEventListener("click", handleOutsideClick);
 
   // Setup observers and keyboard navigation after header is created
   setupKeyboardNavigation();
 
-  return header;
+  return {
+    element: header,
+    cleanup: () => document.removeEventListener("click", handleOutsideClick)
+  };
 }
 
 function mobileMenu() {

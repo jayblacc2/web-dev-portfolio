@@ -50,7 +50,8 @@ function app() {
     let pageHeader, pageSection, pageFooter;
 
     try {
-      pageHeader = header();
+      const headerInstance = header();
+      pageHeader = headerInstance.element;
     } catch (error) {
       console.error("Failed to load header:", error);
       pageHeader = createErrorFallback("header");
