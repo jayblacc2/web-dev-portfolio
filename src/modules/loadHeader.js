@@ -114,7 +114,7 @@ function header() {
         }
       }
     } catch (error) {
-      console.log("Error toggling mobile menu:", error);
+      console.error("Error toggling mobile menu:", error);
     }
   });
 
@@ -155,7 +155,7 @@ function header() {
         burgerMenuBtn.focus();
       }
     } catch (error) {
-      console.log("Error handling outside click:", error);
+      console.error("Error handling outside click:", error);
     }
   });
 

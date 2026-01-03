@@ -4,7 +4,11 @@ import loadSection from "./modules/loadSection";
 import "./style/style.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { initializeProgressBars } from "./utils/utils";
+import {
+  initializeProgressBars,
+  showFallbackMessage,
+  createErrorFallback,
+} from "./utils/utils";
 
 // Global error handlers for production reliability
 window.addEventListener("error", (event) => {
@@ -25,44 +29,6 @@ window.addEventListener("unhandledrejection", (event) => {
   }
   showFallbackMessage("An unexpected error occurred. Please try again.");
 });
-
-// Fallback error message function
-function showFallbackMessage(message) {
-  // Create a simple error overlay
-  const errorOverlay = document.createElement("div");
-  errorOverlay.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-  `;
-  errorOverlay.innerHTML = `
-    <div>
-      <h2>⚠️ Oops!</h2>
-      <p>${message}</p>
-      <button onclick="location.reload()" style="
-        padding: 10px 20px;
-        background: #5462ffe4;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-      ">Refresh Page</button>
-    </div>
-  `;
-  document.body.appendChild(errorOverlay);
-}
 
 function app() {
   try {
@@ -87,21 +53,20 @@ function app() {
       pageHeader = header();
     } catch (error) {
       console.error("Failed to load header:", error);
-      pageHeader = createErrorSection("header");
+      pageHeader = createErrorFallback("header");
     }
 
     try {
       pageSection = loadSection();
     } catch (error) {
-      console.error("Failed to load sections:", error);
-      pageSection = createErrorSection("sections");
+      pageSection = createErrorFallback("sections");
     }
 
     try {
       pageFooter = footer();
     } catch (error) {
       console.error("Failed to load footer:", error);
-      pageFooter = createErrorSection("footer");
+      pageFooter = createErrorFallback("footer");
     }
 
     app.append(pageHeader, pageSection, pageFooter);
@@ -123,25 +88,5 @@ function app() {
 }
 
 // Error boundary for section loading
-function createErrorSection(sectionName) {
-  const errorDiv = document.createElement("div");
-  errorDiv.style.cssText = `
-    padding: 20px;
-    text-align: center;
-    border-radius: 5px;
-    margin: 10px;
-    height: 80vh;
-    display: flex;
-    color: red;
-    flex-direction: column;
-    justify-content: center;
-  `;
-  errorDiv.innerHTML = `
-    <h3><i class="fas fa-exclamation-triangle"></i> Something went wrong</h3>
-    <p>Failed to load the section.</p>
-    
-  `;
-  return errorDiv;
-}
 
 app();

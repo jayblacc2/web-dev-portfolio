@@ -50,14 +50,18 @@ function skillSection() {
   };
 
   // Function to cleanup canvas
+  // Function to cleanup canvas
   const cleanupCanvas = () => {
     if (parentContainer.animationFrameId) {
       cancelAnimationFrame(parentContainer.animationFrameId);
       parentContainer.animationFrameId = null;
     }
+
+    if (parentContainer.resizeObserver) {
+      parentContainer.resizeObserver.disconnect();
+    }
     isCanvasInitialized = false;
   };
-
   // Set up callback for section initialization
   hero.sectionInitCallback = () => {
     initializeCanvas();
@@ -444,7 +448,6 @@ export function animatedSkill(items, parentContainer) {
   playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
   playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
 
-
   function showDetails(item, index) {
     const skillDetails = {
       JavaScript:
@@ -627,7 +630,6 @@ export function animatedSkill(items, parentContainer) {
   }
 
   resizeCanvas();
-
 
   // Ensure proper initialization on tablets
   setTimeout(() => {

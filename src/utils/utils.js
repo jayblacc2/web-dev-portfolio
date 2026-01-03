@@ -133,13 +133,13 @@ export function alertBadge(text, color, element) {
 // New cookie consent function
 export function cookieConsent() {
   // Check if user has already made a choice
-  if (localStorage.getItem('cookieConsent')) {
+  if (localStorage.getItem("cookieConsent")) {
     return;
   }
 
-  const cookieContainer = createHtmlElement("div", { 
+  const cookieContainer = createHtmlElement("div", {
     class: "cookie-consent",
-    id: "cookie-consent-banner"
+    id: "cookie-consent-banner",
   });
 
   // Cookie message
@@ -153,36 +153,38 @@ export function cookieConsent() {
   const buttonContainer = createHtmlElement("div", { class: "cookie-buttons" });
 
   // Accept button
-  const acceptBtn = createHtmlElement("button", { 
+  const acceptBtn = createHtmlElement("button", {
     class: "cookie-btn cookie-accept",
-    type: "button"
+    type: "button",
   });
   acceptBtn.innerText = "Accept";
   acceptBtn.addEventListener("click", () => {
-    localStorage.setItem('cookieConsent', 'accepted');
+    localStorage.setItem("cookieConsent", "accepted");
     closeCookieBanner(cookieContainer);
   });
 
   // Decline button
-  const declineBtn = createHtmlElement("button", { 
+  const declineBtn = createHtmlElement("button", {
     class: "cookie-btn cookie-decline",
-    type: "button"
+    type: "button",
   });
   declineBtn.innerText = "Decline";
   declineBtn.addEventListener("click", () => {
-    localStorage.setItem('cookieConsent', 'declined');
+    localStorage.setItem("cookieConsent", "declined");
     closeCookieBanner(cookieContainer);
   });
 
   // Learn more link
-  const learnMoreLink = createHtmlElement("a", { 
+  const learnMoreLink = createHtmlElement("a", {
     class: "cookie-learn-more",
-    href: "#"
+    href: "#",
   });
   learnMoreLink.innerText = "Learn More";
   learnMoreLink.addEventListener("click", (e) => {
     e.preventDefault();
-    alert("Cookie Policy: We use essential cookies for site functionality and analytics cookies to improve user experience.");
+    alert(
+      "Cookie Policy: We use essential cookies for site functionality and analytics cookies to improve user experience."
+    );
   });
 
   buttonContainer.append(acceptBtn, declineBtn, learnMoreLink);
@@ -198,14 +200,13 @@ export function cookieConsent() {
 function closeCookieBanner(container) {
   container.classList.remove("slide-in");
   container.classList.add("slide-out");
-  
+
   setTimeout(() => {
     if (container.parentNode) {
       container.parentNode.removeChild(container);
     }
   }, 800);
 }
-
 
 //create stack helper function
 export function createStackCard(icon, text, width) {
@@ -282,4 +283,32 @@ export function initializeProgressBars() {
     });
   });
   return progressContainer;
+}
+
+export function createErrorFallback(sectionName) {
+  const errorFallback = createHtmlElement("div", {
+    class: "fallback-section",
+  });
+
+  errorFallback.innerHTML = `
+    <h3><i class="fas fa-exclamation-triangle"></i> Something went wrong</h3>
+    <p>Failed to load the section ${sectionName}.</p>
+    <button class="fallback-btn" onclick="location.reload()">Reload</button>
+  `;
+  return errorFallback;
+}
+
+// Fallback error message function
+export function showFallbackMessage(message) {
+  const errorOverlay = document.createHtmlElement("div", {
+    class: "fallback-message",
+  });
+
+  errorOverlay.innerHTML = ` 
+  <div class="fallback-message">
+    <h2>⚠️ Oops!</h2>
+    <p>${message}</p>
+    <button class="fallback-btn" onclick="location.reload()">Refresh Page</button>
+  </div>`;
+  document.body.appendChild(errorOverlay);
 }

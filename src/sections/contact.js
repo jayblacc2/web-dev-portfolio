@@ -234,12 +234,7 @@ function submitForm(form) {
       showUserFriendlyError(errorMessage, button, btnText, btnIcon, error);
 
       // Log detailed error for debugging
-      console.error("Network error details:", {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        timestamp: new Date().toISOString(),
-      });
+      console.error("Network error details:", error);
     });
 }
 
