@@ -23,22 +23,58 @@ export function createSvgIcon(svgIcon, options = {}, icon) {
   return icon;
 }
 
-// Unified DOM element creation function
-export function createElement(tag, attributes = {}, textContent = null) {
+/**
+ * Creates a DOM element with specified tag, attributes, text content, and event listeners.
+ * @param {string} tag - The HTML tag name (e.g., 'div', 'button').
+ * @param {Object} [attributes={}] - An object of attributes to set on the element.
+ *   - For properties like 'value', 'checked', 'disabled', 'selected', sets the element property.
+ *   - For boolean attributes like 'checked', 'disabled', etc., sets/removes the attribute based on truthiness.
+ *   - For other attributes, sets if value is truthy, removes if falsy.
+ * @param {string|null} [textContent=null] - The text content to set on the element.
+ * @param {Object} [listeners={}] - An object of event listeners to attach, e.g., { click: handler, mouseover: handler }.
+ * @returns {HTMLElement} The created DOM element.
+ * @throws {Error} If tag is not a non-empty string.
+ */
+export function createElement(tag, attributes = {}, textContent = null, listeners = {}) {
+  if (typeof tag !== 'string' || !tag.trim()) {
+    throw new Error('Invalid tag: must be a non-empty string');
+  }
+
   const element = document.createElement(tag);
 
   if (attributes) {
+    const propertyKeys = ['value', 'checked', 'disabled', 'selected'];
+    const booleanAttrs = ['checked', 'disabled', 'selected', 'readonly', 'required', 'hidden'];
+
     for (const [key, value] of Object.entries(attributes)) {
-      if (value !== undefined && value !== null && value !== "") {
-        element.setAttribute(key, value);
+      if (propertyKeys.includes(key)) {
+        element[key] = value;
+      } else if (booleanAttrs.includes(key)) {
+        if (value) {
+          element.setAttribute(key, '');
+        } else {
+          element.removeAttribute(key);
+        }
       } else {
-        element.removeAttribute(key);
+        if (value !== undefined && value !== null && value !== '') {
+          element.setAttribute(key, value);
+        } else {
+          element.removeAttribute(key);
+        }
       }
     }
   }
 
   if (textContent) {
     element.textContent = textContent;
+  }
+
+  if (listeners) {
+    for (const [event, handler] of Object.entries(listeners)) {
+      if (typeof handler === 'function') {
+        element.addEventListener(event, handler);
+      }
+    }
   }
 
   return element;
