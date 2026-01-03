@@ -223,7 +223,7 @@ export function createStackCard(icon, text, width) {
   });
 
   // Create the title element
-  const cardTitle = document.createElement("figcaption", {
+  const cardTitle = createElement("figcaption", {
     class: CLASSES.CARD_TITLE,
   });
   cardTitle.innerText = text || "";
@@ -300,7 +300,7 @@ export function createErrorFallback(sectionName) {
 
 // Fallback error message function
 export function showFallbackMessage(message) {
-  const errorOverlay = document.createHtmlElement("div", {
+  const errorOverlay = createHtmlElement("div", {
     class: "fallback-message",
   });
 

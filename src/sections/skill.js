@@ -139,52 +139,139 @@ function initiateSkills() {
   `;
 }
 
-export function animatedSkill(items, parentContainer) {
-  // Clean up any existing animation before reinitializing
-  if (parentContainer.animationFrameId) {
-    cancelAnimationFrame(parentContainer.animationFrameId);
-    parentContainer.animationFrameId = null;
+// Constants
+const SKILL_BUBBLE_BASE_RADIUS = 50;
+const ANIMATION_THEMES = [
+  {
+    name: "Vibrant Pink",
+    background: "#ff007b",
+    gradient: ["#ff007b", "#b30056"],
+    accent: "#ff6b9d",
+  },
+  {
+    name: "Fresh Green",
+    background: "#00ff7b",
+    gradient: ["#00ff7b", "#00b356"],
+    accent: "#51cf66",
+  },
+  {
+    name: "Sunset Orange",
+    background: "#ff6b35",
+    gradient: ["#ff6b35", "#cc4125"],
+    accent: "#ff8c42",
+  },
+  {
+    name: "Purple Galaxy",
+    background: "#7c3aed",
+    gradient: ["#7c3aed", "#5b21b6"],
+    accent: "#a855f7",
+  },
+];
+
+const SKILL_DESCRIPTIONS = {
+  JavaScript:
+    "Dynamic programming language for web development with ES6+ features",
+  TypeScript:
+    "Strongly typed superset of JavaScript for large-scale applications",
+  HTML5: "Modern markup language with semantic elements and APIs",
+  CSS3: "Advanced styling with animations, flexbox, and grid layouts",
+  React: "Component-based library for building interactive user interfaces",
+  "Vue JS": "Progressive framework for building modern web applications",
+  "Next JS": "Full-stack React framework with SSR and static generation",
+  "Node JS": "Server-side JavaScript runtime for backend development",
+  Webpack: "Module bundler for optimizing and building web applications",
+  SASS: "CSS preprocessor with variables, mixins, and nesting",
+  JQuery: "JavaScript library for DOM manipulation and AJAX",
+  Git: "Distributed version control system for code management",
+  BEM: "CSS methodology for maintainable and scalable stylesheets",
+};
+
+/**
+ * Creates the initial animation state object
+ */
+function createAnimationState(items, parentContainer) {
+  return {
+    items,
+    parentContainer,
+    canvas: null,
+    ctx: null,
+    details: null,
+    currentTheme: ANIMATION_THEMES[0],
+    isPlaying: false,
+    animationSpeed: 1,
+    containerRadius: Math.min(window.innerWidth, window.innerHeight) / 6,
+    centerX: 0,
+    centerY: 0,
+    angleOffset: 0,
+    focusedSkill: null,
+    skillScales: items.map(() => 1),
+    skillOpacities: items.map(() => 1),
+    resizeObserver: null,
+  };
+}
+
+/**
+ * Initializes the canvas element and sets up resize handling
+ */
+function initializeCanvas(state) {
+  const { parentContainer } = state;
+
+  state.canvas = parentContainer.querySelector("#skillsCanvas");
+  state.details = parentContainer.querySelector("#details");
+  state.ctx = state.canvas.getContext("2d");
+
+  const resizeCanvas = () => {
+    const rect = state.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    state.canvas.width = rect.width * dpr;
+    state.canvas.height = rect.height * dpr;
+    state.ctx.scale(dpr, dpr);
+
+    state.canvas.style.width = rect.width + "px";
+    state.canvas.style.height = rect.height + "px";
+
+    state.centerX = rect.width / 2;
+    state.centerY = rect.height / 2;
+    state.containerRadius = Math.min(rect.width, rect.height) / 4;
+
+    drawCanvas(state);
+  };
+
+  // Set up resize handling
+  window.addEventListener("resize", resizeCanvas);
+
+  if (window.ResizeObserver) {
+    state.resizeObserver = new ResizeObserver(resizeCanvas);
+    state.resizeObserver.observe(parentContainer);
+    parentContainer.resizeObserver = state.resizeObserver;
   }
 
-  parentContainer.innerHTML = initiateSkills();
-  // Get the elements from the parent container
-  const canvas = parentContainer.querySelector("#skillsCanvas");
-  const details = parentContainer.querySelector("#details");
+  resizeCanvas();
+  setTimeout(resizeCanvas, 100);
+
+  return resizeCanvas;
+}
+
+/**
+ * Creates the theme selector UI and handles theme switching
+ */
+function createThemeSelector(state) {
+  const { parentContainer, canvas } = state;
   const themeSelector = parentContainer.querySelector(".theme-selector");
-  const playPauseBtn = parentContainer.querySelector("#playPauseBtn");
-  const speedSlider = parentContainer.querySelector("#speedSlider");
 
-  const themes = [
-    {
-      name: "Vibrant Pink",
-      background: "#ff007b",
-      gradient: ["#ff007b", "#b30056"],
-      accent: "#ff6b9d",
-    },
-    {
-      name: "Fresh Green",
-      background: "#00ff7b",
-      gradient: ["#00ff7b", "#00b356"],
-      accent: "#51cf66",
-    },
-    {
-      name: "Sunset Orange",
-      background: "#ff6b35",
-      gradient: ["#ff6b35", "#cc4125"],
-      accent: "#ff8c42",
-    },
-    {
-      name: "Purple Galaxy",
-      background: "#7c3aed",
-      gradient: ["#7c3aed", "#5b21b6"],
-      accent: "#a855f7",
-    },
-  ];
-
-  // Clear existing theme buttons to prevent duplicate event listeners
   themeSelector.innerHTML = '<span class="theme-label">Themes:</span>';
 
-  themes.forEach((theme, index) => {
+  const setTheme = (index) => {
+    state.currentTheme = ANIMATION_THEMES[index];
+    canvas.style.filter = "brightness(0.8)";
+    setTimeout(() => {
+      canvas.style.filter = "brightness(1)";
+    }, 200);
+    drawCanvas(state);
+  };
+
+  ANIMATION_THEMES.forEach((theme, index) => {
     const button = document.createElement("div");
     button.className = "theme-button";
     button.style.background = theme.background;
@@ -192,478 +279,459 @@ export function animatedSkill(items, parentContainer) {
     button.addEventListener("click", () => setTheme(index));
     themeSelector.appendChild(button);
   });
+}
 
-  function setTheme(index) {
-    currentTheme = themes[index];
-    // Add theme transition effect
-    canvas.style.filter = "brightness(0.8)";
-    setTimeout(() => {
-      canvas.style.filter = "brightness(1)";
-    }, 200);
-    // Force immediate redraw to show theme change
-    draw();
-  }
+/**
+ * Sets up animation play/pause and speed controls
+ */
+function setupAnimationControls(state) {
+  const { parentContainer } = state;
+  const playPauseBtn = parentContainer.querySelector("#playPauseBtn");
+  const speedSlider = parentContainer.querySelector("#speedSlider");
 
-  let currentTheme = themes[0];
-  let isPlaying = false;
-  let animationSpeed = 1;
+  const updateButtonState = () => {
+    playPauseBtn.textContent = state.isPlaying ? "⏸️" : "▶️";
+    playPauseBtn.title = state.isPlaying ? "Pause Animation" : "Play Animation";
+  };
 
-  //animate
-  const ctx = canvas.getContext("2d");
-  let CONTAINER_RADIUS = Math.min(window.innerWidth, window.innerHeight) / 6;
-  let CENTER_X = canvas.width / 2;
-  let CENTER_Y = canvas.height / 2;
-  let angleOffset = 0;
-  let focusedSkill = null;
-  let skillScales = items.map(() => 1);
-  let skillOpacities = items.map(() => 1);
-
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-
-    // Set actual canvas size
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-
-    // Scale the context to match device pixel ratio
-    ctx.scale(dpr, dpr);
-
-    // Set CSS size
-    canvas.style.width = rect.width + "px";
-    canvas.style.height = rect.height + "px";
-
-    CENTER_X = rect.width / 2;
-    CENTER_Y = rect.height / 2;
-    CONTAINER_RADIUS = Math.min(rect.width, rect.height) / 4;
-
-    draw();
-  }
-
-  function draw() {
-    // Clear the canvas first
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Create subtle background gradient
-    const bgGradient = ctx.createRadialGradient(
-      CENTER_X,
-      CENTER_Y,
-      0,
-      CENTER_X,
-      CENTER_Y,
-      CONTAINER_RADIUS * 1.5
-    );
-    bgGradient.addColorStop(0, "rgba(255, 255, 255, 0.02)");
-    bgGradient.addColorStop(1, "rgba(0, 0, 0, 0.05)");
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    items.forEach((item, index) => {
-      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-      const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-      const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-
-      const scale = skillScales[index];
-      const opacity = skillOpacities[index];
-      const radius = 50 * scale;
-
-      // Draw outer glow effect
-      if (focusedSkill === index) {
-        const glowGradient = ctx.createRadialGradient(
-          x,
-          y,
-          radius,
-          x,
-          y,
-          radius + 20
-        );
-        glowGradient.addColorStop(0, `${currentTheme.accent}40`);
-        glowGradient.addColorStop(1, "transparent");
-        ctx.fillStyle = glowGradient;
-        ctx.beginPath();
-        ctx.arc(x, y, radius + 20, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-
-      // Draw main gradient circle with enhanced effects
-      const gradient = ctx.createRadialGradient(x, y, 20, x, y, radius);
-      gradient.addColorStop(0, currentTheme.gradient[0]);
-      gradient.addColorStop(0.7, currentTheme.gradient[1]);
-      gradient.addColorStop(1, currentTheme.gradient[1] + "CC");
-
-      ctx.globalAlpha = opacity;
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-
-      // Enhanced stroke with shadow
-      ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-      ctx.shadowBlur = 10;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.strokeStyle =
-        focusedSkill === index
-          ? currentTheme.accent
-          : "rgba(255, 255, 255, 0.3)";
-      ctx.lineWidth = focusedSkill === index ? 3 : 2;
-      ctx.stroke();
-
-      // Reset shadow
-      ctx.shadowColor = "transparent";
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-
-      // Enhanced text with better typography
-      const fontSize = Math.max(12, Math.min(16, radius / 3));
-      ctx.font = `bold ${fontSize}px 'Segoe UI', Arial, sans-serif`;
-      ctx.fillStyle = "#ffffff";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      // Add text shadow for better readability
-      ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
-      ctx.shadowBlur = 4;
-      ctx.fillText(item, x, y);
-
-      // Reset shadow
-      ctx.shadowColor = "transparent";
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1;
-    });
-
-    // Draw connecting lines between skills (optional decorative effect)
-    if (focusedSkill !== null) {
-      drawConnectionLines();
+  const togglePlayPause = () => {
+    state.isPlaying = !state.isPlaying;
+    updateButtonState();
+    if (state.isPlaying) {
+      startAnimation(state);
     }
-  }
+  };
 
-  function drawConnectionLines() {
-    const focusedAngle =
-      (focusedSkill / items.length) * (2 * Math.PI) + angleOffset;
-    const focusedX = CENTER_X + CONTAINER_RADIUS * Math.cos(focusedAngle);
-    const focusedY = CENTER_Y + CONTAINER_RADIUS * Math.sin(focusedAngle);
+  const updateSpeed = (speed) => {
+    state.animationSpeed = parseFloat(speed);
+  };
 
-    ctx.strokeStyle = currentTheme.accent + "30";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([5, 5]);
-
-    items.forEach((_, index) => {
-      if (index !== focusedSkill) {
-        const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-        const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-        const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-
-        ctx.beginPath();
-        ctx.moveTo(focusedX, focusedY);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-      }
-    });
-
-    ctx.setLineDash([]);
-  }
-
-  draw();
-
-  function animate() {
-    let needsNextFrame = false;
-
-    if (isPlaying) {
-      angleOffset = Date.now() * 0.001 * animationSpeed;
-      needsNextFrame = true;
-    }
-
-    // Smooth scale and opacity transitions with optimization
-    let hasActiveTransitions = false;
-    skillScales.forEach((scale, index) => {
-      const targetScale = focusedSkill === index ? 1.2 : 1;
-      const diff = targetScale - scale;
-      if (Math.abs(diff) > 0.001) {
-        skillScales[index] += diff * 0.1;
-        hasActiveTransitions = true;
-      } else {
-        skillScales[index] = targetScale;
-      }
-    });
-
-    skillOpacities.forEach((opacity, index) => {
-      const targetOpacity =
-        focusedSkill === null || focusedSkill === index ? 1 : 0.6;
-      const diff = targetOpacity - opacity;
-      if (Math.abs(diff) > 0.001) {
-        skillOpacities[index] += diff * 0.1;
-        hasActiveTransitions = true;
-      } else {
-        skillOpacities[index] = targetOpacity;
-      }
-    });
-
-    if (hasActiveTransitions || isPlaying) {
-      draw();
-      needsNextFrame = true;
-    }
-
-    if (needsNextFrame) {
-      parentContainer.animationFrameId = requestAnimationFrame(animate);
-    } else {
-      parentContainer.animationFrameId = null;
-    }
-  }
-
-  function startAnimation() {
-    if (!parentContainer.animationFrameId) {
-      animate(); // Start the animation loop on demand
-    }
-  }
-
-  function stopAnimation() {
-    if (parentContainer.animationFrameId) {
-      cancelAnimationFrame(parentContainer.animationFrameId);
-      parentContainer.animationFrameId = null;
-    }
-  }
-
-  function togglePlayPause() {
-    isPlaying = !isPlaying;
-    playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
-    playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
-    if (isPlaying) {
-      startAnimation(); // Start animation when playing
-    }
-  }
-
-  function updateAnimationSpeed(speed) {
-    animationSpeed = parseFloat(speed);
-  }
-
-  // Control event listeners
   playPauseBtn.addEventListener("click", togglePlayPause);
-  speedSlider.addEventListener("input", (e) =>
-    updateAnimationSpeed(e.target.value)
-  );
+  speedSlider.addEventListener("input", (e) => updateSpeed(e.target.value));
 
-  // Set initial button state
-  playPauseBtn.textContent = isPlaying ? "⏸️" : "▶️";
-  playPauseBtn.title = isPlaying ? "Pause Animation" : "Play Animation";
+  updateButtonState();
+}
 
-  function showDetails(item, index) {
-    const skillDetails = {
-      JavaScript:
-        "Dynamic programming language for web development with ES6+ features",
-      TypeScript:
-        "Strongly typed superset of JavaScript for large-scale applications",
-      HTML5: "Modern markup language with semantic elements and APIs",
-      CSS3: "Advanced styling with animations, flexbox, and grid layouts",
-      React: "Component-based library for building interactive user interfaces",
-      "Vue JS": "Progressive framework for building modern web applications",
-      "Next JS": "Full-stack React framework with SSR and static generation",
-      "Node JS": "Server-side JavaScript runtime for backend development",
-      Webpack: "Module bundler for optimizing and building web applications",
-      SASS: "CSS preprocessor with variables, mixins, and nesting",
-      JQuery: "JavaScript library for DOM manipulation and AJAX",
-      Git: "Distributed version control system for code management",
-      BEM: "CSS methodology for maintainable and scalable stylesheets",
-    };
+/**
+ * Sets up all mouse and touch event listeners for the canvas
+ */
+function setupEventListeners(state) {
+  const { canvas, parentContainer, items } = state;
 
-    const detail = skillDetails[item] || `Professional experience with ${item}`;
+  const getSkillAtPosition = (x, y) => {
+    for (let index = 0; index < items.length; index++) {
+      const angle = (index / items.length) * (2 * Math.PI) + state.angleOffset;
+      const skillX = state.centerX + state.containerRadius * Math.cos(angle);
+      const skillY = state.centerY + state.containerRadius * Math.sin(angle);
+      const radius = SKILL_BUBBLE_BASE_RADIUS * state.skillScales[index];
+      const distance = Math.sqrt((x - skillX) ** 2 + (y - skillY) ** 2);
 
-    // Clear existing content
-    details.innerHTML = '';
+      if (distance < radius) {
+        return { index, item: items[index] };
+      }
+    }
+    return null;
+  };
 
-    const detailsHeader = document.createElement('div');
-    detailsHeader.className = 'details-header';
+  const handleSkillHover = (x, y) => {
+    const skill = getSkillAtPosition(x, y);
 
-    const h4 = document.createElement('h4');
-    h4.textContent = item;
-    detailsHeader.appendChild(h4);
+    if (skill) {
+      if (state.focusedSkill !== skill.index) {
+        state.focusedSkill = skill.index;
+        canvas.style.cursor = "pointer";
+        startAnimation(state);
+      }
+      return true;
+    }
 
-    const closeButton = document.createElement('button');
-    closeButton.className = 'details-close';
-    closeButton.textContent = '×';
-    closeButton.addEventListener('click', () => {
-      details.style.opacity = '0';
-    });
-    detailsHeader.appendChild(closeButton);
+    if (state.focusedSkill !== null) {
+      state.focusedSkill = null;
+      canvas.style.cursor = "default";
+    }
+    return false;
+  };
 
-    const p = document.createElement('p');
-    p.textContent = detail;
+  const handleSkillClick = (x, y) => {
+    const skill = getSkillAtPosition(x, y);
 
-    const detailsActions = document.createElement('div');
-    detailsActions.className = 'details-actions';
+    if (skill) {
+      showDetails(state, skill.item);
+      state.skillScales[skill.index] = 0.8;
+      startAnimation(state);
+      setTimeout(() => {
+        state.skillScales[skill.index] = 1.2;
+      }, 100);
+    }
+  };
 
-    const viewProjectsBtn = document.createElement('button');
-    viewProjectsBtn.className = 'details-btn';
-    viewProjectsBtn.textContent = 'View Projects';
-    detailsActions.appendChild(viewProjectsBtn);
-
-    const learnMoreBtn = document.createElement('button');
-    learnMoreBtn.className = 'details-btn';
-    learnMoreBtn.textContent = 'Learn More';
-    detailsActions.appendChild(learnMoreBtn);
-
-    details.appendChild(detailsHeader);
-    details.appendChild(p);
-    details.appendChild(detailsActions);
-
-    details.style.opacity = 1;
-    details.style.transform = "translateX(-50%) scale(1)";
-  }
-
-  function hideDetails() {
-    details.style.opacity = 0;
-    details.style.transform = "translateX(-50%) scale(0.9)";
-  }
-
-  parentContainer.addEventListener("mouseenter", () => {
-    // Animation should already be running, no need to restart
-    // This event can be used for other hover effects if needed
-  });
+  // Mouse events
   parentContainer.addEventListener("mouseleave", () => {
-    focusedSkill = null;
-    hideDetails();
+    state.focusedSkill = null;
+    hideDetails(state);
   });
 
   canvas.addEventListener("mousemove", (event) => {
     const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-    let foundSkill = false;
-
-    items.forEach((item, index) => {
-      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-      const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-      const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-      const radius = 50 * skillScales[index];
-      const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
-
-      if (distance < radius) {
-        if (focusedSkill !== index) {
-          focusedSkill = index;
-          canvas.style.cursor = "pointer";
-          startAnimation(); // Start animation for smooth transitions
-        }
-        foundSkill = true;
-      }
-    });
-
-    if (!foundSkill && focusedSkill !== null) {
-      focusedSkill = null;
-      canvas.style.cursor = "default";
-    }
+    handleSkillHover(event.clientX - rect.left, event.clientY - rect.top);
   });
 
   canvas.addEventListener("mouseleave", () => {
-    focusedSkill = null;
+    state.focusedSkill = null;
     canvas.style.cursor = "default";
   });
 
   canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-
-    items.forEach((item, index) => {
-      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-      const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-      const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-      const radius = 50 * skillScales[index];
-      const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
-
-      if (distance < radius) {
-        showDetails(item, index);
-        // Add click animation effect
-        skillScales[index] = 0.8;
-        startAnimation(); // Start animation for click effect
-        setTimeout(() => {
-          skillScales[index] = 1.2;
-        }, 100);
-      }
-    });
+    handleSkillClick(event.clientX - rect.left, event.clientY - rect.top);
   });
 
-  // Enhanced touch events for mobile devices
+  // Touch events
   canvas.addEventListener("touchstart", (event) => {
     event.preventDefault();
     const touch = event.touches[0];
     const rect = canvas.getBoundingClientRect();
-    const touchX = touch.clientX - rect.left;
-    const touchY = touch.clientY - rect.top;
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    const skill = getSkillAtPosition(x, y);
 
-    items.forEach((item, index) => {
-      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-      const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-      const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-      const radius = 50 * skillScales[index];
-      const distance = Math.sqrt((touchX - x) ** 2 + (touchY - y) ** 2);
-
-      if (distance < radius) {
-        focusedSkill = index;
-        startAnimation(); // Start animation for touch feedback
-        showDetails(item, index);
-
-        // Touch feedback
-        skillScales[index] = 0.9;
-        setTimeout(() => {
-          skillScales[index] = 1.1;
-        }, 150);
-      }
-    });
+    if (skill) {
+      state.focusedSkill = skill.index;
+      startAnimation(state);
+      showDetails(state, skill.item);
+      state.skillScales[skill.index] = 0.9;
+      setTimeout(() => {
+        state.skillScales[skill.index] = 1.1;
+      }, 150);
+    }
   });
 
   canvas.addEventListener("touchmove", (event) => {
     event.preventDefault();
     const touch = event.touches[0];
     const rect = canvas.getBoundingClientRect();
-    const touchX = touch.clientX - rect.left;
-    const touchY = touch.clientY - rect.top;
-    let foundSkill = false;
-
-    items.forEach((item, index) => {
-      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
-      const x = CENTER_X + CONTAINER_RADIUS * Math.cos(angle);
-      const y = CENTER_Y + CONTAINER_RADIUS * Math.sin(angle);
-      const radius = 50 * skillScales[index];
-      const distance = Math.sqrt((touchX - x) ** 2 + (touchY - y) ** 2);
-
-      if (distance < radius) {
-        if (focusedSkill !== index) {
-          focusedSkill = index;
-          startAnimation(); // Start animation for smooth transitions
-        }
-        foundSkill = true;
-      }
-    });
-
-    if (!foundSkill && focusedSkill !== null) {
-      focusedSkill = null;
-    }
+    handleSkillHover(touch.clientX - rect.left, touch.clientY - rect.top);
   });
 
   canvas.addEventListener("touchend", (event) => {
     event.preventDefault();
   });
+}
 
-  // Initialize canvas and start animation immediately
-  window.addEventListener("resize", resizeCanvas);
+/**
+ * Draws a single skill bubble on the canvas
+ */
+function drawSkillBubble(state, item, index) {
+  const {
+    ctx,
+    items,
+    centerX,
+    centerY,
+    containerRadius,
+    angleOffset,
+    currentTheme,
+    focusedSkill,
+    skillScales,
+    skillOpacities,
+  } = state;
 
-  // Use ResizeObserver for better responsiveness
-  if (window.ResizeObserver) {
-    const resizeObserver = new ResizeObserver(() => {
-      resizeCanvas();
-    });
-    resizeObserver.observe(parentContainer);
+  const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
+  const x = centerX + containerRadius * Math.cos(angle);
+  const y = centerY + containerRadius * Math.sin(angle);
+
+  const scale = skillScales[index];
+  const opacity = skillOpacities[index];
+  const radius = SKILL_BUBBLE_BASE_RADIUS * scale;
+
+  // Draw outer glow effect for focused skill
+  if (focusedSkill === index) {
+    const glowGradient = ctx.createRadialGradient(
+      x,
+      y,
+      radius,
+      x,
+      y,
+      radius + 20
+    );
+    glowGradient.addColorStop(0, `${currentTheme.accent}40`);
+    glowGradient.addColorStop(1, "transparent");
+    ctx.fillStyle = glowGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius + 20, 0, 2 * Math.PI);
+    ctx.fill();
   }
 
-  resizeCanvas();
+  // Draw main gradient circle
+  const gradient = ctx.createRadialGradient(x, y, 20, x, y, radius);
+  gradient.addColorStop(0, currentTheme.gradient[0]);
+  gradient.addColorStop(0.7, currentTheme.gradient[1]);
+  gradient.addColorStop(1, currentTheme.gradient[1] + "CC");
 
-  // Ensure proper initialization on tablets
-  setTimeout(() => {
-    resizeCanvas();
-  }, 100);
+  ctx.globalAlpha = opacity;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2 * Math.PI);
+  ctx.fillStyle = gradient;
+  ctx.fill();
 
-  return canvas;
+  // Enhanced stroke with shadow
+  ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
+  ctx.strokeStyle =
+    focusedSkill === index ? currentTheme.accent : "rgba(255, 255, 255, 0.3)";
+  ctx.lineWidth = focusedSkill === index ? 3 : 2;
+  ctx.stroke();
+
+  // Reset shadow
+  ctx.shadowColor = "transparent";
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+
+  // Draw text
+  const fontSize = Math.max(12, Math.min(16, radius / 3));
+  ctx.font = `bold ${fontSize}px 'Segoe UI', Arial, sans-serif`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+  ctx.shadowBlur = 4;
+  ctx.fillText(item, x, y);
+
+  // Reset
+  ctx.shadowColor = "transparent";
+  ctx.shadowBlur = 0;
+  ctx.globalAlpha = 1;
+}
+
+/**
+ * Draws connection lines from focused skill to others
+ */
+function drawConnectionLines(state) {
+  const {
+    ctx,
+    items,
+    centerX,
+    centerY,
+    containerRadius,
+    angleOffset,
+    focusedSkill,
+    currentTheme,
+  } = state;
+
+  const focusedAngle =
+    (focusedSkill / items.length) * (2 * Math.PI) + angleOffset;
+  const focusedX = centerX + containerRadius * Math.cos(focusedAngle);
+  const focusedY = centerY + containerRadius * Math.sin(focusedAngle);
+
+  ctx.strokeStyle = currentTheme.accent + "30";
+  ctx.lineWidth = 1;
+  ctx.setLineDash([5, 5]);
+
+  items.forEach((_, index) => {
+    if (index !== focusedSkill) {
+      const angle = (index / items.length) * (2 * Math.PI) + angleOffset;
+      const x = centerX + containerRadius * Math.cos(angle);
+      const y = centerY + containerRadius * Math.sin(angle);
+
+      ctx.beginPath();
+      ctx.moveTo(focusedX, focusedY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+  });
+
+  ctx.setLineDash([]);
+}
+
+/**
+ * Main draw function that renders all canvas elements
+ */
+function drawCanvas(state) {
+  const {
+    ctx,
+    canvas,
+    items,
+    centerX,
+    centerY,
+    containerRadius,
+    focusedSkill,
+  } = state;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Background gradient
+  const bgGradient = ctx.createRadialGradient(
+    centerX,
+    centerY,
+    0,
+    centerX,
+    centerY,
+    containerRadius * 1.5
+  );
+  bgGradient.addColorStop(0, "rgba(255, 255, 255, 0.02)");
+  bgGradient.addColorStop(1, "rgba(0, 0, 0, 0.05)");
+  ctx.fillStyle = bgGradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw all skill bubbles
+  items.forEach((item, index) => drawSkillBubble(state, item, index));
+
+  // Draw connection lines if a skill is focused
+  if (focusedSkill !== null) {
+    drawConnectionLines(state);
+  }
+}
+
+/**
+ * Animation loop with optimized frame rendering
+ */
+function animate(state) {
+  const {
+    parentContainer,
+    skillScales,
+    skillOpacities,
+    focusedSkill,
+    isPlaying,
+    animationSpeed,
+  } = state;
+  let needsNextFrame = false;
+
+  if (isPlaying) {
+    state.angleOffset = Date.now() * 0.001 * animationSpeed;
+    needsNextFrame = true;
+  }
+
+  // Smooth scale transitions
+  let hasActiveTransitions = false;
+  skillScales.forEach((scale, index) => {
+    const targetScale = focusedSkill === index ? 1.2 : 1;
+    const diff = targetScale - scale;
+    if (Math.abs(diff) > 0.001) {
+      state.skillScales[index] += diff * 0.1;
+      hasActiveTransitions = true;
+    } else {
+      state.skillScales[index] = targetScale;
+    }
+  });
+
+  // Smooth opacity transitions
+  skillOpacities.forEach((opacity, index) => {
+    const targetOpacity =
+      focusedSkill === null || focusedSkill === index ? 1 : 0.6;
+    const diff = targetOpacity - opacity;
+    if (Math.abs(diff) > 0.001) {
+      state.skillOpacities[index] += diff * 0.1;
+      hasActiveTransitions = true;
+    } else {
+      state.skillOpacities[index] = targetOpacity;
+    }
+  });
+
+  if (hasActiveTransitions || isPlaying) {
+    drawCanvas(state);
+    needsNextFrame = true;
+  }
+
+  if (needsNextFrame) {
+    parentContainer.animationFrameId = requestAnimationFrame(() =>
+      animate(state)
+    );
+  } else {
+    parentContainer.animationFrameId = null;
+  }
+}
+
+/**
+ * Starts the animation loop if not already running
+ */
+function startAnimation(state) {
+  if (!state.parentContainer.animationFrameId) {
+    animate(state);
+  }
+}
+
+/**
+ * Shows skill details panel
+ */
+function showDetails(state, item) {
+  const { details } = state;
+  const description =
+    SKILL_DESCRIPTIONS[item] || `Professional experience with ${item}`;
+
+  details.innerHTML = "";
+
+  const detailsHeader = document.createElement("div");
+  detailsHeader.className = "details-header";
+
+  const h4 = document.createElement("h4");
+  h4.textContent = item;
+  detailsHeader.appendChild(h4);
+
+  const closeButton = document.createElement("button");
+  closeButton.className = "details-close";
+  closeButton.textContent = "×";
+  closeButton.addEventListener("click", () => hideDetails(state));
+  detailsHeader.appendChild(closeButton);
+
+  const p = document.createElement("p");
+  p.textContent = description;
+
+  const detailsActions = document.createElement("div");
+  detailsActions.className = "details-actions";
+
+  ["View Projects", "Learn More"].forEach((text) => {
+    const btn = document.createElement("button");
+    btn.className = "details-btn";
+    btn.textContent = text;
+    detailsActions.appendChild(btn);
+  });
+
+  details.append(detailsHeader, p, detailsActions);
+  details.style.opacity = 1;
+  details.style.transform = "translateX(-50%) scale(1)";
+}
+
+/**
+ * Hides skill details panel
+ */
+function hideDetails(state) {
+  state.details.style.opacity = 0;
+  state.details.style.transform = "translateX(-50%) scale(0.9)";
+}
+
+/**
+ * Main entry point - orchestrates all skill animation components
+ */
+export function animatedSkill(items, parentContainer) {
+  // Clean up existing animation
+  if (parentContainer.animationFrameId) {
+    cancelAnimationFrame(parentContainer.animationFrameId);
+    parentContainer.animationFrameId = null;
+  }
+
+  if (parentContainer.resizeObserver) {
+    parentContainer.resizeObserver.disconnect();
+    parentContainer.resizeObserver = null;
+  }
+
+  // Initialize DOM
+  parentContainer.innerHTML = initiateSkills();
+
+  // Create state object
+  const state = createAnimationState(items, parentContainer);
+
+  // Set up components
+  initializeCanvas(state);
+  createThemeSelector(state);
+  setupAnimationControls(state);
+  setupEventListeners(state);
+
+  // Initial draw
+  drawCanvas(state);
+
+  return state.canvas;
 }
 
 export default skillSection;
