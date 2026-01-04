@@ -231,26 +231,6 @@
   opacity: 0.6;
 }
 
-.project-overlay {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.project-overlay h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.project-overlay p {
-  margin: 5px 0 0;
-  font-size: 14px;
-}
-
 /* Enhanced Modal Styles */
 .modal-background {
   position: fixed;
@@ -723,33 +703,6 @@
   width: auto;
   height: auto;
   object-fit: contain;
-}
-
-/* Project Stats */
-.modal__stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 1rem;
-  background: rgba(84, 98, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(84, 98, 255, 0.1);
-}
-
-.modal__stat-value {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  display: block;
-}
-
-.modal__stat-label {
-  font-size: 0.75rem;
-  color: var(--color-secondary-text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 0.25rem;
 }
 
 /* Keyframe Animations */
