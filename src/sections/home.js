@@ -10,7 +10,7 @@ import { createChatAgent } from "../modules/chatAgent";
 
 function homeSection() {
   const hero = createHtmlElement("section", {
-    class: "hero home__section",
+    class: "hero",
     id: "home",
   });
 
