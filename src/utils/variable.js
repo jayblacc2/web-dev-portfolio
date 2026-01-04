@@ -11,6 +11,9 @@ import html from "../assets/icons/html.svg";
 import css from "../assets/icons/css.svg";
 import js from "../assets/icons/js.svg";
 
+import clientImg from "../assets/images/client.webp";
+import client2Img from "../assets/images/client-2.webp";
+
 export const items = [
   "JavaScript",
   "TypeScript",
@@ -126,3 +129,41 @@ export const STACK_DATA = [
   { icon: js, text: "JavaScript", width: 70 },
   { icon: react, text: "React", width: 70 },
 ];
+
+ // Testimonials carousel (replaces project stats)
+  export const TESTIMONIAL_DATA = [
+    {
+      image: clientImg,
+      name: "Viktoria Ermolaeva",
+      role: "Artist",
+      text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
+    },
+    {
+      image: client2Img,
+      name: "Lukman AdeKunle",
+      role: "CEO S.Forth Interlink",
+      text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
+    },
+  ];
+
+
+
+
+
+export const PROJECT_STATS = [
+    {
+      label: "Technologies",
+      value: "10+",
+      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
+    },
+    {
+      label: "Years Experience",
+      value: "3+",
+      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+    },
+    {
+      label: "Projects Built",
+      value: "6+",
+      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>`,
+    },
+  ];

@@ -5,7 +5,7 @@ import {
   alertBadge,
   cookieConsent, // Add this import
 } from "../utils/utils";
-import { skillText, items } from "../utils/variable";
+import { skillText, items, PROJECT_STATS as stats } from "../utils/variable";
 
 function skillSection() {
   const hero = createHtmlElement("section", {
@@ -97,24 +97,26 @@ function createSkillStats() {
     class: "skill-stats-container",
   });
 
-  const stats = [
-    { label: "Technologies", value: items.length, icon: "⚡" },
-    { label: "Years Experience", value: "3+", icon: "🚀" },
-    { label: "Projects Built", value: "7+", icon: "💼" },
-  ];
-
-  stats.forEach((stat) => {
+  stats.forEach((stat, index) => {
     const statCard = createHtmlElement("div", {
       class: "skill-stat-card",
     });
 
     statCard.innerHTML = `
-      <div class="stat-icon">${stat.icon}</div>
-      <div class="stat-value">${stat.value}</div>
-      <div class="stat-label">${stat.label}</div>
+      <div class="stat-icon">${stat.iconSvg}</div>
+      <div class="stat-content">
+        <div class="stat-value">${stat.value}</div>
+        <div class="stat-label">${stat.label}</div>
+      </div>
     `;
 
     statsContainer.appendChild(statCard);
+
+    // Add divider between cards (not after last one)
+    if (index < stats.length - 1) {
+      const divider = createHtmlElement("div", { class: "stat-divider" });
+      statsContainer.appendChild(divider);
+    }
   });
 
   return statsContainer;
@@ -608,17 +610,20 @@ function animate(state) {
   } = state;
 
   // Skip animation when tab is not visible (saves CPU/battery)
-  if (document.visibilityState !== 'visible') {
+  if (document.visibilityState !== "visible") {
     // Schedule check when tab becomes visible again
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (document.visibilityState === "visible") {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
         if (isPlaying || state.focusedSkill !== null) {
           animate(state);
         }
       }
     };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     parentContainer.animationFrameId = null;
     return;
   }

@@ -62,8 +62,6 @@ canvas {
   opacity: 0.9;
 }
 
-
-
 .enhanced-theme-selector {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -297,57 +295,72 @@ canvas {
 /* Skill Stats Container */
 .skill-stats-container {
   display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
-  margin: 1rem 0;
+  align-items: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  background: rgba(30, 35, 50, 0.9);
+  border-radius: 12px;
+  padding: 1rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .skill-stat-card {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1rem 1.25rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.25rem;
+  flex: 1;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 120px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .skill-stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
 }
 
 .stat-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00d4ff;
+  flex-shrink: 0;
+}
+
+.stat-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
 }
 
 .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: 0.25rem;
+  color: #ffffff;
   line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.8rem;
-  color: var(--color-secondary-text);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
 }
 
 /* Animations */
 @keyframes skillPulse {
-
   0%,
   100% {
     transform: scale(1);
@@ -359,7 +372,6 @@ canvas {
 }
 
 @keyframes skillGlow {
-
   0%,
   100% {
     box-shadow: 0 0 5px rgba(84, 98, 255, 0.3);
@@ -456,32 +468,31 @@ canvas {
     font-size: 1.1rem;
   }
 
-
-
   .skill-stats-container {
-    gap: 1rem;
+    gap: 0;
     margin-top: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    padding: 0.75rem 0.25rem;
   }
 
   .skill-stat-card {
-    min-width: 110px;
-    max-width: 140px;
-    padding: 0.8rem 1rem;
-    flex: 0 1 calc(33.333% - 1rem);
+    padding: 0.5rem 0.75rem;
   }
 
-  .stat-icon {
-    font-size: 1.3rem;
+  .stat-icon svg {
+    width: 20px;
+    height: 20px;
   }
 
   .stat-value {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
   }
 
   .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+  }
+
+  .stat-divider {
+    height: 35px;
   }
 }
 
@@ -564,24 +575,20 @@ canvas {
     font-size: 1rem;
   }
 
-
-
   .skill-stats-container {
-    gap: 0.5rem;
+    gap: 0;
     margin-top: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    padding: 0.6rem 0.25rem;
   }
 
   .skill-stat-card {
-    min-width: 85px;
-    max-width: 105px;
-    padding: 0.6rem 0.7rem;
-    flex: 0 1 calc(33.333% - 0.5rem);
+    padding: 0.4rem 0.5rem;
+    gap: 0.5rem;
   }
 
-  .stat-icon {
-    font-size: 1.1rem;
+  .stat-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   .stat-value {
@@ -589,7 +596,11 @@ canvas {
   }
 
   .stat-label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
+  }
+
+  .stat-divider {
+    height: 30px;
   }
 }
 
@@ -599,32 +610,36 @@ canvas {
   }
 
   .skill-stats-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.6rem;
+    flex-direction: row;
+    gap: 0;
     margin-top: 0.8rem;
     width: 100%;
+    padding: 0.5rem 0.25rem;
   }
 
   .skill-stat-card {
-    width: 100%;
-    max-width: none;
-    padding: 0.8rem 1rem;
-    min-width: unset;
-    flex: none;
-    margin: 0;
+    padding: 0.4rem 0.5rem;
+    gap: 0.4rem;
+    flex-direction: column;
+    text-align: center;
+    flex: 1;
   }
 
-  .stat-icon {
-    font-size: 1.2rem;
+  .stat-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   .stat-value {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .stat-label {
-    font-size: 0.65rem;
+    font-size: 0.55rem;
+  }
+
+  .stat-divider {
+    height: 50px;
   }
 
   .controls-panel {
@@ -669,41 +684,37 @@ canvas {
   }
 
   .skill-stats-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.8rem;
+    display: flex;
+    gap: 0;
     margin-top: 1rem;
     width: 100%;
-    padding: 0 0.5rem;
+    padding: 0.5rem 0.25rem;
   }
 
   .skill-stat-card {
-    width: 100%;
-    min-width: unset;
-    max-width: none;
-    padding: 0.8rem 0.6rem;
-    flex: none;
-    margin: 0;
-    aspect-ratio: 1;
-    display: flex;
+    padding: 0.4rem 0.5rem;
+    gap: 0.4rem;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
+    flex: 1;
   }
 
-  .stat-icon {
-    font-size: 1.2rem;
-    margin-bottom: 0.3rem;
+  .stat-icon svg {
+    width: 16px;
+    height: 16px;
   }
 
   .stat-value {
-    font-size: 1.1rem;
-    margin-bottom: 0.2rem;
+    font-size: 1rem;
   }
 
   .stat-label {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     letter-spacing: 0.3px;
+  }
+
+  .stat-divider {
+    height: 50px;
   }
 
   .skills-header {
@@ -748,34 +759,37 @@ canvas {
   }
 
   .skill-stats-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 0;
     margin-top: 0.8rem;
     width: 100%;
-    padding: 0 0.5rem;
+    padding: 0.4rem 0.15rem;
   }
 
   .skill-stat-card {
-    width: 100%;
-    min-width: unset;
-    max-width: none;
-    padding: 0.4rem 0.6rem;
-    flex: none;
-    margin: 0;
+    padding: 0.3rem 0.4rem;
+    gap: 0.3rem;
+    flex-direction: column;
+    text-align: center;
+    flex: 1;
   }
 
-  .stat-icon {
-    font-size: 1.1rem;
+  .stat-icon svg {
+    width: 14px;
+    height: 14px;
   }
 
   .stat-value {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 
   .stat-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.3px;
+    font-size: 0.5rem;
+    letter-spacing: 0.2px;
+  }
+
+  .stat-divider {
+    height: 45px;
   }
 
   .controls-panel {
@@ -797,24 +811,30 @@ canvas {
 
 @media (max-width: 300px) {
   .skill-stats-container {
-    padding: 0 0.25rem;
-    gap: 0.4rem;
+    padding: 0.3rem 0.1rem;
+    gap: 0;
   }
 
   .skill-stat-card {
-    padding: 0.6rem 0.8rem;
+    padding: 0.25rem 0.3rem;
+    gap: 0.2rem;
   }
 
-  .stat-icon {
-    font-size: 1rem;
+  .stat-icon svg {
+    width: 12px;
+    height: 12px;
   }
 
   .stat-value {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .stat-label {
-    font-size: 0.55rem;
+    font-size: 0.45rem;
+  }
+
+  .stat-divider {
+    height: 40px;
   }
 }
 
@@ -841,7 +861,6 @@ canvas {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-
   .parent__container,
   .canvas,
   .details,

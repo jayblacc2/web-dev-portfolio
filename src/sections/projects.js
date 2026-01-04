@@ -1,7 +1,6 @@
 import { createElement, createHtmlElement } from "../utils/utils";
-import { projectsData as datas, projectSubTitle } from "../utils/variable";
-import clientImg from "../assets/images/client.webp";
-import client2Img from "../assets/images/client-2.webp";
+import { projectsData as datas, projectSubTitle, TESTIMONIAL_DATA as testimonials } from "../utils/variable";
+
 import { renderSubTitle, renderTitle } from "../utils/utils";
 
 function createHeroContent() {
@@ -13,21 +12,7 @@ function createHeroContent() {
   renderTitle(HERO_TITLES, mainHeader);
   const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
 
-  // Testimonials carousel (replaces project stats)
-  const testimonials = [
-    {
-      image: clientImg,
-      name: "Viktoria Ermolaeva",
-      role: "Artist",
-      text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
-    },
-    {
-      image: client2Img,
-      name: "Lukman AdeKunle",
-      role: "CEO S.FORTH INTERLINKS",
-      text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
-    },
-  ];
+  
 
   const testimonialsCarousel = createElement("div", {
     class: "testimonials-carousel",
