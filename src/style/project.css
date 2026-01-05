@@ -1216,9 +1216,8 @@
   }
 
   .project__section p {
-    font-size: clamp(0.85rem, 2.8vw, 0.95rem);
     margin-bottom: 1rem;
-    text-align: center;
+
   }
 }
 

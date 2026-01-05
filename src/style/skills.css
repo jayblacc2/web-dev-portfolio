@@ -21,6 +21,10 @@
     0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+#skills .hero-flex {
+    margin-top: 2.5rem;
+}
+
 .parent__container:hover canvas {
   transform: scale(1.02);
   cursor: pointer;
@@ -396,7 +400,6 @@ canvas {
 
   .skills-header {
     top: 15px;
-    left: 50%;
     transform: translateX(-50%);
     padding: 10px 20px;
     max-width: 80%;
@@ -674,6 +677,9 @@ canvas {
     flex-direction: column;
     gap: 6px;
   }
+.footer .paragraph {
+  font-size: 0.7rem;
+}
 }
 
 /* iPhone 12 Pro Max (428px width) - Specific layout for uniform grid */
