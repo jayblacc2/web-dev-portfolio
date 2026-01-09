@@ -147,7 +147,6 @@ a {
   border-radius: 5px;
   font-size: 0.8rem;
   font-weight: 600;
-  transition: var(--transition);
   border: 1px solid var(--color-primary);
   position: relative;
   overflow: hidden;
@@ -229,9 +228,6 @@ a {
 
 .mobile__menu {
   display: none;
-}
-
-.mobile__menu {
   transition: transform 0.3s ease-in-out;
   transform: translateX(-100%);
 }
@@ -543,219 +539,25 @@ a {
   padding: 20px;
 }
 
-/* iPhone 12 Pro Max (428px width) */
-@media (max-width: 428px) and (min-width: 401px) {
-  .hero {
-    overflow-y: scroll;
-  }
+/* ==========================================================================
+   MEDIA QUERIES - Desktop First (largest to smallest)
+   ========================================================================== */
 
-  .mobile__menu .nav__btn {
-    font-size: 0.85rem;
-  }
-
-  .parent__container:hover canvas {
-    transform: scale(1.3);
-  }
-
-  .main__title {
-    font-size: 1.6rem;
-    line-height: 28px;
-    text-align: left;
-  }
-
-  .sub__title {
-    width: 100%;
-  }
-
-  .nav__link {
-    display: none;
-  }
-
-  .burger-menu {
-    display: block;
-  }
-
+/* Large tablets and small desktops (up to 1024px) */
+@media (max-width: 1024px) {
   #home .hero__background-shape {
-    width: 320px;
-    height: 320px;
+    width: 450px;
+    height: 450px;
+    border: 1px solid white;
   }
 
   #home .image__wrapper {
-    width: 220px;
-    height: 220px;
-    padding: 4px;
-  }
-
-  #home .image__wrapper img {
-    border-width: 2px;
-  }
-
-  #home .animate-profile {
-    animation: floatAnimation 3s ease-in-out infinite;
-  }
-
-  .icon__container .card__icon {
-    width: 52px;
-    height: auto;
-  }
-
-  .card__container {
-    padding: 20px;
-    width: 8.5rem;
-    height: 8.5rem;
-  }
-
-  #contact .hero__img {
-    width: 100%;
-  }
-
-  .stack__card {
-    gap: 2rem;
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
-    margin-top: 2rem;
-  }
-
-  /* Skills section specific adjustments for iPhone 12 Pro Max */
-  #skills .parent__container {
-    width: 95%;
-    height: 80%;
-    margin: 0 auto;
+    width: 280px;
+    height: 280px;
   }
 }
 
-/* Small devices  */
-@media (max-width: 400px) {
-  .hero {
-    overflow-y: scroll;
-  }
-
-  .mobile__menu .nav__btn {
-    font-size: 0.8rem;
-  }
-
-  .parent__container:hover canvas {
-    transform: scale(1.4);
-  }
-
-  .main__title {
-    font-size: 1.5rem;
-    line-height: 25px;
-    text-align: left;
-  }
-
-  .sub__title {
-    width: 100%;
-  }
-
-  .nav__link {
-    display: none;
-  }
-
-  .burger-menu {
-    display: block;
-  }
-
-  #home .hero__background-shape {
-    width: 300px;
-    height: 300px;
-  }
-
-  #home .image__wrapper {
-    width: 200px;
-    height: 200px;
-    padding: 3px;
-  }
-
-  #home .image__wrapper img {
-    border-width: 2px;
-  }
-
-  #home .animate-profile {
-    animation: floatAnimation 3s ease-in-out infinite;
-  }
-
-  /* Project section styles handled in project.css */
-
-  .icon__container .card__icon {
-    width: 50px;
-    height: auto;
-  }
-
-  .card__container {
-    padding: 10px;
-    width: 8rem;
-    height: 8rem;
-  }
-
-  #contact .hero__img {
-    width: 100%;
-  }
-
-  .stack__card {
-    gap: 2rem;
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
-    margin-top: 2rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .brand {
-    font-size: 0.8rem;
-  }
-
-  .nav__link {
-    display: none;
-  }
-
-  .burger-menu {
-    display: block;
-  }
-
-  .hero {
-    margin: auto 0;
-  }
-
-  .hero__content,
-  .hero__img {
-    width: 100%;
-  }
-
-  .parent__container {
-    width: 100%;
-    height: 100%;
-  }
-
-  canvas {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    border-radius: 15px;
-    transition: transform 0.3s;
-  }
-
-  /* Project section styles handled in project.css */
-
-  #contact .hero__img {
-    width: 100%;
-  }
-
-  .hero {
-    overflow-y: visible;
-  }
-
-  .footer {
-    text-wrap: wrap;
-    text-align: center;
-  }
-}
-
-/* mobile devices */
+/* Mobile devices (up to 767px) */
 @media (max-width: 767px) {
   .hero {
     flex-direction: column;
@@ -797,7 +599,6 @@ a {
     width: 100%;
   }
 
-  /* Skills section mobile adjustments */
   #skills .parent__container {
     height: 400px;
     width: 95%;
@@ -813,44 +614,8 @@ a {
     display: block;
   }
 
-  .mobile__menu.open {
-    display: flex;
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .mobile__menu .nav__btn {
-    font-size: 0.6rem;
-    margin-right: 0.5rem;
-  }
-
-  .sub__title {
-    width: 100%;
-  }
-
-  .project-card {
-    width: 100%;
-  }
-
-  .modal-content {
-    width: 90%;
-    height: auto;
-  }
-
-  .nav__link,
-  .nav__menu {
-    display: none;
-  }
-
-  .burger-menu {
-    display: block;
-  }
-
   .mobile__menu {
     display: flex;
-  }
-
-  .mobile__menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -870,6 +635,150 @@ a {
     display: flex;
     transform: translateY(0);
     opacity: 1;
+  }
+
+  .mobile__menu .nav__btn {
+    font-size: 0.6rem;
+    margin-right: 0.5rem;
+  }
+
+  .project-card {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    height: auto;
+  }
+}
+
+/* Small mobile (up to 576px) */
+@media (max-width: 576px) {
+  .brand {
+    font-size: 0.8rem;
+  }
+
+  .hero {
+    margin: auto 0;
+    overflow-y: visible;
+  }
+
+  .parent__container {
+    width: 100%;
+    height: 100%;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s;
+  }
+
+  .footer {
+    text-wrap: wrap;
+    text-align: center;
+  }
+}
+
+/* Extra small devices (up to 480px) */
+@media (max-width: 480px) {
+  .hero {
+    overflow-y: scroll;
+  }
+
+  .mobile__menu .nav__btn {
+    font-size: 0.8rem;
+  }
+
+  .parent__container:hover canvas {
+    transform: scale(1.4);
+  }
+
+  .main__title {
+    font-size: 1.5rem;
+    line-height: 25px;
+    text-align: left;
+  }
+
+  #home .hero__background-shape {
+    width: 300px;
+    height: 300px;
+  }
+
+  #home .image__wrapper {
+    width: 200px;
+    height: 200px;
+    padding: 3px;
+  }
+
+  #home .image__wrapper img {
+    border-width: 2px;
+  }
+
+  #home .animate-profile {
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  .icon__container .card__icon {
+    width: 50px;
+    height: auto;
+  }
+
+  .card__container {
+    padding: 10px;
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .stack__card {
+    gap: 2rem;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    margin-top: 2rem;
+  }
+
+  .cookie-consent {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    font-size: 12px;
+    max-width: none;
+  }
+
+  .cookie-buttons {
+    justify-content: space-between;
+  }
+
+  .cookie-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .cookie-close {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    top: 8px;
+    right: 8px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(107, 114, 128, 0.15);
+    border-radius: 50%;
+  }
+
+  .cookie-close i {
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -1120,84 +1029,4 @@ a {
   }
 
   /* Project section styles handled in project.css */
-}
-
-/* ******************************** */
-
-/*  */
-@media screen and (max-width: 1024px) {
-  #home .hero__background-shape {
-    width: 450px;
-    height: 450px;
-    border: 1px solid white;
-  }
-
-  #home .image__wrapper {
-    width: 280px;
-    height: 280px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  #home .hero__background-shape {
-    width: 300px;
-    height: 300px;
-  }
-
-  #home .image__wrapper {
-    width: 200px;
-    height: 200px;
-    padding: 3px;
-  }
-
-  #home .image__wrapper img {
-    border-width: 2px;
-  }
-
-  #home .animate-profile {
-    animation: floatAnimation 3s ease-in-out infinite;
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .cookie-consent {
-    bottom: 10px;
-    right: 10px;
-    left: 10px;
-    font-size: 12px;
-    max-width: none;
-  }
-
-  .cookie-buttons {
-    justify-content: space-between;
-  }
-
-  .cookie-btn {
-    flex: 1;
-    min-width: 80px;
-  }
-
-  .cookie-close {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    min-height: 28px;
-    top: 8px;
-    right: 8px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(107, 114, 128, 0.15);
-    border-radius: 50%;
-  }
-
-  .cookie-close i {
-    font-size: 12px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }

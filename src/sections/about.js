@@ -9,11 +9,11 @@ import { CLASSES } from "../utils/constant";
 import { STACK_DATA } from "../utils/variable";
 import { TEXTS } from "../utils/variable";
 // Import the PDF file
-import resumePdf from "../../public/resume.pdf";
+import resume from "../../public/resume.pdf";
 
 function createResumeButton() {
   // Use the imported PDF path
-  const resumePath = resumePdf;
+  const resumePath = resume;
   const btn = createElement(
     "a",
     {

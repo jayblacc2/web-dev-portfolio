@@ -30,7 +30,6 @@ export const items = [
   "Vue JS",
 ];
 
-
 export const options = {
   size: "30px",
   color: "#858e99",
@@ -55,7 +54,7 @@ export const projectsData = [
     details:
       "crafted like a js framework single page application without using any framework.",
     stacks: ["HTML", "CSS", "JavaScript", "Webpack", "localStorage"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
+    gitLink: "https://github.com/jayblacc2/RecipeRise",
     demoLink: "https://health-tracker-demo.netlify.app",
     image: todo,
   },
@@ -66,7 +65,7 @@ export const projectsData = [
     details:
       "A fullstack web application that allows to create and vue your favorite recipes.",
     stacks: ["HTML", "CSS", "JavaScript", "Express", "MongoDB"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
+    gitLink: "https://github.com/jayblacc2/RecipeRise",
     demoLink: "https://health-tracker-demo.netlify.app",
     image: glacy,
   },
@@ -77,7 +76,7 @@ export const projectsData = [
     details:
       "Vanilla JS project with a focus on creating a visually appealing and interactive user interface. Features include recipe search, ingredient filtering, and meal planning capabilities.",
     stacks: ["HTML", "SCSS", "JavaScript", "Vuejs", "Firebase"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
+    gitLink: "https://github.com/jayblacc2/RecipeRise",
     demoLink: "https://recipe-app-demo.netlify.app",
     image: recipe,
   },
@@ -88,7 +87,7 @@ export const projectsData = [
     details:
       "A modern React application built with hooks and context API, featuring responsive design and optimized performance for seamless user experience.",
     stacks: ["React", "CSS", "Webpack", "Context API"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
+    gitLink: "https://github.com/jayblacc2/RecipeRise",
     demoLink: "https://react-app-demo.netlify.app",
     image: timer,
   },
@@ -99,7 +98,7 @@ export const projectsData = [
     details:
       "Single page application with a responsive layout. demosstrates the power of Vanilla JS to create a modern web application.",
     stacks: ["HTML", "CSS", "JavaScript", "Webpack"],
-    gitLink: "https://github.com/cursorbot/cursorbot",
+    gitLink: "https://github.com/jayblacc2/RecipeRise",
     demoLink: "https://health-tracker-demo.netlify.app",
     image: skill,
   },
@@ -114,40 +113,36 @@ export const STACK_DATA = [
   { icon: react, text: "React", width: 70 },
 ];
 
- // Testimonials carousel (replaces project stats)
-  export const TESTIMONIAL_DATA = [
-    {
-      image: clientImg,
-      name: "Viktoria Ermolaeva",
-      role: "Artist",
-      text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
-    },
-    {
-      image: client2Img,
-      name: "Lukman AdeKunle",
-      role: "CEO S.Forth Interlink",
-      text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
-    },
-  ];
-
-
-
-
+// Testimonials carousel (replaces project stats)
+export const TESTIMONIAL_DATA = [
+  {
+    image: clientImg,
+    name: "Viktoria Ermolaeva",
+    role: "Artist",
+    text: "Working with Jay was a pleasure. The attention to detail and performance was outstanding.",
+  },
+  {
+    image: client2Img,
+    name: "Lukman AdeKunle",
+    role: "CEO S.Forth Interlink",
+    text: "Delivered on time with clean, maintainable code. The UI/UX exceeded our expectations.",
+  },
+];
 
 export const PROJECT_STATS = [
-    {
-      label: "Technologies",
-      value: "10+",
-      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
-    },
-    {
-      label: "Years Experience",
-      value: "3+",
-      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
-    },
-    {
-      label: "Projects Built",
-      value: "6+",
-      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>`,
-    },
-  ];
+  {
+    label: "Technologies",
+    value: "10+",
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
+  },
+  {
+    label: "Years Experience",
+    value: "3+",
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+  },
+  {
+    label: "Projects Built",
+    value: "6+",
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>`,
+  },
+];
