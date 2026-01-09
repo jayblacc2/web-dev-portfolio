@@ -210,6 +210,19 @@ export function cookieConsent() {
     closeCookieBanner(cookieContainer);
   });
 
+  const closeBtn = createHtmlElement("button", {
+    class: "cookie-btn cookie-close",
+    type: "button",
+    "aria-label": "Close",
+    title: "Close",
+  });
+  closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+  closeBtn.addEventListener("click", () => closeCookieBanner(cookieContainer));
+
+
+
+  
+
   // Learn more link
   const learnMoreLink = createHtmlElement("a", {
     class: "cookie-learn-more",
@@ -223,7 +236,7 @@ export function cookieConsent() {
     );
   });
 
-  buttonContainer.append(acceptBtn, declineBtn, learnMoreLink);
+  buttonContainer.append(acceptBtn, declineBtn, learnMoreLink, closeBtn);
   cookieContainer.append(messageElement, buttonContainer);
 
   // Add slide-in animation

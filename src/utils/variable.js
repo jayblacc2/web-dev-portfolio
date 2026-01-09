@@ -30,22 +30,6 @@ export const items = [
   "Vue JS",
 ];
 
-export const CLASSES = {
-  HERO: "hero",
-  HERO_CONTENT: "hero__content hero-flex",
-  HERO_CONTENT_CONTAINER: "hero__content-container",
-  MAIN_TITLE: "main__title",
-  SUB_TITLE: "sub__title",
-  BTN_HERO: "btn btn--hero",
-  HERO_IMAGE: "hero__img about__hero-content",
-  STACK_CARD: "stack__card",
-  CARD_CONTAINER: "card__container",
-  ICON_CONTAINER: "icon__container",
-  CARD_ICON: "card__icon",
-  CARD_TITLE: "card__title",
-  PROGRESS_CONTAINER: "card__progress-container",
-  PROGRESSBAR: "card__progressbar",
-};
 
 export const options = {
   size: "30px",
