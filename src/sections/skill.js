@@ -2,10 +2,10 @@ import {
   createHtmlElement,
   renderTitle,
   renderSubTitle,
-  alertBadge,
-  cookieConsent, // Add this import
+  cookieConsent,
 } from "../utils/utils";
 import { skillText, items, PROJECT_STATS as stats } from "../utils/variable";
+import { ANIMATION_THEMES, SKILL_BUBBLE_BASE_RADIUS } from "../utils/constant";
 
 function skillSection() {
   const hero = createHtmlElement("section", {
@@ -122,7 +122,6 @@ function createSkillStats() {
   return statsContainer;
 }
 
-//
 function initiateSkills() {
   return `
       <div class="skills-header">
@@ -147,35 +146,6 @@ function initiateSkills() {
       </div>
   `;
 }
-
-// Constants
-const SKILL_BUBBLE_BASE_RADIUS = 50;
-const ANIMATION_THEMES = [
-  {
-    name: "Vibrant Pink",
-    background: "#ff007b",
-    gradient: ["#ff007b", "#b30056"],
-    accent: "#ff6b9d",
-  },
-  {
-    name: "Fresh Green",
-    background: "#00ff7b",
-    gradient: ["#00ff7b", "#00b356"],
-    accent: "#51cf66",
-  },
-  {
-    name: "Sunset Orange",
-    background: "#ff6b35",
-    gradient: ["#ff6b35", "#cc4125"],
-    accent: "#ff8c42",
-  },
-  {
-    name: "Purple Galaxy",
-    background: "#7c3aed",
-    gradient: ["#7c3aed", "#5b21b6"],
-    accent: "#a855f7",
-  },
-];
 
 const SKILL_DESCRIPTIONS = {
   JavaScript:
@@ -354,14 +324,13 @@ function setupEventListeners(state) {
         canvas.style.cursor = "pointer";
         startAnimation(state);
       }
-      return true;
+      return;
     }
 
     if (state.focusedSkill !== null) {
       state.focusedSkill = null;
       canvas.style.cursor = "default";
     }
-    return false;
   };
 
   const handleSkillClick = (x, y) => {
@@ -424,10 +393,16 @@ function setupEventListeners(state) {
     const rect = canvas.getBoundingClientRect();
     handleSkillHover(touch.clientX - rect.left, touch.clientY - rect.top);
   });
+}
 
-  canvas.addEventListener("touchend", (event) => {
-    event.preventDefault();
-  });
+/**
+ * Resets canvas shadow properties
+ */
+function resetShadow(ctx) {
+  ctx.shadowColor = "transparent";
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
 }
 
 /**
@@ -454,9 +429,10 @@ function drawSkillBubble(state, item, index) {
   const scale = skillScales[index];
   const opacity = skillOpacities[index];
   const radius = SKILL_BUBBLE_BASE_RADIUS * scale;
+  const isFocused = focusedSkill === index;
 
   // Draw outer glow effect for focused skill
-  if (focusedSkill === index) {
+  if (isFocused) {
     const glowGradient = ctx.createRadialGradient(
       x,
       y,
@@ -490,16 +466,12 @@ function drawSkillBubble(state, item, index) {
   ctx.shadowBlur = 10;
   ctx.shadowOffsetX = 2;
   ctx.shadowOffsetY = 2;
-  ctx.strokeStyle =
-    focusedSkill === index ? currentTheme.accent : "rgba(255, 255, 255, 0.3)";
-  ctx.lineWidth = focusedSkill === index ? 3 : 2;
+  ctx.strokeStyle = isFocused
+    ? currentTheme.accent
+    : "rgba(255, 255, 255, 0.3)";
+  ctx.lineWidth = isFocused ? 3 : 2;
   ctx.stroke();
-
-  // Reset shadow
-  ctx.shadowColor = "transparent";
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
+  resetShadow(ctx);
 
   // Draw text
   const fontSize = Math.max(12, Math.min(16, radius / 3));
@@ -512,8 +484,7 @@ function drawSkillBubble(state, item, index) {
   ctx.fillText(item, x, y);
 
   // Reset
-  ctx.shadowColor = "transparent";
-  ctx.shadowBlur = 0;
+  resetShadow(ctx);
   ctx.globalAlpha = 1;
 }
 

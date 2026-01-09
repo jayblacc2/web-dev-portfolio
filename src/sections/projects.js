@@ -1,7 +1,14 @@
-import { createElement, createHtmlElement } from "../utils/utils";
-import { projectsData as datas, projectSubTitle, TESTIMONIAL_DATA as testimonials } from "../utils/variable";
-
-import { renderSubTitle, renderTitle } from "../utils/utils";
+import {
+  createElement,
+  createHtmlElement,
+  renderSubTitle,
+  renderTitle,
+} from "../utils/utils";
+import {
+  projectsData as datas,
+  projectSubTitle,
+  TESTIMONIAL_DATA as testimonials,
+} from "../utils/variable";
 
 function createHeroContent() {
   const heroContents = createHtmlElement("div", { class: "hero__content" });
@@ -11,8 +18,6 @@ function createHeroContent() {
   const HERO_SUBTITLE = projectSubTitle;
   renderTitle(HERO_TITLES, mainHeader);
   const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
-
-  
 
   const testimonialsCarousel = createElement("div", {
     class: "testimonials-carousel",
@@ -94,15 +99,6 @@ function createHeroContent() {
       currentTestimonial++;
       updateTestimonials();
     }
-  });
-
-  [prev, next].forEach((button) => {
-    button.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        button.click();
-      }
-    });
   });
 
   let autoTimer;
@@ -253,12 +249,6 @@ export default function projectSection() {
   });
   nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
 
-  // Create buttons wrapper for mobile layout
-  const buttonsWrapper = createElement("div", {
-    class: "pagination-buttons",
-  });
-  buttonsWrapper.append(prevButton, nextButton);
-
   // Function to update pagination buttons
   function updatePaginationButtons() {
     prevButton.disabled = currentPage === 1;
@@ -282,16 +272,6 @@ export default function projectSection() {
       currentPage++;
       renderProjects(currentPage);
     }
-  });
-
-  // Add keyboard navigation for pagination
-  [prevButton, nextButton].forEach((button) => {
-    button.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        button.click();
-      }
-    });
   });
 
   // Assemble pagination elements
@@ -326,19 +306,10 @@ class ProjectModal {
     this.focusableElements = [];
   }
 
-  createElement(type, attributes = {}, content = null) {
-    const element = document.createElement(type);
-    Object.entries(attributes).forEach(([key, value]) =>
-      element.setAttribute(key, value)
-    );
-    if (content) element.textContent = content;
-    return element;
-  }
-
   createModal() {
     this.focusedElementBeforeModal = document.activeElement;
 
-    this.modalBackground = this.createElement("div", {
+    this.modalBackground = createElement("div", {
       class: "modal-background",
       role: "dialog",
       "aria-modal": "true",
@@ -346,9 +317,8 @@ class ProjectModal {
       "aria-describedby": "modal-description",
     });
 
-    const modalContent = this.createElement("div", {
+    const modalContent = createElement("div", {
       class: "modal-content",
-      role: "document",
     });
 
     const closeButton = this.createCloseButton();
@@ -369,7 +339,7 @@ class ProjectModal {
   }
 
   createCloseButton() {
-    const closeButton = this.createElement(
+    const closeButton = createElement(
       "button",
       {
         class: "modal-close",
@@ -383,13 +353,12 @@ class ProjectModal {
   }
 
   createImageContainer() {
-    const imageContainer = this.createElement("figure", {
+    const imageContainer = createElement("figure", {
       class: "modal__image-container zoomable",
-      role: "img",
       "aria-label": `Screenshot of ${this.project.label} project`,
     });
 
-    const loadingSpinner = this.createElement("div", {
+    const loadingSpinner = createElement("div", {
       class: "loading-spinner",
       "aria-label": "Loading project image...",
     });
@@ -409,7 +378,7 @@ class ProjectModal {
   }
 
   createResponsiveImage(loadingSpinner) {
-    const modalImage = this.createElement("img", {
+    const modalImage = createElement("img", {
       class: "modal__image",
       src: this.project.image || "",
       alt: `Screenshot of ${this.project.label} project`,
@@ -424,7 +393,7 @@ class ProjectModal {
 
     modalImage.onerror = () => {
       loadingSpinner.remove();
-      const errorMessage = this.createElement(
+      const errorMessage = createElement(
         "div",
         { class: "image-error", role: "alert" },
         "Image could not be loaded"
@@ -439,13 +408,11 @@ class ProjectModal {
   }
 
   createModalInfo() {
-    const modalInfo = this.createElement("div", {
+    const modalInfo = createElement("div", {
       class: "modal-info",
-      role: "region",
-      "aria-label": "Project information",
     });
 
-    const modalTitle = this.createElement(
+    const modalTitle = createElement(
       "h2",
       {
         class: "modal-title",
@@ -454,7 +421,7 @@ class ProjectModal {
       this.project.label || "Untitled Project"
     );
 
-    const modalDescription = this.createElement(
+    const modalDescription = createElement(
       "p",
       {
         class: "modal__description",
@@ -471,14 +438,14 @@ class ProjectModal {
   }
 
   createStacksList() {
-    const modalStacks = this.createElement("div", {
+    const modalStacks = createElement("div", {
       class: "modal__stacks",
       role: "list",
       "aria-label": "Technologies used in this project",
     });
 
     (this.project.stacks || []).forEach((stack) => {
-      const stackSpan = this.createElement(
+      const stackSpan = createElement(
         "span",
         {
           class: "stack",
@@ -493,15 +460,13 @@ class ProjectModal {
   }
 
   createActionButtons() {
-    const actionsContainer = this.createElement("div", {
+    const actionsContainer = createElement("div", {
       class: "modal__actions",
-      role: "region",
-      "aria-label": "Project actions",
     });
 
     // GitHub Link
     if (this.project.gitLink) {
-      const gitLink = this.createElement("a", {
+      const gitLink = createElement("a", {
         class: "modal__git-link",
         href: this.project.gitLink,
         target: "_blank",
@@ -509,19 +474,19 @@ class ProjectModal {
         "aria-label": `View ${this.project.label} source code on GitHub`,
       });
 
-      const gitIcon = this.createElement("i", {
+      const gitIcon = createElement("i", {
         class: "fab fa-github",
         "aria-hidden": "true",
       });
 
-      const gitText = this.createElement("span", {}, "View Code");
+      const gitText = createElement("span", {}, "View Code");
       gitLink.append(gitIcon, gitText);
       actionsContainer.appendChild(gitLink);
     }
 
     // Demo Link
     if (this.project.demoLink) {
-      const demoLink = this.createElement("a", {
+      const demoLink = createElement("a", {
         class: "modal__demo-link",
         href: this.project.demoLink,
         target: "_blank",
@@ -529,12 +494,12 @@ class ProjectModal {
         "aria-label": `View ${this.project.label} live demo`,
       });
 
-      const demoIcon = this.createElement("i", {
+      const demoIcon = createElement("i", {
         class: "fas fa-external-link-alt",
         "aria-hidden": "true",
       });
 
-      const demoText = this.createElement("span", {}, "Live Demo");
+      const demoText = createElement("span", {}, "Live Demo");
       demoLink.append(demoIcon, demoText);
       actionsContainer.appendChild(demoLink);
     }

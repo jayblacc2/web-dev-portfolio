@@ -26,3 +26,33 @@ export const ICONS = {
     <line x1="6" y1="6" x2="18" y2="18"></line>
   </svg>`,
 };
+
+
+// Constants
+export const SKILL_BUBBLE_BASE_RADIUS = 50;
+export const ANIMATION_THEMES = [
+  {
+    name: "Vibrant Pink",
+    background: "#ff007b",
+    gradient: ["#ff007b", "#b30056"],
+    accent: "#ff6b9d",
+  },
+  {
+    name: "Fresh Green",
+    background: "#00ff7b",
+    gradient: ["#00ff7b", "#00b356"],
+    accent: "#51cf66",
+  },
+  {
+    name: "Sunset Orange",
+    background: "#ff6b35",
+    gradient: ["#ff6b35", "#cc4125"],
+    accent: "#ff8c42",
+  },
+  {
+    name: "Purple Galaxy",
+    background: "#7c3aed",
+    gradient: ["#7c3aed", "#5b21b6"],
+    accent: "#a855f7",
+  },
+];
