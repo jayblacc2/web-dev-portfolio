@@ -215,7 +215,7 @@ export function cookieConsent() {
     class: "cookie-learn-more",
     href: "#",
   });
-  learnMoreLink.innerText = "Learn More";
+  learnMoreLink.textContent = "Learn More";
   learnMoreLink.addEventListener("click", (e) => {
     e.preventDefault();
     alert(

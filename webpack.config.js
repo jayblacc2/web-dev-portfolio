@@ -9,7 +9,8 @@ const Dotenv = require("dotenv-webpack");
 // Define config object for HTML templating
 const config = {
   name: process.env.PORTFOLIO_NAME || "Portfolio",
-  url: process.env.PORTFOLIO_URL || "https://web-dev-portfolio-brown.vercel.app/",
+  url:
+    process.env.PORTFOLIO_URL || "https://web-dev-portfolio-brown.vercel.app/",
   ogImage: process.env.OG_IMAGE_URL || "/images/og-preview.jpg",
   linkedin: process.env.LINKEDIN_URL,
   github: process.env.GITHUB_URL,
@@ -59,6 +60,14 @@ module.exports = (env) => ({
     hot: true,
     open: true,
     historyApiFallback: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+      reconnect: true,
+    },
+    webSocketServer: "ws",
   },
   module: {
     rules: [
@@ -107,7 +116,11 @@ module.exports = (env) => ({
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: "public", to: "", globOptions: { ignore: ["site.webmanifest"] } },
+        {
+          from: "public",
+          to: "",
+          globOptions: { ignore: ["site.webmanifest"] },
+        },
         {
           from: "src/site.webmanifest",
           to: "site.webmanifest",

@@ -2,7 +2,7 @@
   "name": "{{PORTFOLIO_NAME}} - Front-End Developer",
   "short_name": "{{PORTFOLIO_NAME}}",
   "description": "Front-End Developer Portfolio showcasing web development projects, skills, and professional experience",
-  "start_url": "{{PORTFOLIO_URL}}",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "{{THEME_COLOR}}",
