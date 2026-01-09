@@ -32,7 +32,7 @@ function header() {
   const projectButton = createButton("Projects", "/projects");
 
   const hireMeLink = createButton(
-    "Hire Me",
+    "Contact Me",
     "/contact",
     false,
     "nav__link hire-me-btn",

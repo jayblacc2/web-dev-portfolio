@@ -146,8 +146,8 @@ function handleHeroButtonClick() {
 function createHeroButton() {
   const heroButton = createElement(
     "a",
-    { class: "btn btn--hero", href: "/contact" },
-    "Contact Me"
+    { class: "btn btn--hero", href: "/projects" },
+    "My Projects"
   );
   heroButton.addEventListener("click", handleHeroButtonClick);
   return heroButton;
