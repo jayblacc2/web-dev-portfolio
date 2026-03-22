@@ -1,7 +1,4 @@
 @media (max-width: 400px) {
-  body {
-    border: 1px solid red;
-  }
   .hero {
     overflow-y: scroll;
   }
@@ -59,10 +56,6 @@
 }
 
 @media (max-width: 576px) {
-  body {
-    border: 1px solid yellow;
-  }
-
   .brand {
     font-size: 0.8rem;
   }
@@ -135,9 +128,6 @@
 }
 
 @media (max-width: 768px) {
-  body {
-    border: 1px solid blue;
-  }
   .hero {
     flex-direction: column;
   }
@@ -246,9 +236,6 @@
 }
 
 @media (min-width: 992px) {
-  body {
-    border: 1px solid green;
-  }
   .parent__container {
     width: 80%;
     height: 80%;
@@ -256,9 +243,6 @@
 }
 
 @media (min-width: 1200px) {
-  body {
-    border: 1px solid yellowgreen;
-  }
   .parent__container {
     width: 100%;
     height: 100%;
@@ -270,14 +254,10 @@
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   body {
     font-size: 18px;
-    border: 1px solid #28543c;
   }
-
-  /* ------testing-tablet-mode */
 
   .hero {
     flex-direction: column;
-    border: 1px solid rgb(0, 255, 208);
   }
 
   .hero,
@@ -305,7 +285,6 @@
 @media only screen and (min-width: 768px) and (orientation: landscape) {
   body {
     font-size: 20px;
-    border: 1px solid #544c28;
   }
   .container {
     max-width: 100%;

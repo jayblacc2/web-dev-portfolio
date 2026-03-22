@@ -1,11 +1,12 @@
-import {
-  createHtmlElement,
-  renderTitle,
-  renderSubTitle,
-  cookieConsent,
-} from "../utils/utils";
-import { skillText, items, PROJECT_STATS as stats } from "../utils/variable";
+import { UI_CONFIG } from "../config";
 import { ANIMATION_THEMES, SKILL_BUBBLE_BASE_RADIUS } from "../utils/constant";
+import {
+  cookieConsent,
+  createHtmlElement,
+  renderSubTitle,
+  renderTitle,
+} from "../utils/utils";
+import { items, skillText, PROJECT_STATS as stats } from "../utils/variable";
 
 function skillSection() {
   const hero = createHtmlElement("section", {
@@ -128,8 +129,20 @@ function initiateSkills() {
         <h3 class="skills-title">Interactive Skills Showcase</h3>
         <p class="skills-subtitle">Click skills for details</p>
       </div>
-      <canvas class="skillsCanvas" id="skillsCanvas" width="650" height="650"></canvas>
-      <div class="details enhanced-details" id="details"></div>
+      <canvas
+        class="skillsCanvas"
+        id="skillsCanvas"
+        width="650"
+        height="650"
+        role="img"
+        aria-label="Interactive skills visualization displaying technologies including JavaScript, React, Node.js, and more. Click on individual skills to view details."
+        tabindex="0"
+      ></canvas>
+      <!-- Screen reader only text alternative -->
+      <div id="skills-text-alt" class="sr-only">
+        Skills include: JavaScript, TypeScript, React, Node.js, Python, HTML5, CSS3, Git, MongoDB, PostgreSQL, AWS, Docker, and more.
+      </div>
+      <div class="details enhanced-details" id="details" aria-live="polite"></div>
       <div class="theme-selector enhanced-theme-selector">
         <span class="theme-label">Themes:</span>
       </div>
@@ -186,6 +199,7 @@ function createAnimationState(items, parentContainer) {
     skillScales: items.map(() => 1),
     skillOpacities: items.map(() => 1),
     resizeObserver: null,
+    lastFrameTime: 0, // For frame rate throttling
   };
 }
 
@@ -249,7 +263,7 @@ function createThemeSelector(state) {
     canvas.style.filter = "brightness(0.8)";
     setTimeout(() => {
       canvas.style.filter = "brightness(1)";
-    }, 200);
+    }, UI_CONFIG.timing.themeTransitionDuration);
     drawCanvas(state);
   };
 
@@ -439,7 +453,7 @@ function drawSkillBubble(state, item, index) {
       radius,
       x,
       y,
-      radius + 20
+      radius + 20,
     );
     glowGradient.addColorStop(0, `${currentTheme.accent}40`);
     glowGradient.addColorStop(1, "transparent");
@@ -551,7 +565,7 @@ function drawCanvas(state) {
     0,
     centerX,
     centerY,
-    containerRadius * 1.5
+    containerRadius * 1.5,
   );
   bgGradient.addColorStop(0, "rgba(255, 255, 255, 0.02)");
   bgGradient.addColorStop(1, "rgba(0, 0, 0, 0.05)");
@@ -567,8 +581,13 @@ function drawCanvas(state) {
   }
 }
 
+// Frame throttling constants for battery optimization
+const TARGET_FPS = UI_CONFIG.canvas.targetFps;
+const FRAME_INTERVAL = 1000 / TARGET_FPS;
+
 /**
- * Animation loop with optimized frame rendering
+ * Animation loop with optimized frame rendering and throttling
+ * Runs at 30fps instead of 60fps to save battery
  */
 function animate(state) {
   const {
@@ -587,9 +606,10 @@ function animate(state) {
       if (document.visibilityState === "visible") {
         document.removeEventListener(
           "visibilitychange",
-          handleVisibilityChange
+          handleVisibilityChange,
         );
         if (isPlaying || state.focusedSkill !== null) {
+          state.lastFrameTime = 0; // Reset frame timing
           animate(state);
         }
       }
@@ -598,6 +618,21 @@ function animate(state) {
     parentContainer.animationFrameId = null;
     return;
   }
+
+  // Frame rate throttling - skip frames to achieve target FPS
+  const currentTime = performance.now();
+  const elapsed = currentTime - (state.lastFrameTime || 0);
+
+  if (elapsed < FRAME_INTERVAL) {
+    // Not enough time has passed, schedule next frame check
+    parentContainer.animationFrameId = requestAnimationFrame(() =>
+      animate(state),
+    );
+    return;
+  }
+
+  // Update last frame time (adjust for drift)
+  state.lastFrameTime = currentTime - (elapsed % FRAME_INTERVAL);
 
   let needsNextFrame = false;
 
@@ -612,7 +647,7 @@ function animate(state) {
     const targetScale = focusedSkill === index ? 1.2 : 1;
     const diff = targetScale - scale;
     if (Math.abs(diff) > 0.001) {
-      state.skillScales[index] += diff * 0.1;
+      state.skillScales[index] += diff * 0.15; // Slightly faster for 30fps
       hasActiveTransitions = true;
     } else {
       state.skillScales[index] = targetScale;
@@ -625,7 +660,7 @@ function animate(state) {
       focusedSkill === null || focusedSkill === index ? 1 : 0.6;
     const diff = targetOpacity - opacity;
     if (Math.abs(diff) > 0.001) {
-      state.skillOpacities[index] += diff * 0.1;
+      state.skillOpacities[index] += diff * 0.15; // Slightly faster for 30fps
       hasActiveTransitions = true;
     } else {
       state.skillOpacities[index] = targetOpacity;
@@ -639,7 +674,7 @@ function animate(state) {
 
   if (needsNextFrame) {
     parentContainer.animationFrameId = requestAnimationFrame(() =>
-      animate(state)
+      animate(state),
     );
   } else {
     parentContainer.animationFrameId = null;

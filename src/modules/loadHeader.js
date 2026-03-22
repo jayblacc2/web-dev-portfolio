@@ -1,7 +1,6 @@
-import { createHtmlElement, selectAll, createElement } from "../utils/utils";
+import { BRAND_CONFIG, NAVIGATION_ITEMS, UI_CONFIG } from "../config";
 import { ICONS } from "../utils/constant";
-
-// SVG icons as constants (reusable)
+import { createElement, createHtmlElement, selectAll } from "../utils/utils";
 
 //header creation
 function header() {
@@ -18,40 +17,33 @@ function header() {
       role: "heading",
       "aria-level": "1",
     },
-    "<Johnson />"
+    BRAND_CONFIG.name,
   );
 
   const nav = createHtmlElement("nav", {
     class: "nav__menu",
-    "aria-label": "Main navigation",
+    "aria-label": UI_CONFIG.aria.mainNavLabel,
   });
 
-  const navItems = [
-    { text: "Home", path: "/", isActive: true },
-    { text: "About", path: "/about" },
-    { text: "Skills", path: "/skills" },
-    { text: "Projects", path: "/projects" },
-    { text: "Contact", path: "/contact" },
-  ];
-
-  const navButtons = navItems.map(({ text, path, isActive }) =>
-    createButton(text, path, isActive)
+  // Use centralized navigation items
+  const navButtons = NAVIGATION_ITEMS.map(({ text, path, isDefault }) =>
+    createButton(text, path, isDefault || false),
   );
 
   const hireMeLink = createButton(
     "Contact Me",
     "/contact",
     false,
-    "nav__link hire-me-btn"
+    "nav__link hire-me-btn",
   );
 
   nav.append(...navButtons);
-  const mobileNav = mobileMenu(navItems);
+  const mobileNav = mobileMenu(NAVIGATION_ITEMS);
 
   const burgerMenu = createHtmlElement("button", {
     class: "burger-menu",
     id: "burger-menu",
-    "aria-label": "Toggle mobile menu",
+    "aria-label": UI_CONFIG.aria.mobileMenuLabel,
     "aria-expanded": "false",
   });
 
@@ -80,7 +72,7 @@ function header() {
     if (isExpanded) {
       setTimeout(
         () => document.addEventListener("click", handleOutsideClick),
-        0
+        0,
       );
     } else {
       document.removeEventListener("click", handleOutsideClick);
@@ -112,7 +104,9 @@ function header() {
     // Focus first menu item when opening
     if (!isExpanded) {
       const firstLink = mobileMenu.querySelector("a");
-      if (firstLink) setTimeout(() => firstLink.focus(), 100);
+      if (firstLink) {
+        setTimeout(() => firstLink.focus(), UI_CONFIG.timing.menuFocusDelay);
+      }
     }
   });
 
@@ -139,8 +133,8 @@ function header() {
 function mobileMenu(navItems) {
   const nav = createHtmlElement("nav", { class: "mobile__menu nav__menu" });
 
-  const navButtons = navItems.map(({ text, path, isActive }) =>
-    createButton(text, path, isActive)
+  const navButtons = navItems.map(({ text, path, isDefault }) =>
+    createButton(text, path, isDefault || false),
   );
 
   nav.append(...navButtons);
@@ -152,7 +146,7 @@ function createButton(
   text,
   path,
   isActive = false,
-  className = "btn nav__btn"
+  className = "btn nav__btn",
 ) {
   const link = createHtmlElement("a", {
     class: className,

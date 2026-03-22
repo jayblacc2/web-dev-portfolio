@@ -1,13 +1,14 @@
 import { github, linkedIn, mail } from "../assets/icons/icons";
+import config, { UI_CONFIG } from "../config";
+import { ResponseStatus, submitContactForm } from "../services/contactService";
 import {
-  createSvgIcon,
-  renderTitle,
-  renderSubTitle,
   alertBadge,
   createHtmlElement,
+  createSvgIcon,
+  renderSubTitle,
+  renderTitle,
 } from "../utils/utils";
 import { options } from "../utils/variable";
-import config from "../config";
 
 // User-friendly error message function
 function showUserFriendlyError(
@@ -15,7 +16,7 @@ function showUserFriendlyError(
   button,
   btnText,
   btnIcon,
-  error = null
+  error = null,
 ) {
   // Log error for debugging
   console.error("Form submission error:", message, error);
@@ -40,15 +41,15 @@ function showUserFriendlyError(
 
   // Update button state
   button.classList.add("error");
-  btnText.textContent = "Try Again";
-  btnIcon.textContent = "❌";
+  btnText.textContent = UI_CONFIG.buttonText.error;
+  btnIcon.textContent = UI_CONFIG.buttonIcons.error;
 
   // Reset button after delay
   setTimeout(() => {
     button.classList.remove("error");
-    btnText.textContent = "Send Message";
-    btnIcon.textContent = "🚀";
-  }, 3000);
+    btnText.textContent = UI_CONFIG.buttonText.default;
+    btnIcon.textContent = UI_CONFIG.buttonIcons.default;
+  }, UI_CONFIG.timing.errorResetDelay);
 }
 
 export default function contactSection() {
@@ -57,8 +58,6 @@ export default function contactSection() {
     id: "contact",
     style: "display:none",
   });
-
-
 
   // Left side content
   const heroContents = createHtmlElement("div", {
@@ -113,11 +112,14 @@ export default function contactSection() {
       } else {
         // Shake form on validation error
         form.classList.add("shake");
-        setTimeout(() => form.classList.remove("shake"), 600);
+        setTimeout(
+          () => form.classList.remove("shake"),
+          UI_CONFIG.timing.shakeAnimationDuration,
+        );
 
         // Focus first invalid field
         const firstError = form.querySelector(
-          ".input-wrapper.error input, .input-wrapper.error textarea"
+          ".input-wrapper.error input, .input-wrapper.error textarea",
         );
         if (firstError) {
           firstError.focus();
@@ -128,140 +130,136 @@ export default function contactSection() {
   return hero;
 }
 
-//Enhanced form submission with better UX
-function submitForm(form) {
+/**
+ * Handles successful form submission UI updates
+ */
+function handleSubmitSuccess(form, button, btnText, btnIcon, message) {
+  button.classList.add("success");
+  btnText.textContent = UI_CONFIG.buttonText.success;
+  btnIcon.textContent = UI_CONFIG.buttonIcons.success;
+
+  alertBadge(message, "green");
+
+  // Reset form with animation
+  setTimeout(() => {
+    form.classList.add("success-submitted");
+    form.reset();
+
+    // Reset character counter
+    const charCount = form.querySelector("#char-count");
+    if (charCount) charCount.textContent = "0";
+  }, UI_CONFIG.timing.formResetDelay);
+
+  // Reset button after delay
+  setTimeout(() => {
+    button.classList.remove("success");
+    btnText.textContent = UI_CONFIG.buttonText.default;
+    btnIcon.textContent = UI_CONFIG.buttonIcons.default;
+    form.classList.remove("success-submitted");
+  }, UI_CONFIG.timing.buttonResetDelay);
+}
+
+/**
+ * Handles form submission errors with UI feedback
+ */
+function handleSubmitError(result, button, btnText, btnIcon) {
+  // Show main error message
+  showUserFriendlyError(result.message, button, btnText, btnIcon);
+
+  // Show individual validation/server errors if present
+  if (result.errors && result.errors.length > 0) {
+    result.errors.forEach((error) => {
+      if (error.message && error.message !== result.message) {
+        alertBadge(error.message, "red");
+      }
+    });
+  }
+}
+
+/**
+ * Enhanced form submission using contactService
+ * Separates API logic from UI concerns
+ */
+async function submitForm(form) {
   const formData = new FormData(form);
   const button = form.querySelector(".btn__submit");
   const btnText = button.querySelector(".btn-text");
   const btnIcon = button.querySelector(".btn-icon");
 
-  // Add timeout to prevent hanging requests
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+  // Use the contact service for API call
+  const result = await submitContactForm(formData, {
+    endpoint: form.action,
+  });
 
-  return fetch(form.action, {
-    method: form.method,
-    body: formData,
-    signal: controller.signal,
-    headers: {
-      Accept: "application/json",
-    },
-  })
-    .then((response) => {
-      // Clear timeout since request completed
-      clearTimeout(timeoutId);
+  if (result.success) {
+    handleSubmitSuccess(form, button, btnText, btnIcon, result.message);
+  } else {
+    handleSubmitError(result, button, btnText, btnIcon);
 
-      if (response.ok) {
-        // Success state
-        button.classList.add("success");
-        btnText.textContent = "Message Sent!";
-        btnIcon.textContent = "✅";
+    // Special handling for validation errors - highlight fields
+    if (result.status === ResponseStatus.VALIDATION_ERROR) {
+      result.errors.forEach((error) => {
+        if (error.field) {
+          const input = form.querySelector(`#${error.field}`);
+          if (input) {
+            input.setAttribute("aria-invalid", "true");
+            const wrapper = input.closest(".input-wrapper");
+            if (wrapper) wrapper.classList.add("error");
+          }
+        }
+      });
+    }
+  }
 
-        alertBadge(
-          "Message sent successfully! I'll get back to you soon.",
-          "green"
-        );
-
-        // Reset form with animation
-        setTimeout(() => {
-          form.classList.add("success-submitted");
-          form.reset();
-
-          // Reset character counter
-          const charCount = form.querySelector("#char-count");
-          if (charCount) charCount.textContent = "0";
-        }, 1000);
-
-        // Reset button after delay
-        setTimeout(() => {
-          button.classList.remove("success");
-          btnText.textContent = "Send Message";
-          btnIcon.textContent = "🚀";
-          form.classList.remove("success-submitted");
-        }, 4000);
-      } else {
-        // Server error state
-        showUserFriendlyError(
-          "Server error occurred. Please try again in a moment.",
-          button,
-          btnText,
-          btnIcon
-        );
-
-        response
-          .json()
-          .then((data) => {
-            if (data.errors && data.errors.length > 0) {
-              // Show specific validation errors
-              data.errors.forEach((error) => {
-                alertBadge(error.message, "red");
-              });
-            }
-          })
-          .catch(() => {
-            // If JSON parsing fails, show generic error
-            alertBadge("Server response error. Please try again.", "red");
-          });
-      }
-    })
-    .catch((error) => {
-      // Clear timeout since request failed
-      clearTimeout(timeoutId);
-
-      // Enhanced network error handling
-      let errorMessage = "Connection failed. Please try again.";
-
-      if (error.name === "AbortError") {
-        errorMessage =
-          "Request timed out. Please check your connection and try again.";
-      } else if (error.message.includes("Failed to fetch")) {
-        errorMessage =
-          "Network connection error. Please check your internet connection.";
-      } else if (error.message.includes("NetworkError")) {
-        errorMessage =
-          "Network error. Please try again or contact me directly.";
-      } else if (
-        error.name === "TypeError" &&
-        error.message.includes("fetch")
-      ) {
-        errorMessage =
-          "Unable to connect to the server. Please try again later.";
-      }
-
-      // Use the enhanced error handling function
-      showUserFriendlyError(errorMessage, button, btnText, btnIcon, error);
-
-      // Log detailed error for debugging
-      console.error("Network error details:", error);
-    });
+  return result;
 }
 
 function renderSvgIcon() {
   const socialIconContainer = createHtmlElement("div", {
     class: "social-icons",
+    role: "list",
+    "aria-label": "Social media links",
   });
 
-  function createIconLink(svgIcon, link) {
+  /**
+   * Creates an accessible icon link with proper ARIA attributes
+   */
+  function createIconLink(svgIcon, link, ariaLabel) {
     const iconLink = createHtmlElement("a", {
       class: "icon",
       href: `${link}`,
-      target: "_",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      "aria-label": ariaLabel,
+      role: "listitem",
     });
 
     createSvgIcon(svgIcon, options, iconLink);
     return iconLink;
   }
 
-  const gitIcon = createIconLink(github, config.social.github);
-  const linkedInIcon = createIconLink(linkedIn, config.social.linkedin);
-  const mailIcon = createIconLink(mail, `mailto:${config.contact.email}`);
+  const gitIcon = createIconLink(
+    github,
+    config.social.github,
+    "Visit my GitHub profile (opens in new tab)",
+  );
+  const linkedInIcon = createIconLink(
+    linkedIn,
+    config.social.linkedin,
+    "Connect with me on LinkedIn (opens in new tab)",
+  );
+  const mailIcon = createIconLink(
+    mail,
+    `mailto:${config.contact.email}`,
+    "Send me an email",
+  );
 
   socialIconContainer.append(gitIcon, linkedInIcon, mailIcon);
 
   return socialIconContainer;
 }
 
-// Helper function to create form fields
+// Helper function to create form fields with enhanced accessibility
 function createFormField(fieldConfig) {
   const {
     id,
@@ -282,11 +280,19 @@ function createFormField(fieldConfig) {
     class: "form__label",
   });
   labelElement.innerHTML = `
-    <span class="label-icon">${icon}</span>
+    <span class="label-icon" aria-hidden="true">${icon}</span>
     <span class="label-text">${label}</span>
+    ${required ? '<span class="sr-only">(required)</span>' : ""}
   `;
 
   const inputWrapper = createHtmlElement("div", { class: "input-wrapper" });
+
+  // Common accessibility attributes
+  const accessibilityAttrs = {
+    "aria-describedby": `${id}-error`,
+    "aria-invalid": "false",
+    "aria-required": required ? "true" : "false",
+  };
 
   let input;
   if (textarea) {
@@ -297,6 +303,7 @@ function createFormField(fieldConfig) {
       rows,
       required,
       placeholder,
+      ...accessibilityAttrs,
     });
   } else {
     input = createHtmlElement("input", {
@@ -306,6 +313,9 @@ function createFormField(fieldConfig) {
       name,
       required,
       placeholder,
+      ...accessibilityAttrs,
+      // Add autocomplete hints for better UX
+      autocomplete: getAutocompleteValue(type, name),
     });
   }
 
@@ -315,10 +325,24 @@ function createFormField(fieldConfig) {
   const errorElement = createHtmlElement("div", {
     class: "field-error",
     id: `${id}-error`,
+    role: "alert",
+    "aria-live": "polite",
   });
 
   field.append(labelElement, inputWrapper, errorElement);
   return field;
+}
+
+/**
+ * Returns appropriate autocomplete value based on field type/name
+ */
+function getAutocompleteValue(type, name) {
+  const autocompleteMap = {
+    email: "email",
+    name: "name",
+    tel: "tel",
+  };
+  return autocompleteMap[type] || autocompleteMap[name] || "off";
 }
 
 function contactForm() {
@@ -398,7 +422,7 @@ function contactForm() {
   const smallText = createHtmlElement(
     "small",
     {},
-    "🔒 Your information is secure and will never be shared."
+    "🔒 Your information is secure and will never be shared.",
   );
   privacyNotice.appendChild(smallText);
 
@@ -430,7 +454,6 @@ function addFormInteractions(form) {
   const inputs = form.querySelectorAll(".form__control");
   const messageInput = form.querySelector("#message");
   const charCount = form.querySelector("#char-count");
-  const submitBtn = form.querySelector(".btn__submit");
 
   // Setup input event listeners
   inputs.forEach((input) => {
@@ -460,8 +483,6 @@ function addFormInteractions(form) {
       }
     });
   }
-
-
 }
 
 // Validation rules configuration
@@ -508,6 +529,9 @@ function validateField(input) {
     isValid = false;
     errorMessage = VALIDATION_RULES.message.message;
   }
+
+  // Update accessibility attributes based on validation state
+  input.setAttribute("aria-invalid", isValid ? "false" : "true");
 
   // Show error if invalid
   if (!isValid) {

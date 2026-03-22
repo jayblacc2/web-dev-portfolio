@@ -1,39 +1,149 @@
+// Home section loaded eagerly (above the fold)
 import homeSection from "../sections/home";
-import aboutSection from "../sections/about";
-import contactSection from "../sections/contact";
-import skillSection from "../sections/skill";
-import projectSection from "../sections/projects";
 import { createElement } from "../utils/utils";
-import config from "../config";
 
-function loadSection() {
-  const content = createElement("main", { id: "content", class: "content" });
-  const sections = [
-    { name: 'home', loader: homeSection },
-    { name: 'about', loader: aboutSection },
-    { name: 'skill', loader: skillSection },
-    { name: 'project', loader: projectSection },
-    { name: 'contact', loader: contactSection },
-  ];
+// Lazy load non-critical sections for better initial load performance
+const lazySections = {
+  about: () => import(/* webpackChunkName: "about" */ "../sections/about"),
+  skill: () => import(/* webpackChunkName: "skill" */ "../sections/skill"),
+  project: () =>
+    import(/* webpackChunkName: "projects" */ "../sections/projects"),
+  contact: () =>
+    import(/* webpackChunkName: "contact" */ "../sections/contact"),
+};
 
-  sections.forEach(({ name, loader }) => {
-    try {
-      const section = loader();
-      content.append(section);
-    } catch (error) {
-      console.error(`Failed to load ${name} section:`, error);
-      if (config.isProduction) {
-        // In production, create a fallback section
-        const fallbackSection = createFallbackSection(name);
-        content.append(fallbackSection);
-      } else {
-        // In development, re-throw to see the error
-        throw error;
-      }
-    }
+// Cache for loaded sections
+const loadedSections = new Map();
+
+/**
+ * Dynamically loads a section module
+ * @param {string} name - Section name
+ * @returns {Promise<HTMLElement>} - The section element
+ */
+async function loadLazySection(name) {
+  if (loadedSections.has(name)) {
+    return loadedSections.get(name);
+  }
+
+  try {
+    const module = await lazySections[name]();
+    const sectionFn = module.default;
+    const section = sectionFn();
+    loadedSections.set(name, section);
+    return section;
+  } catch (error) {
+    console.error(`Failed to lazy load ${name} section:`, error);
+    return createFallbackSection(name);
+  }
+}
+
+/**
+ * Creates a placeholder for lazy-loaded sections
+ */
+function createSectionPlaceholder(name) {
+  const placeholder = createElement("section", {
+    class: "hero section-placeholder",
+    id: name === "skill" ? "skills" : name === "project" ? "projects" : name,
+    style: "display:none",
+    "data-lazy": name,
   });
 
+  placeholder.innerHTML = `
+    <div class="hero__content">
+      <div class="section-loading" role="status" aria-label="Loading ${name} section">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
+  `;
+
+  return placeholder;
+}
+
+/**
+ * Replaces placeholder with actual section content
+ */
+async function hydratePlaceholder(placeholder) {
+  const name = placeholder.dataset.lazy;
+  if (!name || !lazySections[name]) return;
+
+  try {
+    const section = await loadLazySection(name);
+
+    // Copy display state from placeholder
+    const wasVisible = placeholder.style.display !== "none";
+
+    // Replace placeholder with actual section
+    placeholder.replaceWith(section);
+
+    // Restore visibility state
+    if (wasVisible) {
+      section.style.display = "flex";
+      section.classList.add("active-section");
+      // Trigger section init callback if exists
+      if (section.sectionInitCallback) {
+        section.sectionInitCallback();
+      }
+    }
+  } catch (error) {
+    console.error(`Failed to hydrate ${name} section:`, error);
+  }
+}
+
+/**
+ * Preloads a section in the background
+ */
+export function preloadSection(name) {
+  if (lazySections[name] && !loadedSections.has(name)) {
+    loadLazySection(name);
+  }
+}
+
+function loadSection() {
+  const content = createElement("main", {
+    id: "content",
+    class: "content",
+    role: "main",
+  });
+
+  // Load home section eagerly (critical above-the-fold content)
+  try {
+    const home = homeSection();
+    content.append(home);
+  } catch (error) {
+    console.error("Failed to load home section:", error);
+    content.append(createFallbackSection("home"));
+  }
+
+  // Create placeholders for lazy sections
+  const lazyOrder = ["about", "skill", "project", "contact"];
+  lazyOrder.forEach((name) => {
+    const placeholder = createSectionPlaceholder(name);
+    content.append(placeholder);
+  });
+
+  // Hydrate placeholders after initial render (idle callback or timeout)
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => hydrateAllPlaceholders(content), {
+      timeout: 2000,
+    });
+  } else {
+    setTimeout(() => hydrateAllPlaceholders(content), 100);
+  }
+
   return content;
+}
+
+/**
+ * Hydrates all section placeholders
+ */
+async function hydrateAllPlaceholders(content) {
+  const placeholders = content.querySelectorAll("[data-lazy]");
+
+  // Hydrate sections sequentially to avoid overwhelming the browser
+  for (const placeholder of placeholders) {
+    await hydratePlaceholder(placeholder);
+  }
 }
 
 // Create a fallback section when loading fails
@@ -41,7 +151,7 @@ function createFallbackSection(sectionName) {
   const section = createElement("section", {
     class: "hero fallback-section",
     id: sectionName,
-    style: "display: none"
+    style: "display: none",
   });
 
   section.innerHTML = `
