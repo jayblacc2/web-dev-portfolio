@@ -4,8 +4,8 @@ import {
   renderTitle,
   renderSubTitle,
   alertBadge,
+  createHtmlElement,
 } from "../utils/utils";
-import { createHtmlElement } from "../utils/utils";
 import { options } from "../utils/variable";
 import config from "../config";
 
@@ -58,11 +58,9 @@ export default function contactSection() {
     style: "display:none",
   });
 
-  const contactContainer = createHtmlElement("div", {
-    class: "contact__container",
-  });
 
-  // Left side of the section make as a function
+
+  // Left side content
   const heroContents = createHtmlElement("div", {
     class: "hero__content",
   });
@@ -77,7 +75,7 @@ export default function contactSection() {
 
   const socialIcons = renderSvgIcon();
 
-  // Right side of the section: make as a function
+  // Right side image
   const heroImage = createHtmlElement("div", { class: "hero__img" });
 
   const formContact = contactForm();
@@ -463,13 +461,7 @@ function addFormInteractions(form) {
     });
   }
 
-  // Submit button hover effects
-  submitBtn.addEventListener("mouseenter", () =>
-    submitBtn.classList.add("hovered")
-  );
-  submitBtn.addEventListener("mouseleave", () =>
-    submitBtn.classList.remove("hovered")
-  );
+
 }
 
 // Validation rules configuration

@@ -130,7 +130,7 @@ function createHeroContent() {
 
   const HERO_TITLES = ["Frontend Developer", "Building Modern Web Experiences"];
   const HERO_SUBTITLE =
-    "Frontend Developer • JavaScript • Vue • Mentor & Educator";
+    "Frontend Developer • JavaScript • React • Mentor & Educator";
   renderTitle(HERO_TITLES, mainHeader);
   const paragraph = renderSubTitle(HERO_SUBTITLE, "sub__title");
   const heroButton = createHeroButton();
